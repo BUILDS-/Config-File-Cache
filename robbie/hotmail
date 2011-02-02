@@ -1,0 +1,13 @@
+[retriever]
+type = SimplePOP3SSLRetriever
+server = pop3.live.com
+username = frozencemetery@hotmail.com
+password = [redacted]
+
+[destination]
+type = Maildir
+path = ~/Mail/hotmail/
+
+[options]
+verbose = 1
+message_log = ~/getmail.log

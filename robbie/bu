@@ -1,0 +1,13 @@
+[retriever]
+type = SimpleIMAPSSLRetriever
+server = acs-imap.bu.edu
+username = rharwood
+password = [redacted]
+
+[destination]
+type = Maildir
+path = ~/Mail/bu/
+
+[options]
+verbose = 1
+message_log = ~/getmail.log

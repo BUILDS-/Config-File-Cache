@@ -1,0 +1,50 @@
+--- 
+:confirm_no_attachments: true
+:wrap_width: 0
+:ask_for_from: true
+:confirm_top_posting: true
+:slip_rows: 0
+:ask_for_to: true
+:editor: emacs
+:jump_to_open_message: true
+:accounts: 
+  :earthlink: 
+    :signature: /home/robbie/.signature
+    :sendmail: msmtp --account=earthlink -t
+    :gpgkey: 
+    :alternates: []
+
+    :email: rgh.altus@earthlink.net
+    :name: Robbie
+  :gmail: 
+    :signature: /home/robbie/.signature
+    :sendmail: msmtp --account=gmail -t
+    :gpgkey: 
+    :alternates: []
+
+    :email: threeoften@gmail.com
+    :name: threeoften
+  :hotmail: 
+    :signature: /home/robbie/.signature
+    :sendmail: msmtp --account=hotmail -t
+    :gpgkey: 
+    :alternates: []
+
+    :email: frozencemetery@hotmail.com
+    :name: frozencemetery
+  :default: 
+    :signature: /home/robbie/.signature
+    :sendmail: msmtp --account=bu -t
+    :alternates: []
+
+    :email: rharwood@bu.edu
+    :name: Robbie
+:sent_source: sup://sent
+:ask_for_cc: true
+:discard_snippets_from_encrypted_messages: false
+:ask_for_bcc: true
+:default_attachment_save_dir: ""
+:thread_by_subject: false
+:ask_for_subject: true
+:poll_interval: 300
+:edit_signature: false

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Custom
+Comment=Custom Xsession
+Exec=/etc/X11/Xsession
+TryExec=xterm
+Icon=
+Type=Application
+X-Ubuntu-Gettext-Domain=gdm
+X-Ubuntu-Gettext-Domain=gdm

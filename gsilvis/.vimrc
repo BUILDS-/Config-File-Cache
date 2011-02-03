@@ -4,8 +4,8 @@ set showcmd
 autocmd BufNewFile *.tex 0r /home/george/.vim/templates/template.tex
 autocmd BufNewFile *.java 0r /home/george/.vim/templates/template.java
 
-autocmd BufNewFile * :set textwidth=80
-autocmd BufRead * :set textwidth=80
+autocmd BufNewFile,BufRead * :set textwidth=80
+autocmd BufNewFile,BufRead * :set spell
 
 
 autocmd BufRead *.lhs :set syntax=haskell

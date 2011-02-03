@@ -1,12 +1,25 @@
 Contents:
 
-.cabal/config  --  for Cabal (Package manager for the GHC, the Glasgow Haskell Compiler).
+.cabal/config  --  for Cabal (Package manager for the GHC, the Glasgow Haskell
+Compiler).
+
 .vimrc  --  for vim, the best command line editor on the planet
-.xsession  --  Script that is run on startup with many distros of Linux (for Ubuntu, see below)
-custom.desktop  --  On Ubuntu, you need to put this in the right directory (for me it's /usr/share/xsessions/ ), and then pick Custom as your session at login. Then Ubuntu will run your .xsession script.
-xmonad.hs  --  for XMonad, a lightweight tiling window manager. Put in ~/.xmonad/xmonad.hs
-.xmobarrc  --  for XMobar, a status bar that works well with XMonad. Put in home.
-template.tex  --  A TeX header that contains several mathematical commands I use often, as well as a nice formatting.
+
+.xsession  --  Script that is run on startup with many distros of Linux (for
+Ubuntu, see below)
+
+custom.desktop  --  On Ubuntu, you need to put this in the right directory (for
+me it's /usr/share/xsessions/ ), and then pick Custom as your session at login.
+Then Ubuntu will run your .xsession script.
+
+xmonad.hs  --  for XMonad, a lightweight tiling window manager. Put in
+~/.xmonad/xmonad.hs
+
+.xmobarrc  --  for XMobar, a status bar that works well with XMonad. Put in
+home.
+
+template.tex  --  A TeX header that contains several mathematical commands I use
+often, as well as a nice formatting.
 
 Enjoy
 - George Silvis, III

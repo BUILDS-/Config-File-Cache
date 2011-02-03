@@ -1,4 +1,6 @@
 A place to share you config files with other interested BUILDS folk.
 
 You should create a folder with your username in the repo if you want to
-share things.
+share things. It would also be nice if you provide a file called something
+like README, in your folder, which lists the config files you're providing
+and, in the case of stranger files, their function and use.

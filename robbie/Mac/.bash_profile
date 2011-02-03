@@ -1,3 +1,5 @@
+# I ran all shells as login shells.  I do not recommed this approach.
+
 PATH="/Users/robbie/.cabal/bin:${PATH}"
 PATH="/Applications/sage:${PATH}"
 PATH="/usr/local/git/bin:${PATH}"
@@ -13,12 +15,8 @@ export ATSHOMERELOC="ATS-0.2.3"
 export PATH="/Users/robbie/ats-lang-anairiats-0.2.3/bin:${PATH}"
 
 #export DISPLAY=":0"
+# I was having some trouble with the xQuartz interaction in Terminal vs. xterm vs. Terminal.app
 
-##
-# Your previous /Users/robbie/.bash_profile file was backed up as /Users/robbie/.bash_profile.macports-saved_2011-01-30_at_22:23:42
-##
-
-# MacPorts Installer addition on 2011-01-30_at_22:23:42: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
 

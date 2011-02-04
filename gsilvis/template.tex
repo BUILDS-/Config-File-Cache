@@ -49,6 +49,9 @@
 \newcommand{\JAC}[4]{\matrix{\Dde{#1}{#3}}{\Dde{#1}{#4}}{\Dde{#2}{#3}}{\Dde{#2}{#4}}}
 \newcommand{\caj}[4]{\matrix{\dde{#1}{#3}}{\dde{#2}{#3}}{\dde{#1}{#4}}{\dde{#2}{#4}}} % Transpose of above
 \newcommand{\CAJ}[4]{\matrix{\Dde{#1}{#3}}{\Dde{#2}{#3}}{\Dde{#1}{#4}}{\Dde{#2}{#4}}}
+\newcommand{\ev}[1]{\text{E} \left\lbrack #1 \right\rbrack}
+\newcommand{\var}[1]{\text{Var} \left\lbrack #1 \right\rbrack}
+\newcommand{\mgf}[1]{\ev{e^{t#1}}}
 \DeclareMathOperator{\sech}{sech} % Why didn't these exist?
 \DeclareMathOperator{\csch}{csch}
 

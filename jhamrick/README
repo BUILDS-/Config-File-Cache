@@ -1,0 +1,29 @@
+.bashrc -- colors and aliases and paths and things
+
+.devscripts -- default configuration for building debian packages
+
+.emacs -- emacs configuration; has a lot of nice python and
+          autocomplete stuff in it
+
+.emacs.d -- includes plugins and stuff for emacs
+
+.gitconfig -- default git configuration; includes colors, aliases,
+              editor, name, and email
+
+.gitignore -- default ignore file; git will ignore all files matching
+              the regexes in this file
+
+.signature -- email signature, used by sup
+
+.ssh/config -- ssh configuration for servers I commonly use
+
+.stalonetray -- configuration for stalonetray; good for xmonad without
+                gnome (I don't use it anymore, though)
+
+.xinitrc/.xsession/.xprofile -- these files supposedly get run when X
+                starts; you can use them to start programs when you
+                start xmonad and you don't have gnome.  Not sure how
+                well they work anymore, though, as I haven't used them
+                in a while
+
+.xmonad/xmonad.hs -- xmonad configuration

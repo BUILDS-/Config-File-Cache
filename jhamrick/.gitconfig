@@ -1,0 +1,24 @@
+[user]
+	name = Jessica B. Hamrick
+	email = jhamrick@mit.edu
+  
+[alias]
+ci = commit
+co = checkout
+st = status
+br = branch
+di = diff
+dc = diff --cached
+  
+[color]
+diff = auto
+status = auto
+branch = auto
+ui = auto
+
+[core]
+editor = emacs -nw
+excludesfile = /home/jhamrick/.gitignore
+
+[push]
+default = matching

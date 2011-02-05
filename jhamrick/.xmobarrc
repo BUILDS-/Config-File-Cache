@@ -1,0 +1,19 @@
+Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+       , bgColor = "#f4ca60"
+       , fgColor = "black"
+       , position = Top
+       , lowerOnStart = True
+       , commands = [ Run Weather "KBOS" ["-t","Boston: <tempF>F","-L","64","-H","77","--normal","#33cc00","--high","#cc0000","--low","#3333cc"] 36000
+                    , Run Cpu ["-L","3","-H","50","--normal","#33cc00","--high","#cc0000"] 10
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Swap [] 10
+                    , Run Date "%a %b %_d %l:%M:%S" "date" 10
+		    , Run CoreTemp ["-t", "Temp: <core0>C : <core1>C : <core2>C : <core3>C"] 10
+		    , Run Network "eth0" ["-L","0","-H","32","--normal","#33cc00","--high","#cc0000"] 10
+		    , Run Network "wlan0" ["-L","0","-H","32","--normal","#33cc00","--high","#cc0000"] 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "}{ %StdinReader%    |    %cpu% <fc=#990099>***</fc> %memory%    |    <fc=#3333cc>%date%</fc> <fc=#990099>***</fc> %KBOS% "
+       }

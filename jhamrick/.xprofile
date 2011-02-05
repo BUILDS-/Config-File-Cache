@@ -1,0 +1,3 @@
+gnome-settings-daemon &
+gnome-screensaver &
+xbindkeys &

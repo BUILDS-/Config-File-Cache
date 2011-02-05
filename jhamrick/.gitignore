@@ -1,0 +1,17 @@
+\#*
+*~
+*.dvi
+*.log
+*.aux
+*.ps
+*.pdf
+*.nav
+*.out
+*.snm
+*.toc
+.\#*
+*.pyc
+*.bbl
+*.blg
+*.fff
+*.ttt

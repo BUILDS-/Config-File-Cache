@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export GENVIS_PATH="/home/jhamrick/project/genvis"
+export GENVIS_ORIGINALS="$GENVIS_PATH/renderer/Media/db/orig"
+export GENVIS_ANNOTATED_SCENES="$GENVIS_PATH/renderer/Media/db/annotated/scenes"
+export GENVIS_ANNOTATED_OBJECTS="$GENVIS_PATH/renderer/Media/db/annotated/objects"
+export GENVIS_MEDIA_PATH="$GENVIS_PATH/renderer/Media"

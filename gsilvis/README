@@ -21,5 +21,10 @@ home.
 template.tex  --  A TeX header that contains several mathematical commands I use
 often, as well as a nice formatting.
 
+.mpdconf  --  configuration file for the Music Player Daemon. Put in home.
+
+mpdscribble.conf  --  config for mpdscribbler, a scrobbler for mpd.
+
+
 Enjoy
 - George Silvis, III

@@ -33,8 +33,6 @@ export PATH=$HOME/project/sup/bin:$PATH
 #GPG_TTY=$(tty)
 #export GPG_TTY
 
-source $HOME/.genvis
-
 alias sup=sup-mail
 alias pull="git pull --rebase"
 
@@ -128,3 +126,4 @@ fi
 export TEXINPUTS=.:$HOME/activities/roleplaying/assassin/blackships/LaTeX/:$HOME/.texinputs:
 export TEXMFCNF=$TEXINPUTS
 export blackships=$HOME/activities/roleplaying/assassin/blackships
+export IKARUS_LIBRARY_PATH=/home/jhamrick/project/mit-church:

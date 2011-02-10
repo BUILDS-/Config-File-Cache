@@ -40,9 +40,9 @@
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(autoload 'python-mode "python-mode" "Python Mode." t)
+;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;(autoload 'python-mode "python-mode" "Python Mode." t)
 
 ; auto-complete.el
 (require 'auto-complete)
@@ -111,3 +111,36 @@
   (interactive)
   (let ((fill-column (point-max)))
     (fill-region (region-beginning) (region-end) nil)))
+
+;; include path to quack.el and church.el
+;(setq-default load-path (cons "~/.emacs.d/lisp/" load-path))
+
+;; load church.el (which loads quack)
+(require 'church)
+(setq auto-mode-alist (cons '("\\.ss$" . church-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.church$" . church-mode) auto-mode-alist))
+;(add-to-list 'auto-mode-alist '("\\.ss\\'" . church-mode))
+;(add-to-list 'auto-mode-alist '("\\.church\\'" . church-mode))
+(autoload 'church-mode "church-mode" "Church Mode." t)
+
+;(require 'wc)
+
+(defun count-words (start end)
+  (interactive "r")
+  (save-excursion
+    (let ((n 0))
+      (goto-char start)
+      (while (< (point) end)
+	(if (forward-word 1)
+	    (setq n (1+ n))))
+      (message "Region has %d words" n)
+      n)))
+;; (defun count-words (start end)
+;;   "Print number of words in the region."
+;;   (interactive "r")
+;;     (save-excursion
+;;       (save-restriction
+;;         (narrow-to-region start end)
+;;         (goto-char (point-min))
+;;         (count-matches "\\sw+"))))
+(defalias 'word-count 'count-words)

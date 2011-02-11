@@ -123,6 +123,8 @@
 ;(add-to-list 'auto-mode-alist '("\\.church\\'" . church-mode))
 (autoload 'church-mode "church-mode" "Church Mode." t)
 
+(require 'ikarus-script)
+
 ;(require 'wc)
 
 (defun count-words (start end)

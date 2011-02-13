@@ -3,14 +3,13 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-12-*-*-*-*-*-*-*"
        , fgColor = "grey"
        , position = TopW L 90
        , lowerOnStart = True
-       , commands = [ Run MultiCpu ["-t", "<total0>% and <total1>%", "-L","25","-H","75","-l", "lightblue", "--normal","green","--high","red", "-m", "3", "-w", "3"] 10
-                    , Run Memory ["-t", "<used>MB", "-L", "500", "-H", "2000", "-l", "lightblue", "--normal", "green", "--high", "red", "-w", "4"] 10
-		    , Run CpuFreq ["-t", "<cpu0> and <cpu1>", "-L", "1", "-H", "2", "-l", "lightblue", "--normal", "green", "--high", "red", "-w", "6"] 10
-                    , Run Date "%a %b %d %Y  %R" "date" 10
-		    , Run CoreTemp ["-t", "<core0>C and <core1>C", "-L", "60", "-H", "70", "-l", "lightblue", "--normal", "green", "--high", "red", "-w", "4"] 10
-                    , Run StdinReader
-                    ]
+       , commands = [ Run MultiCpu ["-t", "(<total0>%, <total1>%)", "-L","25","-H","75", "--normal","green","--high","red", "-m", "3", "-w", "3"] 10
+                    , Run Memory ["-t", "<used>MB", "-L", "500", "-H", "2000",  "--normal", "green", "--high", "red", "-w", "4"] 10
+		    , Run Date "%a %b %d %Y %R" "date" 10
+		    , Run StdinReader
+		    , Run CommandReader "/home/robbie/.mpdmonitor.sh" "MPD"
+		    ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% |  }{ | CPUs: %multicpu% at %cpufreq% causing %coretemp% and using %memory% | <fc=#ee9a00>%date%</fc>"
+       , template = "%StdinReader% %date% %multicpu% %memory% %MPD%}{ "
        }

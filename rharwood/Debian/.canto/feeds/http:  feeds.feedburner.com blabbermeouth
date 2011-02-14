@@ -1,0 +1,37 @@
+(dp1
+S'canto_version'
+p2
+(I0
+I7
+I9
+tp3
+sS'canto_update'
+p4
+I0
+sS'canto_state'
+p5
+(lp6
+sS'entries'
+p7
+(lp8
+(dp9
+Vdescription
+p10
+VThere's no content in this feed. It's possible that it hasn't been fetched yet or an error was encountered. Check your fetchlog.
+p11
+sVcanto_state
+p12
+(lp13
+S'http://feeds.feedburner.com/blabbermeouth'
+p14
+aS'read'
+p15
+asVid
+p16
+Vcanto-internal
+p17
+sVtitle
+p18
+VNo content.
+p19
+sas.

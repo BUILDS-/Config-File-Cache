@@ -5,3 +5,4 @@ Config Files
 .xmobarrc: xmobar config file for xmonad.
 
 xmonad.hs: Config file for xmonad.
+

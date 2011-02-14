@@ -1,0 +1,7 @@
+Config Files
+
+.xsession: The script that runs when I log into Ubuntu.
+
+.xmobarrc: xmobar config file for xmonad.
+
+xmonad.hs: Config file for xmonad.

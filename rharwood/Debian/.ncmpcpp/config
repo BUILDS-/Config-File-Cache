@@ -1,0 +1,4 @@
+mpd_host = "localhost"
+mpd_port = "6600"
+mpd_music_dir = "/mnt/osx/Users/robbie/Music/iTunes/iTunes Media/Music"
+ask_before_clearing_main_playlist = "yes"

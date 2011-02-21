@@ -1,0 +1,27 @@
+--- 
+- !masanjin.net,2006-10-01/Redwood/Maildir 
+  uri: maildir:/home/george/Mail/GMail1/INBOX/
+  cur_offset: 12982479290002095
+  usual: true
+  archived: false
+  id: 1
+  labels: []
+
+  mtimes: 
+    cur: 2011-02-20 14:13:53 -05:00
+    new: 2011-02-20 19:25:29 -05:00
+- !masanjin.net,2006-10-01/Redwood/Maildir 
+  uri: maildir:///home/george/Mail/GMail1/SENT
+  cur_offset: 12982488500001697
+  usual: true
+  archived: false
+  id: 3
+  labels: []
+
+  mtimes: 
+    cur: 2011-02-20 19:40:50 -05:00
+    new: 2011-02-19 13:30:57 -05:00
+- !masanjin.net,2006-10-01/Redwood/DraftLoader 
+  cur_offset: 1
+- !masanjin.net,2006-10-01/Redwood/SentLoader 
+  cur_offset: 4807

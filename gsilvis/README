@@ -28,7 +28,10 @@ mpdscribble.conf  --  config for mpdscribbler, a scrobbler for mpd.
 mpdmonitor.sh  --  Used by xmobar; outputs to stdout the current song each time
 it changes. Do not use with mpc version 0.19; an important feature was not yet
 implemented, and this script will enter a very tight loop. Put wherever your
-.xmobarrc expectes to find it.
+.xmobarrc expectes to find it. [I don't use this anymore, and recommend that you
+do not either.]
+
+Mail -- This folder contains stuff to do with email. (surprise, surprise!)
 
 Enjoy
 - George Silvis, III

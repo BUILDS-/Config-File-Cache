@@ -5,7 +5,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
---import XMonad.Util.Scratchpad
+import XMonad.Util.Scratchpad
 import System.IO 
 
 import qualified XMonad.StackSet as W
@@ -15,7 +15,7 @@ import qualified Data.Map        as M
 myTerminal      = "xfce4-terminal"
 
 myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
+myFocusFollowsMouse = False
 
 myBorderWidth   = 1
 
@@ -23,12 +23,12 @@ myModMask       = mod4Mask
 
 myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
-myNormalBorderColor  = "#dddddd"
+myNormalBorderColor  = "#000000"
 myFocusedBorderColor = "#ff0000"
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
     , ((modm,               xK_x     ), spawn "xscreensaver-command -lock")
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -37,8 +37,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_n     ), refresh)
     , ((modm,               xK_Tab   ), windows W.focusDown)
     , ((modm .|. shiftMask, xK_Tab   ), windows W.swapDown)
---    , ((modm,               xk_`     ), windows W.focusUp)
---    , ((modm .|. shiftMask, xk_`     ), windows W.swapUp)
+    , ((modm,               xK_quoteleft     ), windows W.focusUp)
+    , ((modm .|. shiftMask, xK_quoteleft     ), windows W.swapUp)
     , ((modm,               xK_j     ), windows W.focusDown)
     , ((modm,               xK_k     ), windows W.focusUp)
     , ((modm,               xK_m     ), windows W.focusMaster)
@@ -53,12 +53,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 --  , ((modm              , xK_b     ), sendMessage ToggleStruts)
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
-    , ((modm .|. shiftMask, xK_z     ), spawn "gksu shutdown -h")
+    , ((modm .|. shiftMask, xK_z     ), spawn "gksu 'shutdown -h now'")
     , ((modm              , xK_z     ), spawn "gksu reboot")
 --    , ((0                 , xK_Print ), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
-    , ((modm              , xK_Print ), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
---    , ((modm              , xK_z     ), scratchpadSpawnActionCustom "xfce4-terminal --disable-factory --name scratchpad")
-    , ((modm .|. shiftMask, xK_d     ), spawn "xfce4-terminal -e ~robbie/.getmail/script.sh")
+--    , ((modm              , xK_Print ), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
+--    , ((modm              , xK_z     ), scratchpadSpawnActionCustom "xfce4-terminal --disable-server --name scratchpad")
+--    , ((modm .|. shiftMask, xK_d     ), spawn "xfce4-terminal -e ~robbie/.getmail/script.sh")
     ]
     ++
     [((m .|. modm, k), windows $ f i)
@@ -91,7 +91,7 @@ myManageHook = composeAll
     , resource  =? "kdesktop"       --> doIgnore 
 --    , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat
 --    , title     =? "Dwarf Fortress" --> doFloat
---    , scratchpadManageHookDefault
+      , scratchpadManageHookDefault
     ]
 
 myEventHook = mempty

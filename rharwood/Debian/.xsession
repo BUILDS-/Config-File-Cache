@@ -7,13 +7,11 @@ trayer --edge top --align right --SetDockType true --SetPartialStrut true \
 
 xsetroot -solid black
 
-xscreensaver -no-splash &
+gnome-screensaver &
 
 nm-applet --sm-disable &
 
-xfce4-power-manager
-
-bluetooth-applet &
+gnome-power-manager &
 
 xmodmap ~/.Xmodmap
 

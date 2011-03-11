@@ -14,7 +14,7 @@ export DEBEMAIL="jhamrick@mit.edu"
 export DEBFULLNAME="Jessica Hamrick"
 export AWT_TOOLKIT=MToolkit
 export HOST="$(hostname)"
-export EDITOR="emacs -nw"
+export EDITOR="emacsclient -t"
 export PS1="\[\e[1;$((31 + $(hostname | cksum | cut -c1-3) % 6))m\]\u@\h\[\e[0m\]:\w\$ "
 export MAIL="$HOME/mail/"
 export RUBYLIB=$HOME/project/sup/lib
@@ -33,8 +33,14 @@ export PATH=$HOME/project/sup/bin:$PATH
 #GPG_TTY=$(tty)
 #export GPG_TTY
 
+source $HOME/.genvis
+
 alias sup=sup-mail
-alias pull="git pull --rebase"
+alias emacs="emacsclient -t"
+alias gpull="git pull --rebase"
+alias gpush="git push"
+alias gcommit="git commit -a"
+alias gadd="git add"
 
 if [ $(hostname) = "pomegranate-meringue" ]; then
     xinput set-prop 8 273 250, 7900, 450, 7950
@@ -93,7 +99,6 @@ esac
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-alias emacs='emacs -nw'
 
 #if [ -f ~/.bash_aliases ]; then
 #    . ~/.bash_aliases
@@ -106,9 +111,9 @@ if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
     #alias dir='ls --color=auto --format=vertical'
     #alias vdir='ls --color=auto --format=long'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # some more ls aliases
@@ -126,4 +131,5 @@ fi
 export TEXINPUTS=.:$HOME/activities/roleplaying/assassin/blackships/LaTeX/:$HOME/.texinputs:
 export TEXMFCNF=$TEXINPUTS
 export blackships=$HOME/activities/roleplaying/assassin/blackships
+
 export IKARUS_LIBRARY_PATH=/home/jhamrick/project/mit-church:

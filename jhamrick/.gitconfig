@@ -17,8 +17,8 @@ branch = auto
 ui = auto
 
 [core]
-editor = emacs -nw
+editor = emacsclient -t
 excludesfile = /home/jhamrick/.gitignore
 
 [push]
-default = matching
+default = tracking

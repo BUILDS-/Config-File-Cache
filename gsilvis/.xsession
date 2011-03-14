@@ -1,19 +1,22 @@
 #!/bin/sh
 
+eval `cat ~/.fehbg` &
+xsetroot -cursor_name left_ptr &
+
 nm-applet &
 #wicd-client & WHY NO WORK
-thunar --daemon &
+#thunar --daemon &
 gnome-power-manager &
 gnome-screensaver &
 dropbox start &
 skype &
 
-mpd &
-mpdscribble --conf ~/.mpdscribble/mpdscribble.conf &
+#mpd &
+#mpdscribble --conf ~/.mpdscribble/mpdscribble.conf &
 
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --width 8 --transparent true --tint 0x000000 --height 12 &
+ --expand true --width 7 --transparent true --tint 0x000000 --height 12 &
 
-eval `cat ~/.fehbg` &
+gnome-terminal &
 
 exec xmonad

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+emacs --daemon >> .xsession-errors &
+
 xrdb -merge .Xresources
 
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
@@ -9,12 +11,12 @@ xsetroot -solid black
 
 gnome-screensaver &
 
-nm-applet --sm-disable &
+wicd-client &
 
-gnome-power-manager &
-
-xmodmap ~/.Xmodmap
+xfce4-power-manager &
 
 ~robbie/.fehbg
+
+xmodmap ~/.Xmodmap
 
 exec xmonad

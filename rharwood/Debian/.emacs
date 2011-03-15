@@ -1,15 +1,6 @@
-;; YO WHATUP THIS HERE BE MY EMACS CONFIG
-;; emacs be pretty awesome yo so this file is kinda unnecessary, aight?
-
-;; have a clock, dawg
 (display-time)
 
-;; sometimes you just need a terminal, know what I'm saying?
-(setq terminal-name (getenv "TERM"))
-(if (string-equal (substring terminal-name 0 3) "vt2")
-(load "~/.vt200" nil t))
-
-;; aight, so because I'm a real programmer, I'm editin the hell out of c most of the time so here's some config to deal it that
+; TODO: fix this!
 (setq c-tab-always-indent t)
 (setq c-auto-newline nil)
 (setq c-indent-level 2)
@@ -24,14 +15,13 @@
 	 )
       )
 
-;; hokay, so for some reason text isn't default so have some text, bro:
-(setq default-major-mode 'text-mode)
+;(setq default-major-mode 'text-mode)
 
-;; enable mind-reading
-(setq text-mode-hook 'turn-on-auto-fill)
-(setq-default fill-column 75)
+(setq text-mode-hook 'turn-on-auto-fill) ; THIS is the thing that was pissing me off
+(setq-default fill-column 80) ; TODO: what is this?
 
-;; modes are pretty cool they seperate the gods from the vim:
+(setq info-mode-hook 'visual-mode)
+
 (setq auto-mode-alist '(
                         ("\\.c$" . c-mode)
                         ("\\.h$" . c-mode)
@@ -59,21 +49,13 @@
                         ("\\.lsp$" . lisp-mode)
                         ("\\.y$" . c-mode)
                         ("\\.cc$" . c-mode)
+			("\\.hs$" . haskell-mode)
+			("\\.py$" . python-mode)
+			("\\.org$" . org-mode)
                         ("\\.scm.[0-9]*$" . scheme-mode)
 			("[]>:/]\\..*emacs" . emacs-lisp-mode)
                         ("\\.ml$" . lisp-mode)))
 
-;; dawg, nroff-mode is good, but it ain't no god:
-(setq auto-mode-alist (append auto-mode-alist
-			      '(("\\.me$" . nroff-mode)
-				("\\.ms$" . nroff-mode)
-				("\\.man$" . nroff-mode)
-				("\\.[1-8lnp].$" . nroff-mode)
-				))
-      )
-(setq nroff-mode-hook '(lambda () (electric-nroff-mode 1)))
-
-;; okay so mebbe our autoCOMplete could be a bit better
 (setq completion-ignored-extensions
       (append completion-ignored-extensions
               (quote
@@ -83,7 +65,6 @@
 	      )
       )
 
-;; dayum, I love color on x11:
 (if (eq window-system 'x)
     (if (x-display-color-p)
 	(progn
@@ -96,8 +77,6 @@
 	  )
       )
   )
-
-;; yo. font lock.  get it up inz.
 (custom-set-variables
  '(font-lock-maximum-decoration t)
  '(font-lock-support-mode nil)
@@ -110,40 +89,54 @@
   (global-font-lock-mode t)
   )
 
+(setq auto-save-interval 1024)
 
-;; I'm a fan of backups; a brother should be all about blackup.
-(setq auto-save-interval 500)
-
-;; bash is like god's right hand man, I tell you
 (setq explicit-shell-file-name "/bin/bash")
 
-;; you can never have to much blackup
+;(setq text-mode-hook '(setq line-move-visual 't)) ; TODO: MAKE THIS WORK SO I CAN TURN OFF THE STUPIDITY WITH AUTO-FILL
+(setq line-move-visual 'nil)
+(setq track-eol 1)
+
 (save-excursion
   (set-buffer "*scratch*")
   (setq buffer-file-name (expand-file-name "~/scratch"))
   )
 (setq backup-directory-alist (quote ((".*" . "~/.emacs_backups/"))))
 
-;; sup?
 (add-to-list 'auto-mode-alist '("sup\\.\\(compose\\|forward\\|reply\\|resume\\)-mode$" . post-mode))
 
+(add-to-list 'load-path (expand-file-name "/home/robbie/sage-4.6.1/data/emacs"))
+(require 'sage "sage")
+(setq sage-command "/home/robbie/sage-4.6.1/sage")
 
-;; show off my bling
+;; If you want sage-view to typeset all your output and have plot()
+;; commands inline, uncomment the following line and configure sage-view:
+;;(require 'sage-view "sage-view")
+;;(add-hook 'sage-startup-hook 'sage-view)
+;; You can use commands like
+;; (add-hook 'sage-startup-hook 'sage-view
+;; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
+;; to have some combination of features.  In future, the customize interface
+;; will make this simpler... hint, hint!
+
+
+(load "/home/robbie/.emacs.d/ats-mode.el")
+
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+
 (global-font-lock-mode 1)
 
-;; I got mad matching skillz, yo
 (show-paren-mode 1)
 
-;; and I don't use guis
 (menu-bar-mode 0)
 
-;; fuck page jumping
 (setq scroll-step 1)
 
-;; and I ain't typin no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; because I'm too young to die
 (message "I loaded your damn init file.  I nearly choked on it, too; I hope you're happy.")
-
-
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)

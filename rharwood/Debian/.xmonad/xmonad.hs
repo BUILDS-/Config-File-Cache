@@ -97,7 +97,7 @@ main = do
                                { ppOutput = hPutStrLn xmproc
 			       , ppTitle = \_ -> ""
 			       , ppSep = " | "
-			       , ppLayout = \_ -> ""
+			       , ppLayout = \a -> a
 			       },
         manageHook         = manageDocks <+> myManageHook,
         handleEventHook    = mempty,

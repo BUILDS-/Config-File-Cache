@@ -1,0 +1,9 @@
+[user]
+	name = George Silvis III
+	email = georgeIII@GASilvis.net
+[core]
+	editor = vim
+[color]
+	branch = auto
+	status = auto
+	diff = auto

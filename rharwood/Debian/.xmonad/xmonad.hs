@@ -63,7 +63,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
                                        >> windows W.shiftMaster))
     ]
 
-myLayout = Grid  ||| tiled ||| Mirror tiled ||| Full
+myLayout = tiled ||| Grid ||| Mirror tiled ||| Full
   where
     tiled   = Tall nmaster delta ratio
     nmaster = 1

@@ -10,21 +10,7 @@ import System.IO
 import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
- 
-
-myTerminal      = "xfce4-terminal"
-
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = False
-
-myBorderWidth   = 1
-
-myModMask       = mod4Mask
-
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
-
-myNormalBorderColor  = "#000000"
-myFocusedBorderColor = "#ff0000"
+import XMonad.Layout.Grid
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
@@ -77,7 +63,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
                                        >> windows W.shiftMaster))
     ]
 
-myLayout = smartBorders $ tiled ||| Mirror tiled ||| Full
+myLayout = Grid  ||| tiled ||| Mirror tiled ||| Full
   where
     tiled   = Tall nmaster delta ratio
     nmaster = 1
@@ -94,25 +80,19 @@ myManageHook = composeAll
       , scratchpadManageHookDefault
     ]
 
-myEventHook = mempty
-
-myStartupHook = do
-  spawn "xfce4-terminal"
-
-
 main = do 
   xmproc <- spawnPipe "xmobar"
   xmonad $ defaultConfig {
-        terminal           = myTerminal,
-        focusFollowsMouse  = myFocusFollowsMouse,
-        borderWidth        = myBorderWidth,
-        modMask            = myModMask,
-        workspaces         = myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+        terminal           = "xfce4-terminal",
+        focusFollowsMouse  = False,
+        borderWidth        = 1,
+        modMask            = mod4Mask,
+        workspaces         = ["1","2","3","4","5","6","7","8","9"],
+        normalBorderColor  = "#000000",
+        focusedBorderColor = "#00ff00",
         keys               = myKeys,
         mouseBindings      = myMouseBindings,
-        layoutHook         = avoidStruts $ myLayout,
+        layoutHook         = avoidStruts $ smartBorders $ myLayout,
         logHook            = dynamicLogWithPP $ xmobarPP
                                { ppOutput = hPutStrLn xmproc
 			       , ppTitle = \_ -> ""
@@ -120,6 +100,7 @@ main = do
 			       , ppLayout = \_ -> ""
 			       },
         manageHook         = manageDocks <+> myManageHook,
-        handleEventHook    = myEventHook,
-        startupHook        = myStartupHook
+        handleEventHook    = mempty,
+        startupHook        = do
+          spawn "xfce4-terminal"
     }

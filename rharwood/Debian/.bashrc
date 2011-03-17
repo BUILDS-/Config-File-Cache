@@ -1,3 +1,6 @@
+# setting history length and file size
+HISTSIZE=10000
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -98,6 +101,14 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-fortune
+fortune -a | cowsay -n -W 100
 
 PATH="/var/lib/gems/1.8/bin:${PATH}"
+export EDITOR=emacs
+
+export ATSHOME=/usr/share/atshome
+export ATSHOMERELOC=ATS-0.2.3
+
+export DEBEMAIL="rharwood@bu.edu"
+export DEBFULLNAME="Robbie Harwood"
+export MPD_HOST=/home/robbie/.mpd/.socket

@@ -19,4 +19,7 @@ xfce4-power-manager &
 
 xmodmap ~/.Xmodmap
 
+xset r rate 300 75
+
 exec xmonad
+

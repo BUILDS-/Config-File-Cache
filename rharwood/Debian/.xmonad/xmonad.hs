@@ -11,6 +11,8 @@ import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Layout.Grid
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
@@ -38,9 +40,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
 --  , ((modm              , xK_b     ), sendMessage ToggleStruts)
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q     ), spawn "killall -g .mpdmonitor.sh; xmonad --recompile && xmonad --restart")
     , ((modm .|. shiftMask, xK_z     ), spawn "gksu 'shutdown -h now'")
     , ((modm              , xK_z     ), spawn "gksu reboot")
+    , ((modm              , xK_bracketleft ), spawn "ncmpcpp pause")
+    , ((modm              , xK_bracketright), spawn "ncmpcpp play")
+    , ((modm              , xK_backslash   ), spawn "ncmpcpp toggle")
+    , ((modm .|. shiftMask, xK_backslash   ), spawn "xfce4-terminal -x ncmpcpp")
+    , ((modm .|. shiftMask, xK_bracketright), spawn "ncmpcpp next")
+    , ((modm .|. shiftMask, xK_bracketleft ), spawn "ncmpcpp prev")
+    , ((modm              , xK_a           ), sendMessage $ Toggle MIRROR)
+    , ((modm              , xK_f           ), sendMessage $ Toggle FULL)
 --    , ((0                 , xK_Print ), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
 --    , ((modm              , xK_Print ), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
 --    , ((modm              , xK_z     ), scratchpadSpawnActionCustom "xfce4-terminal --disable-server --name scratchpad")
@@ -48,7 +58,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
     ++
     [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+        | (i, k) <- zip (XMonad.workspaces conf) ([xK_1 .. xK_9] ++ [xK_0])
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
@@ -63,18 +73,26 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
                                        >> windows W.shiftMaster))
     ]
 
-myLayout = tiled ||| Grid ||| Mirror tiled ||| Full
-  where
-    tiled   = Tall nmaster delta ratio
-    nmaster = 1
-    ratio   = 1/2
-    delta   = 3/100
+
+-- HERE BE SURE TO APPLY MIRROR AFTER FULL ELSE RESIZING WILL COMPLAIN
+-- Also be warned that mirroring Grid does NOT do what you want it to immediately
+myLayout = id 
+           . avoidStruts 
+           $ smartBorders 
+           $ (
+             mkToggle (single FULL)
+             . mkToggle (single MIRROR)           
+             $ Tall 1 (1/2) (3/100)  ||| Grid
+             )
+           --
+--
 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore 
+    , resource  =? "kdesktop"       --> doIgnore
+    , resource  =? "Dialog"         --> doFloat
+    , title     =? "Pidgin"         --> doFloat
 --    , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat
 --    , title     =? "Dwarf Fortress" --> doFloat
       , scratchpadManageHookDefault
@@ -87,12 +105,12 @@ main = do
         focusFollowsMouse  = False,
         borderWidth        = 1,
         modMask            = mod4Mask,
-        workspaces         = ["1","2","3","4","5","6","7","8","9"],
+        workspaces         = ["1","2","3","4","5","6","7","8","9","0"],
         normalBorderColor  = "#000000",
         focusedBorderColor = "#00ff00",
         keys               = myKeys,
         mouseBindings      = myMouseBindings,
-        layoutHook         = avoidStruts $ smartBorders $ myLayout,
+        layoutHook         = myLayout,
         logHook            = dynamicLogWithPP $ xmobarPP
                                { ppOutput = hPutStrLn xmproc
 			       , ppTitle = \_ -> ""

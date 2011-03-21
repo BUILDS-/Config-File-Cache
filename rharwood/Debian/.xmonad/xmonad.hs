@@ -112,6 +112,7 @@ main = do
           , resource  =? "kdesktop"       --> doIgnore
           , resource  =? "Dialog"         --> doFloat
           , title     =? "Pidgin"         --> doFloat
+          , title     =? "CS480/CS680"    --> doFloat
 --        , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat -- note: this is a relic of the config I pulled from; I refuse to use chrome and anything else made by google
 --        , title     =? "Dwarf Fortress" --> doFloat
           , scratchpadManageHookDefault

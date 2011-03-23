@@ -13,7 +13,8 @@ import qualified Data.Map        as M
 import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
-import XMonad.Layout.FixedColumn
+import XMonad.Layout.ResizableTile
+
 
 main = do 
   xmproc <- spawnPipe "xmobar"
@@ -29,6 +30,7 @@ main = do
                                                                         [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
                                                                         , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
                                                                         , ((modm,               xK_x     ), spawn "gnome-screensaver-command --lock")
+                                                                        , ((modm .|. shiftMask, xK_x     ), spawn "gksudo sleep 0; gnome-screensaver-command --lock & sudo pm-suspend") -- I need to have root for the pm-suspend command, and I can't call the screensaver lock command as root.
                                                                         , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
                                                                         , ((modm .|. shiftMask, xK_c     ), kill)
                                                                         , ((modm,               xK_space ), sendMessage NextLayout)
@@ -38,14 +40,16 @@ main = do
                                                                         , ((modm .|. shiftMask, xK_Tab   ), windows W.swapDown)
                                                                         , ((modm,               xK_quoteleft     ), windows W.focusUp)
                                                                         , ((modm .|. shiftMask, xK_quoteleft     ), windows W.swapUp)
-                                                                        , ((modm,               xK_j     ), windows W.focusDown)
-                                                                        , ((modm,               xK_k     ), windows W.focusUp)
+--                                                                        , ((modm,               xK_j     ), windows W.focusDown)
+--                                                                        , ((modm,               xK_k     ), windows W.focusUp)
                                                                         , ((modm,               xK_m     ), windows W.focusMaster)
                                                                         , ((modm,               xK_Return), windows W.swapMaster)
-                                                                        , ((modm .|. shiftMask, xK_j     ), windows W.swapDown)
-                                                                        , ((modm .|. shiftMask, xK_k     ), windows W.swapUp)
+--                                                                        , ((modm .|. shiftMask, xK_j     ), windows W.swapDown)
+--                                                                        , ((modm .|. shiftMask, xK_k     ), windows W.swapUp)
                                                                         , ((modm,               xK_h     ), sendMessage Shrink)
                                                                         , ((modm,               xK_l     ), sendMessage Expand)
+                                                                        , ((modm,               xK_j     ), sendMessage MirrorShrink)
+                                                                        , ((modm,               xK_k     ), sendMessage MirrorExpand)
                                                                         , ((modm,               xK_t     ), withFocused $ windows . W.sink)
                                                                         , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
                                                                         , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
@@ -90,18 +94,18 @@ main = do
                              $ ( -- operator precedence?  Just one of many free services we offer.
                                mkToggle (single FULL)
                                . mkToggle (single MIRROR)           
-                               $ FixedColumn 1 10 80 10 ||| Grid
+                               $ ResizableTall 1 (3/100) (1/2) [] ||| Grid
                                ),
         logHook            = dynamicLogWithPP $ xmobarPP
                                { ppOutput = hPutStrLn xmproc
 			       , ppTitle = \_ -> ""
-			       , ppSep = "  "
+			       , ppSep = " "
 			       , ppLayout = \a -> (case a of
-                                 "Full" -> "F"
-                                 "Grid" -> "G"
-                                 "Mirror Grid" -> "MG"
-                                 "FixedColumn" -> "FC"
-                                 "Mirror FixedColumn" -> "MFC"
+                                 "Full" -> "ƒ"
+                                 "Grid" -> "g"
+                                 "Mirror Grid" -> "G"
+                                 "ResizableTall" -> "t"
+                                 "Mirror ResizableTall" -> "T"
                                  _ -> a
                                  )
 			       },

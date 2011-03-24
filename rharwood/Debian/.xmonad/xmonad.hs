@@ -30,7 +30,7 @@ main = do
                                                                         [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
                                                                         , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
                                                                         , ((modm,               xK_x     ), spawn "gnome-screensaver-command --lock")
-                                                                        , ((modm .|. shiftMask, xK_x     ), spawn "gksudo sleep 0; gnome-screensaver-command --lock & sudo pm-suspend") -- I need to have root for the pm-suspend command, and I can't call the screensaver lock command as root.
+                                                                        , ((modm .|. shiftMask, xK_x     ), spawn "gksudo sleep 0; gnome-screensaver-command --lock; sudo pm-suspend") -- I need to have root for the pm-suspend command, and I can't call the screensaver lock command as root.
                                                                         , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
                                                                         , ((modm .|. shiftMask, xK_c     ), kill)
                                                                         , ((modm,               xK_space ), sendMessage NextLayout)

@@ -29,9 +29,8 @@ add("http://www.mspaintadventures.com/rss/rss.xml") # MS Paint Adventures Story 
 add("http://nedroid.com/feed/") # Nedroid Picture Diary
 add("http://ohtheregoessanity.blogspot.com/feeds/posts/default?alt=rss") # Oh There Goes Sanity
 add("http://www.giantitp.com/comics/oots.rss") # Order of the Stick
+add("http://feeds.penny-arcade.com/pa-mainsite/") # Penny Arcade
 add("http://www.rsspect.com/rss/pfsc.xml") # Pictures for Sad Children
-add("http://www.reddit.com/.rss?feed=42a611421f40a232c1c9635e3141aced337fba7d&user=frozencemetery") # reddit frontpage for frozencemetery
-add("http://www.reddit.com/message/inbox/.rss?feed=42a611421f40a232c1c9635e3141aced337fba7d&user=frozencemetery") # reddit inbox for frozencemetery
 add("http://www.reddit.com/user/almostsix/.rss") # reddit posts by almostsix
 add("http://www.reddit.com/user/Geekthras/.rss") # reddit posts by Geekthras
 add("http://www.smbc-comics.com/rss.php") # Saturday Morning Breakfast Cereal
@@ -40,13 +39,13 @@ add("http://shadowmechanic.blogspot.com/feeds/posts/default?alt=rss") # shadowMe
 add("http://suicidal-depressive.blogspot.com/feeds/posts/default") # Suicidal-Depressive
 add("http://www.notquitewrong.com/rosscottinc/feed/") # The System
 add("http://drmcninja.com/?feed=rss2") # The Adventures of Dr. McNinja
-add("http://feeds.feedburner.com/TheAntichristianPhenomenon") # The Antichristian Phenomenon
 add("http://www.rsspect.com/rss/threeps.xml") # Three Panel Soul
+add("http://userfriendly.org/rss/uf.rss") # UserFriendly
 add("http://mydarkestdreamsvampiresandmortals.blogspot.com/feeds/posts/default?alt=rss") # Vampires & Mortals
 add("http://archivebinge.net/rss.php?feed=7366") # Wondermark
 add("http://xkcd.com/rss.xml") # xkcd
 add("http://peeron.com/tickers/xkcdb.xml") # xkcdb
 
-link_handler("midori \"%u\"") # woo!
+#link_handler("midori \"%u\"") # woo!
 #link_handler("echo \"%u\" >> /home/robbie/out.txt") # other woo!
-#link_handler("firefox \"%u\"") # less woo!
+link_handler("firefox \"%u\"") # less woo!

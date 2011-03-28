@@ -1,6 +1,3 @@
-# setting history length and file size
-HISTSIZE=10000
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -10,9 +7,9 @@ HISTSIZE=10000
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
-export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
 # ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -68,18 +65,9 @@ xterm*|rxvt*)
     ;;
 esac
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    eval "`dircolors -b`"
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -94,21 +82,23 @@ fi
 #alias la='ls -A'
 #alias l='ls -CF'
 
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ]; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-fortune -a | cowsay -n -W 100
+export DEBEMAIL="george.iii.silvis@gmail.com"
+export DEBFULLNAME="George Silvis III"
 
-PATH="/var/lib/gems/1.8/bin:${PATH}"
-export EDITOR=emacs
-
-export ATSHOME=/usr/share/atshome
-export ATSHOMERELOC=ATS-0.2.3
-
-export DEBEMAIL="rharwood@bu.edu"
-export DEBFULLNAME="Robbie Harwood"
-export MPD_HOST=/home/robbie/.mpd/.socket
+fortune | cowsay

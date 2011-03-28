@@ -1,55 +1,109 @@
 (modify-frame-parameters nil '((wait-for-wm . nil)))
+
+;;;;;;;;;;;;;
+;; INCLUDE ;;
+;;;;;;;;;;;;;
+
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
-; enables syntax highlighting
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
+;;;;;;;;;;;;;;;
+;; FUNCTIONS ;;
+;;;;;;;;;;;;;;;
+
+; unfill a paragraph, i.e., make it so the text does not wrap in the
+; paragraph where the cursor is
+(defun unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+; unfill a region, i.e., make is so the text in that region does not
+; wrap
+(defun unfill-region ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-region (region-beginning) (region-end) nil)))
+
+; uncomment a region
+(defun uncomment-region (beg end &optional arg)
+   (interactive "*r\np")
+   (comment-region beg end (- arg)))
+
+;;;;;;;;;;
+;; LOAD ;;
+;;;;;;;;;;
+
+; load pymacs functionalities
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+
+; load ropemacs
+(pymacs-load "ropemacs" "rope-")
+
+; load pylint
+(autoload 'python-pylint "python-pylint")
+(autoload 'pylint "python-pylint")
+
+; load pep8
+(autoload 'python-pep8 "python-pep8")
+(autoload 'pep8 "python-pep8")
+
+;;;;;;;;;;;;;;;;;;
+;; DEPENDENCIES ;;
+;;;;;;;;;;;;;;;;;;
+
+; auto complete 
+(require 'auto-complete) 
+
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+
+; auto complete configuration
+(require 'auto-complete-config) 
+
+; python stuff
+(require 'python-mode) 
+(require 'ipython)
+(provide 'python-programming)
+
+; GPG encryption/decryption
+(require 'epa-file) 
+
+;;;;;;;;;;;;;;;;;
+;; KEYBINDINGS ;;
+;;;;;;;;;;;;;;;;;
 
 ; bind this key to dynamic abbreviation expanding
 (global-set-key "\C-u" 'dabbrev-expand)
 
-; I want these to be available
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+; window modifications
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-; cmtemplate stuff
-(setq auto-mode-alist (cons '("\\.html.otpl$" . html-mode) auto-mode-alist))
+; comment/uncomment codes
+(global-set-key "\C-c\C-d" 'comment-region)
+(global-set-key "\C-c\C-v" 'uncomment-region)
 
 ;;set the keybinding so that you can use f4 for goto line
 (global-set-key [f4] 'goto-line)
 
-(require 'python-mode)
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (set (make-variable-buffer-local 'beginning-of-defun-function)
-		 'py-beginning-of-def-or-class)
-	    (setq outline-regexp "def\\|class ")
+;;;;;;;;;;;;;;;;;;;
+;; CONFIGURATION ;;
+;;;;;;;;;;;;;;;;;;;
 
-	    (require 'ipython)
-	    (setq py-python-command-args '( "-colors" "Linux"))
-	    
-	    ;(require 'pymacs)
-	    ;(pymacs-load "ropemacs" "rope-")
-	    
-	    ;(eldoc-mode 1)
-	    ;(python-mode 1)
-
-	    (provide 'python-programming)) t)
-
-; python stuff
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(autoload 'python-mode "python-mode" "Python Mode." t)
-;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-;(autoload 'python-mode "python-mode" "Python Mode." t)
-
-; auto-complete.el
-(require 'auto-complete)
-(global-auto-complete-mode t)
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/ac-dict")
+; use the default autocomplete configuration
 (ac-config-default)
+
+; enable encryption
+(epa-file-enable)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EMACS CUSTOMIZATION ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -58,20 +112,30 @@
   ;; If there is more than one, they won't work right.
  '(case-fold-search t)
  '(current-language-environment "English")
+ '(font-lock-maximum-decoration t)
+ '(global-auto-complete-mode t)
  '(global-font-lock-mode t nil (font-lock))
+ '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
+ '(line-number-mode t)
  '(menu-bar-mode nil)
  '(mouse-wheel-mode t nil (mwheel))
+ '(py-python-command "ipython")
+ '(py-smart-indentation nil)
+ '(python-guess-indent nil)
+ '(python-python-command "ipython")
  '(quack-fontify-style (quote emacs))
  '(quack-pretty-lambda-p nil)
  '(quack-run-scheme-always-prompts-p nil)
  '(quack-smart-open-paren-p t)
  '(quack-switch-to-scheme-method (quote own-frame))
  '(quack-warp-pointer-to-frame-p nil)
+ '(ropemacs-enable-autoimport t)
  '(show-paren-mode t nil (paren))
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(weblogger-config-alist (quote (("default" "http://jhamrick.mit.edu/xmlrpc.php" "admin" "" "1")))))
+
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -79,70 +143,10 @@
   ;; If there is more than one, they won't work right.
  )
 
-; tries to enable a keyboard shortcut for uncommenting a region
-(defun uncomment-region (beg end &optional arg)
-   (interactive "*r\np")
-   (comment-region beg end (- arg)))
+;;;;;;;;;;;
+;; MODES ;;
+;;;;;;;;;;;
 
-(global-set-key "\C-c\C-d" 'comment-region)
-(global-set-key "\C-c\C-v" 'uncomment-region)
-
-(setq-default line-number-mode 1)
-(setq-default transient-mark-mode t)
-(setq auto-fill-mode 0)
-(setq inhibit-splash-screen t)
-
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
-
-(require 'epa-file)
-(epa-file-enable)
-
-(require 'weblogger)
-
-(defun unfill-paragraph ()
-  (interactive)
-  (let ((fill-column (point-max)))
-    (fill-paragraph nil)))
-
-(defun unfill-region ()
-  (interactive)
-  (let ((fill-column (point-max)))
-    (fill-region (region-beginning) (region-end) nil)))
-
-;; include path to quack.el and church.el
-;(setq-default load-path (cons "~/.emacs.d/lisp/" load-path))
-
-;; load church.el (which loads quack)
-(require 'church)
-(setq auto-mode-alist (cons '("\\.ss$" . church-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.church$" . church-mode) auto-mode-alist))
-;(add-to-list 'auto-mode-alist '("\\.ss\\'" . church-mode))
-;(add-to-list 'auto-mode-alist '("\\.church\\'" . church-mode))
-(autoload 'church-mode "church-mode" "Church Mode." t)
-
-(require 'ikarus-script)
-
-;(require 'wc)
-
-(defun count-words (start end)
-  (interactive "r")
-  (save-excursion
-    (let ((n 0))
-      (goto-char start)
-      (while (< (point) end)
-	(if (forward-word 1)
-	    (setq n (1+ n))))
-      (message "Region has %d words" n)
-      n)))
-;; (defun count-words (start end)
-;;   "Print number of words in the region."
-;;   (interactive "r")
-;;     (save-excursion
-;;       (save-restriction
-;;         (narrow-to-region start end)
-;;         (goto-char (point-min))
-;;         (count-matches "\\sw+"))))
-(defalias 'word-count 'count-words)
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))

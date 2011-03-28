@@ -18,6 +18,7 @@ myManageHook = composeAll
     , resource  =? "kdesktop"       --> doIgnore 
     , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat
     , title     =? "Dwarf Fortress" --> doFloat
+    , title     =? "Minecraft Launcher" --> doFloat
     , scratchpadManageHookDefault
     ]
 
@@ -28,10 +29,10 @@ main = do
 --  xmproc <- spawnPipe myStatusBar
 --  xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
   xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig
-    { terminal          = "gnome-terminal"
+    { terminal          = "xfce4-terminal"
     , focusFollowsMouse = False
     , modMask           = mod4Mask
-    , layoutHook        = avoidStruts $ Full ||| (Tall 1 (3/100) (1/2))
+    , layoutHook        = avoidStruts $ (Tall 1 (3/100) (1/2)) ||| Mirror (Tall 1 (3/100) (1/2)) ||| Full
     , manageHook        = manageDocks <+> myManageHook
     , logHook           = dynamicLogWithPP $ xmobarPP
         { ppOutput = hPutStrLn xmproc
@@ -42,18 +43,19 @@ main = do
 --        , ppOutput  = hPutStrLn xmproc
 --        }
     } `additionalKeys`
--- lock screen
-      [ ((mod4Mask    , xK_x    ), spawn "gnome-screensaver-command --lock")
 -- screen capture (full screen, and just active window. Save to ~/Pictures/Captures)
-      , ((0           , xK_Print), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
+      [ ((0           , xK_Print), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
       , ((controlMask , xK_Print), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
 -- Scratchpad function. M-z hides or reveals it.
-      , ((mod4Mask    , xK_z    ), scratchpadSpawnActionCustom "gnome-terminal --disable-factory --name scratchpad")
--- the following are for manipulating mpd, the music player daemon, my music player of choice.
+      , ((mod4Mask    , xK_semicolon   ), scratchpadSpawnActionCustom "xfce4-terminal --disable-factory --name scratchpad")
+-- the following are for manipulating mpd, the music player daemon, my music player of choice
       , ((mod4Mask    , xK_equal       ), spawn "mpc volume +5")
       , ((mod4Mask    , xK_minus       ), spawn "mpc volume -5")
       , ((mod4Mask    , xK_backslash   ), spawn "mpc toggle")
       , ((mod4Mask    , xK_bracketleft ), spawn "mpc seek 0%")
       , ((mod4Mask    , xK_bracketright), spawn "mpc next")
-      , ((mod4Mask .|. shiftMask, xK_z ), spawn "gnome-terminal -e ncmpcpp") --most. untypable. name. ever.
+-- the following are for common things that I want to do in a terminal
+      , ((mod4Mask .|. shiftMask, xK_z ), spawn "xfce4-terminal -e ncmpcpp")
+      , ((mod4Mask .|. shiftMask, xK_l ), spawn "xfce4-terminal -e alsamixer")
+      , ((mod4Mask    , xK_F11         ), spawn "xfce4-terminal -e 'vim /home/george/.xmonad/xmonad.hs'")
       ]

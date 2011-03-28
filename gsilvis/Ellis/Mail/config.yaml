@@ -1,0 +1,21 @@
+--- 
+:thread_by_subject: false
+:confirm_no_attachments: true
+:accounts: 
+  :default: 
+    :signature: /home/george/.signature
+    :email: george.iii.silvis@gmail.com
+    :alternates: 
+    :name: George Silvis III
+    :sendmail: msmtp --account=personalgmail -t
+:edit_signature: false
+:editor: /usr/bin/vim -f -c 'setlocal spell spelllang=en_us' -c 'set filetype=mail'
+:confirm_top_posting: true
+:ask_for_to: true
+:discard_snippets_from_encrypted_messages: false
+:ask_for_cc: true
+:default_attachment_save_dir: ""
+:ask_for_bcc: false
+:poll_interval: 300
+:sent_source: sup://sent
+:ask_for_subject: true

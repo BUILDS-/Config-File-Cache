@@ -1,0 +1,6 @@
+mpd_host = "/home/robbie/.mpd/.socket"
+#mpd_port = "6600"
+mpd_music_dir = "/home/robbie/Music"
+ask_before_clearing_main_playlist = "yes"
+mouse_support = "no"
+playlist_display_mode = "columns"

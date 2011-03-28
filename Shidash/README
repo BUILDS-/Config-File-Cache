@@ -1,8 +1,20 @@
-Config Files
+These are organized by computer.
 
-.xsession: The script that runs when I log into Ubuntu.
+Kurapica (my laptop):
 
-.xmobarrc: xmobar config file for xmonad.
+.xinitrc -- Similar to my .xsession on Kamina.
 
-xmonad.hs: Config file for xmonad.
+.xmobarrc -- xmobar config file for xmonad. The primary difference from the one on Kamina is that it has two processors instead of four.
 
+xmonad.hs -- Config file for xmonad. This is almost exactly the same as the one on Kamina.
+
+
+Kamina (my desktop and server):
+
+.xsession -- The script that runs when I log into Ubuntu.
+
+.xmobarrc -- xmobar config file for xmonad.
+
+xmonad.hs -- Config file for xmonad.
+
+.offlineimap -- My offlineimap config file for use with sup.

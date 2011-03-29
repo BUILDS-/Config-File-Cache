@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 emacs --daemon >> .xsession-errors &
 
@@ -11,11 +11,13 @@ xsetroot -solid black
 
 gnome-screensaver &
 
-wicd-client &
+nm-applet &
 
 xfce4-power-manager &
 
 ~robbie/.fehbg
+
+setxkbmap -option compose:caps
 
 xmodmap ~/.Xmodmap
 

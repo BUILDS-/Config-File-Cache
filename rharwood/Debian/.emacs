@@ -1,5 +1,10 @@
 (display-time)
 
+; Oh god some keys are wrong in emacs23
+(add-hook 'term-setup-hook
+          (lambda () (define-key input-decode-map "\e[Z" [backtab])))
+(define-key function-key-map [S-tab] [backtab])
+
 ; TODO: fix this!
 (setq c-tab-always-indent t)
 (setq c-auto-newline nil)
@@ -7,7 +12,7 @@
 (setq c-continued-statement-offset 4)
 (setq c-brace-offset 0)
 (setq c-argdecl-indent 5)
-(setq c-label-offset -2)
+(setq c-label-offset 0)
 (setq c-continued-brace-offset 0)
 (setq c-mode-hook 
       '(lambda () 
@@ -17,8 +22,8 @@
 
 ;(setq default-major-mode 'text-mode)
 
-(setq text-mode-hook 'turn-on-auto-fill) ; THIS is the thing that was pissing me off
-(setq-default fill-column 80) ; TODO: what is this?
+(setq text-mode-hook 'turn-on-auto-fill)
+(setq-default fill-column 78)
 
 (setq info-mode-hook 'visual-mode)
 
@@ -50,10 +55,12 @@
                         ("\\.y$" . c-mode)
                         ("\\.cc$" . c-mode)
 			("\\.hs$" . haskell-mode)
+			("\\.cpp$" . c++-mode)
 			("\\.py$" . python-mode)
 			("\\.org$" . org-mode)
                         ("\\.scm.[0-9]*$" . scheme-mode)
 			("[]>:/]\\..*emacs" . emacs-lisp-mode)
+			("Makefile" . makefile-mode)
                         ("\\.ml$" . lisp-mode)))
 
 (setq completion-ignored-extensions
@@ -109,15 +116,15 @@
 (require 'sage "sage")
 (setq sage-command "/home/robbie/sage-4.6.1/sage")
 
-;; If you want sage-view to typeset all your output and have plot()
-;; commands inline, uncomment the following line and configure sage-view:
-;;(require 'sage-view "sage-view")
-;;(add-hook 'sage-startup-hook 'sage-view)
-;; You can use commands like
-;; (add-hook 'sage-startup-hook 'sage-view
-;; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
-;; to have some combination of features.  In future, the customize interface
-;; will make this simpler... hint, hint!
+; If you want sage-view to typeset all your output and have plot()
+; commands inline, uncomment the following line and configure sage-view:
+;(require 'sage-view "sage-view")
+;(add-hook 'sage-startup-hook 'sage-view)
+; You can use commands like
+; (add-hook 'sage-startup-hook 'sage-view
+; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
+; to have some combination of features.  In future, the customize interface
+; will make this simpler... hint, hint!
 
 
 (load "/home/robbie/.emacs.d/ats-mode.el")

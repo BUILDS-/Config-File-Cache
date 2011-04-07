@@ -38,6 +38,9 @@ export RUBYLIB=$HOME/project/sup/lib
 # update python path to look for cogphysics
 export PYTHONPATH="$HOME/project/cogphysics/code:$PYTHONPATH"
 
+# where to look for the pylint config
+export PYLINTRC="$HOME/.pylintrc"
+
 # update texinputs to include blackships stuff
 export TEXINPUTS=.:$HOME/activities/roleplaying/assassin/blackships/LaTeX/:$HOME/.texinputs:
 export TEXMFCNF=$TEXINPUTS

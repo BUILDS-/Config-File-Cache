@@ -64,12 +64,17 @@
 (require 'auto-complete-config) 
 
 ; python stuff
-(require 'python-mode) 
 (require 'ipython)
+(setq py-python-command-args '( "-colors" "Linux"))
+
+(require 'python-mode) 
 (provide 'python-programming)
 
 ; GPG encryption/decryption
 (require 'epa-file) 
+
+; church
+(require 'church)
 
 ;;;;;;;;;;;;;;;;;
 ;; KEYBINDINGS ;;
@@ -116,14 +121,13 @@
  '(global-auto-complete-mode t)
  '(global-font-lock-mode t nil (font-lock))
  '(ido-mode (quote both) nil (ido))
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(line-number-mode t)
  '(menu-bar-mode nil)
  '(mouse-wheel-mode t nil (mwheel))
- '(py-python-command "ipython")
  '(py-smart-indentation nil)
  '(python-guess-indent nil)
- '(python-python-command "ipython")
  '(quack-fontify-style (quote emacs))
  '(quack-pretty-lambda-p nil)
  '(quack-run-scheme-always-prompts-p nil)

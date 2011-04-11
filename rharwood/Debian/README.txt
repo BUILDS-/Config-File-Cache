@@ -7,7 +7,7 @@ This folder contains my configurations for jeska (Apple Macbook 3,1) and kamahl 
 .cabal - xmonad packaging
 .canto - the canto news reader (rss, etc.).  Won't track you but it might take all your processing power in an inexplicable pythony networking mess.
 .emacs - hi I like emacs
-|etc|pommed.conf - sits at /etc/pommed.conf where it acts as the configuration file for the Apple laptop key handler, pommed.
+!etc!pommed.conf - sits at /etc/pommed.conf where it acts as the configuration file for the Apple laptop key handler, pommed.
 .getmail - currently deactivated, but was working as a backend to sup
 .mpdconf - for mpd.  Magic socket code here.
 .mpdmonitor.sh - script for my xmobar to display currently playing track.  Note that there is currently a bug in mpc that prevents wait from working correctly, so this is necessary.  The scheduling stuff isn't really necessary, but it helped with testing.
@@ -15,7 +15,7 @@ This folder contains my configurations for jeska (Apple Macbook 3,1) and kamahl 
 .ncmpcpp - ncurses-based mpd client (custom compiled with tagging support)
 README.txt - not actual config
 .sup - files for the sup email client
-|usr|share|X11|xorg.conf.d|50-synaptics.conf - sits at /usr/share/X11/xorg.conf.d/50-synaptics.conf and is my configuration file for my synaptics touchpad (which has a single button, as do all the 3,1s)
+!usr!share!X11!xorg.conf.d!50-synaptics.conf - sits at /usr/share/X11/xorg.conf.d/50-synaptics.conf and is my configuration file for my synaptics touchpad (which has a single button, as do all the 3,1s)
 .xmobarrc - configuration for xmobar.  Calls my .mpdmonitor.sh script, which is not owned properly and thus during recompilations extra copies of said script may accumulate.
 .Xmodmap - key remapping.  XMonad reads off mod4 for me, which is bound to left option.  Left control is control, left option is mod4, left command is Meta, right command is Meta, left option is control (on jeska there is no right control to bind).
 .xmonad - various things to make xmonad go

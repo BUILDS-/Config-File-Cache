@@ -70,6 +70,8 @@
 (require 'python-mode) 
 (provide 'python-programming)
 
+(require 'haskell-mode)
+
 ; GPG encryption/decryption
 (require 'epa-file) 
 

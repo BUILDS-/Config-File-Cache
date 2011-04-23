@@ -7,6 +7,8 @@ db_file "/home/robbie/.mpd/database"
 log_file "/home/robbie/.mpd/log"
 state_file "/home/robbie/.mpd/state"
 pid_file "/home/robbie/.mpd/mpd.pid"
+sticker_file			"~/.mpd/sticker.sql"
+playlist_directory		"~/.mpd/playlists"
 
 #user "robbie"
 
@@ -17,3 +19,13 @@ audio_output {
     mixer_control "PCM"
     mixer_index "0"
 }
+##audio_output {
+##       type            "fifo"
+##       name            "My FIFO"
+##       path            "/tmp/mpd.fifo"
+##       format          "44100:16:1"
+##}
+
+replaygain "off"
+replaygain_preamp "0"
+filesystem_charset "UTF-8"

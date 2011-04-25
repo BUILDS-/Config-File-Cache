@@ -4,9 +4,6 @@ emacs --daemon >> .xsession-errors &
 
 xrdb -merge .Xresources
 
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --width 10 --transparent true --tint 0x000000 --height 12 &
-
 xsetroot -solid black
 
 gnome-screensaver &
@@ -17,11 +14,15 @@ xfce4-power-manager &
 
 ~robbie/.fehbg
 
+trayer --edge top --align right --SetDockType true --SetPartialStrut true  --expand true --width 5 --transparent true --tint 0x000000 --height 12 &
+
 setxkbmap -option compose:caps
 
 xmodmap ~/.Xmodmap
 
-xset r rate 300 75
+#xset r rate 300 75
+
+unclutter &
 
 exec xmonad
 

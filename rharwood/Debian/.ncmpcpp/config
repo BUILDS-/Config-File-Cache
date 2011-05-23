@@ -1,3 +1,4 @@
+user_interface = "alternative"
 mpd_host = "/home/robbie/.mpd/.socket"
 #mpd_port = "6600"
 mpd_music_dir = "/home/robbie/Music"

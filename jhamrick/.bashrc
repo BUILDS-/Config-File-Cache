@@ -21,7 +21,7 @@ export AWT_TOOLKIT=MToolkit
 export HOST="$(hostname)"
 
 # update path to look for sup binaries
-export PATH=$HOME/project/sup/bin:$PATH
+export PATH=$HOME/project/bher-read-only:$HOME/project/sup/bin:$PATH
 
 # default editor should be emacsclient
 export EDITOR="emacsclient -t"
@@ -35,8 +35,9 @@ export MAIL="$HOME/store/mail/"
 # update ruby include path to look for sup libraries
 export RUBYLIB=$HOME/project/sup/lib
 
-# update python path to look for cogphysics
+# update python path to look for cogphysics and pystoch
 export PYTHONPATH="$HOME/project/cogphysics/code:$PYTHONPATH"
+export PYTHONPATH="$HOME/project/pystoch/src:$PYTHONPATH"
 
 # where to look for the pylint config
 export PYLINTRC="$HOME/.pylintrc"
@@ -47,6 +48,7 @@ export TEXMFCNF=$TEXINPUTS
 
 # tell ikarus to look for mit-church
 export IKARUS_LIBRARY_PATH=/home/jhamrick/project/mit-church:
+#export IKARUS_LIBRARY_PATH=/home/jhamrick/project/bher-read-only:
 
 # blackships environment variable
 export blackships=$HOME/activities/roleplaying/assassin/blackships

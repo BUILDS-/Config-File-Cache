@@ -1,7 +1,7 @@
 Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 92
+       , position = TopW L 100
        , lowerOnStart = True
        , commands = [ Run Memory ["-t", "<used>M"] 10
                     , Run Swap ["-t", "<used>G"] 10

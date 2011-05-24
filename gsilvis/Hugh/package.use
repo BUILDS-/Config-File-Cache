@@ -1,0 +1,18 @@
+dev-vcs/git -gtk
+media-sound/mpd audiofile cdio cue lame mpg123 pipe
+media-video/ffmpeg dirac schroedinger theora
+virtual/ffmpeg theora
+x11-misc/xmobar -alsa xft
+media-sound/ncmpcpp bash-completion curl outputs taglib
+media-sound/ncmpc artist-screen colors key-screen lyrics-screen search-screen song-screen
+media-sound/mpc bash-completion
+www-client/midori -libnotify
+x11-libs/gtk+ -cups
+app-misc/screen nethack
+app-admin/sudo offensive
+app-editors/vim -X
+app-emacs/emacs-common-gentoo -X
+app-editors/emacs -X -alsa -gif -gpm -gtk -jpeg -png -svg -tiff -xpm
+www-client/firefox -libnotify -startup-notification
+net-libs/xulrunner -libnotify -startup-notification
+net-misc/openssh X

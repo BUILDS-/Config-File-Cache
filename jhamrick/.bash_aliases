@@ -1,5 +1,5 @@
 # sup alias
-alias sup=sup-mail
+#alias sup=sup-mail
 
 # emacsclient alias
 alias emacs="emacsclient -t"
@@ -9,6 +9,9 @@ alias gpull="git pull --rebase"
 alias gpush="git push"
 alias gcommit="git commit -a"
 alias gadd="git add"
+
+# rsync
+alias rsync="rsync -vrl --progress --partial"
 
 # color aliases
 if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then

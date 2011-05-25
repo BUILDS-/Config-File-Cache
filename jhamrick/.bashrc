@@ -21,7 +21,7 @@ export AWT_TOOLKIT=MToolkit
 export HOST="$(hostname)"
 
 # update path to look for sup binaries
-export PATH=$HOME/project/bher-read-only:$HOME/project/sup/bin:$PATH
+export PATH=$HOME/project/bher-read-only:$HOME/project/sup/bin:$HOME/project/pystoch/bin:$PATH
 
 # default editor should be emacsclient
 export EDITOR="emacsclient -t"

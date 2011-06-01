@@ -36,9 +36,10 @@ export MAIL="$HOME/store/mail/"
 export RUBYLIB=$HOME/project/sup/lib
 
 # update python path to look for cogphysics and pystoch and gutenbach
-export PYTHONPATH="$HOME/project/cogphysics/code:$PYTHONPATH"
+export PYTHONPATH="$HOME/project/cogphysics/dev/code:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/gutenbach/server/lib:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pystoch/src:$PYTHONPATH"
+export PYTHONPATH="$HOME/project/datarray/src:$PYTHONPATH"
 
 # where to look for the pylint config
 export PYLINTRC="$HOME/.pylintrc"

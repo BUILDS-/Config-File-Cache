@@ -1,0 +1,24 @@
+--- 
+- !masanjin.net,2006-10-01/Redwood/Maildir 
+  uri: maildir:/home/george/Mail/GMail/INBOX
+  usual: true
+  archived: false
+  id: 1
+  labels: []
+
+- !masanjin.net,2006-10-01/Redwood/Maildir 
+  uri: maildir:/home/george/Mail/GMail/SENT
+  usual: true
+  archived: false
+  id: 2
+  labels: []
+
+- !masanjin.net,2006-10-01/Redwood/Maildir
+  uri: maildir:/home/george/Mail/GMail/ALL
+  usual: true
+  archived: false
+  id: 3
+  labels: []
+
+- !masanjin.net,2006-10-01/Redwood/SentLoader {}
+

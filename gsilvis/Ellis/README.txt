@@ -1,18 +1,30 @@
-Welcome to Ellis!
+Welcome to Ellis, round two: THIS TIME, WITH GENTOO! MWAHAHAHAHAHAHAHAHA!
 
-contents:
+There are only really two kinds of config files here, because it's a rather
+minimal install. There are the Gentoo administration things, and the
+sup/offlinimap/msmtp config.
 
-custom.desktop -- In (x/k)ubuntu, there is no option at GDM for running your own
-.xsession script. Putting this in the right place (probably
-/usr/share/xsessions/ ) lets you pick the 'Custom' option.
+  Gentoo:
+make.conf
+packages.accept_keywords
+package.use
 
-Mail/README.txt -- essential for understanding that folder.
+  Mail:
+.sup/config.yaml -- sup!
+.sup/sources.yaml -- also for sup
+.offlineimaprc -- offlineimap
+.msmtprc -- for sending mail with sup
 
-Mail/config.yaml -- sup!
+All my email accounts redirect to my GMail account (george.iii.silvis).
+Then, I run offlineIMAP on Ellis.
+I run sup on Ellis through ssh.
+I send mail from Ellis using msmtp.
 
-Mail/offlineimaprc -- pretty self-explanatory
+These config files are edited from my actual use for personal reasons.
+Such as not wanting you to read my email.
 
-Mail/.sources.yaml -- also for sup
-
-Mail/.msmtprc -- for sending mail
-
+A note for people wanting to run msmtp on Gentoo: When you get to the
+"installing necessary system tools" step, you will install a cron daemon and a
+system logger. This will generally pull in a mail transfer agent (MTA), ssmtp
+by defauly. HOWEVER, ssmtp BLOCKS msmtp! So, before you install either a cron
+daemon or a system logger, install msmtp.

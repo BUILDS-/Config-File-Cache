@@ -1,0 +1,10 @@
+mail-client/sup ~x86
+dev-ruby/mime-types ~x86
+dev-ruby/ruby-gettext ~x86
+dev-ruby/rubymail ~x86
+dev-libs/xapian-bindings ~x86
+dev-ruby/ncursesw-ruby ~x86
+dev-ruby/lockfile ~x86
+dev-ruby/trollop ~x86
+dev-libs/xapian ~x86
+dev-ruby/locale ~x86

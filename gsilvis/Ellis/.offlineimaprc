@@ -1,0 +1,20 @@
+[general]
+metadata = ~/.offlineimap
+accounts = Account
+ui = Noninteractive.Quiet
+
+# Enable this for running offlineimap in the background / as a cron job
+
+[Account Account]
+autorefresh = 5
+localrepository = Local
+remoterepository = GMail
+
+[Repository Local]
+type = Maildir
+localfolders = /home/george/Mail/GMail
+
+[Repository GMail]
+type = Gmail
+remoteuser = george.iii.silvis@gmail.com
+remotepass = [REDACTED]

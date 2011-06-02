@@ -1,0 +1,11 @@
+--- ncurses_wrap.c
++++ ncurses_wrap.c
+@@ -2394,7 +2394,7 @@
+         return Qnil;
+     }
+     _tracef("%s",
+-            STR2CSTR(funcall3(rb_mKernel, rb_intern("sprintf"), argc, argv)));
++            STR2CSTR(rb_funcall3(rb_mKernel, rb_intern("sprintf"), argc, argv)));
+     return Qnil;
+ }
+ #endif /* HAVE__TRACEF */

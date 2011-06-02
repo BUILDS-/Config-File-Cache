@@ -1,0 +1,11 @@
+app-admin/sudo offensive
+app-misc/screen nethack
+www-client/lynx gnutls
+www-client/elinks ftp gopher javascript
+app-portage/layman git mercurial subversion
+mail-client/sup doc
+dev-libs/xapian-bindings ruby
+media-sound/ncmpcpp curl outputs
+mail-mta/msmtp doc gnutls vim-syntax
+net-misc/ntp caps vim-syntax
+app-misc/tmux vim-syntax

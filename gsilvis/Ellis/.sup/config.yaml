@@ -1,0 +1,27 @@
+--- 
+:ask_for_bcc: false
+:editor: /usr/bin/vim -f -c 'setlocal spell spelllang=en_us' -c 'set filetype=mail'
+:default_attachment_save_dir: ""
+:thread_by_subject: false
+:accounts: 
+  :default: 
+    :alternates: 
+    - gsilvis@bu.edu
+    :sendmail: msmtp --account=personalgmail -t
+    :name: George Silvis, III
+    :signature: /home/george/.signature
+    :gpgkey: ""
+    :email: george.iii.silvis@gmail.com
+:sent_source: sup://sent
+:ask_for_subject: true
+:poll_interval: 300
+:edit_signature: false
+:confirm_no_attachments: true
+:wrap_width: 0
+:ask_for_from: false
+:confirm_top_posting: true
+:slip_rows: 0
+:ask_for_to: true
+:jump_to_open_message: true
+:ask_for_cc: true
+:discard_snippets_from_encrypted_messages: false

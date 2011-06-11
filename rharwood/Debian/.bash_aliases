@@ -4,5 +4,12 @@ alias l="ls -CF"
 
 alias al="sl -a"
 
-alias ssup="/var/lib/gems/1.8/bin/sup"
-alias sup="~robbie/.getmail/script.sh && /var/lib/gems/1.8/bin/sup"
+alias e="emacsclient -nw"
+
+export ATOGATOG=173.48.164.52
+
+alias r="R --no-environ --no-save"
+
+alias RSYNC="rsync -avz -e ssh"
+
+alias skype="LD_PRELOAD=/usr/lib32/libv4l/v4l1compat.so skype"

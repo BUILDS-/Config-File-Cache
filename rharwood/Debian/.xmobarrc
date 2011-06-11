@@ -1,15 +1,16 @@
 Config { font = "-*-Fixed-Bold-R-Normal-*-12-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 90
+       , position = TopW L 95
        , lowerOnStart = True
        , commands = [ Run MultiCpu ["-t", "(<total0>%, <total1>%)", "-L","25","-H","75", "--normal","green","--high","red", "-m", "3", "-w", "3"] 10
-                    , Run Memory ["-t", "<used>MB", "-L", "500", "-H", "2000",  "--normal", "green", "--high", "red", "-w", "4"] 10
+                    , Run Swap ["-t", "<used>MB", "-L", "1000", "-H", "2500",  "--normal", "green", "--high", "red", "-w", "4"] 100
+                    , Run Memory ["-t", "<used>MB", "-L", "1000", "-H", "2500",  "--normal", "green", "--high", "red", "-w", "4"] 10
 		    , Run Date "%a %b %d %Y %R" "date" 10
 		    , Run StdinReader
 		    , Run CommandReader "/home/robbie/.mpdmonitor.sh" "MPD"
 		    ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%date% %multicpu% %memory%}                  %StdinReader%{ %MPD%"
+       , template = "%date% %multicpu% %memory% %swap% %StdinReader%}{ %MPD%"
        }

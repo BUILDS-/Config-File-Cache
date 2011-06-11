@@ -29,25 +29,25 @@ main = do
         keys               =           
           \conf@(XConfig {XMonad.modMask = modm}) -> 
             M.fromList $
-              [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-              , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
-              , ((modm,               xK_x     ), spawn "gnome-screensaver-command --lock")
-              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"sudo sleep 0 && gnome-screensaver-command --lock; sudo pm-suspend\"") -- I need to have root for the pm-suspend command, and I can't call the screensaver lock command as root.
-              , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+              [ ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
+              , ((modm,               xK_Return), spawn "xfce4-terminal -x emacsclient -nw")
+              , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
+              , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
+              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"sudo -k sleep 0 && xscreensaver-command --lock && sudo pm-suspend\"") -- 
+              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x bash -c \"sudo -k reboot\"") --
+              , ((modm              , xK_z     ), spawn "xfce4-terminal -x bash -c \"sudo -k poweroff\"") --
+                
+              , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")
               , ((modm .|. shiftMask, xK_c     ), kill)
-              , ((modm,               xK_space ), sendMessage NextLayout)
-              , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+              , ((modm,               xK_s     ), sendMessage NextLayout)
+              , ((modm .|. shiftMask, xK_s     ), setLayout $ XMonad.layoutHook conf)                
               , ((modm,               xK_n     ), refresh)
               , ((modm,               xK_Tab   ), windows W.focusDown)
               , ((modm .|. shiftMask, xK_Tab   ), windows W.swapDown)
               , ((modm,               xK_quoteleft     ), windows W.focusUp)
               , ((modm .|. shiftMask, xK_quoteleft     ), windows W.swapUp)
---              , ((modm,               xK_j     ), windows W.focusDown)
---              , ((modm,               xK_k     ), windows W.focusUp)
               , ((modm,               xK_m     ), windows W.focusMaster)
-              , ((modm,               xK_Return), windows W.swapMaster)
---              , ((modm .|. shiftMask, xK_j     ), windows W.swapDown)
---              , ((modm .|. shiftMask, xK_k     ), windows W.swapUp)
+              , ((modm .|. shiftMask, xK_f), windows W.swapMaster)
               , ((modm,               xK_h     ), sendMessage Shrink)
               , ((modm,               xK_l     ), sendMessage Expand)
               , ((modm,               xK_j     ), sendMessage MirrorShrink)
@@ -55,17 +55,16 @@ main = do
               , ((modm,               xK_t     ), withFocused $ windows . W.sink)
               , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
               , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
---              , ((modm              , xK_b     ), sendMessage ToggleStruts)
+              , ((modm              , xK_b     ), sendMessage ToggleStruts)
               , ((modm .|. shiftMask, xK_q     ), do
                     spawn "killall -g .mpdmonitor.sh"
                     io (exitWith ExitSuccess))
               , ((modm              , xK_q     ), spawn "killall -g .mpdmonitor.sh; xmonad --recompile && xmonad --restart")
-              , ((modm .|. shiftMask, xK_z     ), spawn "gksu 'shutdown -h now'")
-              , ((modm              , xK_z     ), spawn "gksu reboot")
               , ((modm              , xK_bracketleft ), spawn "ncmpcpp pause")
               , ((modm              , xK_bracketright), spawn "ncmpcpp play")
-              , ((modm              , xK_backslash   ), spawn "ncmpcpp toggle")
+              , ((modm              , xK_backslash   ), spawn "xfce4-terminal -x alsamixer")
               , ((modm .|. shiftMask, xK_backslash   ), spawn "xfce4-terminal -x ncmpcpp")
+              , ((modm .|. controlMask, xK_backslash   ), spawn "xfce4-terminal -x ncmpcpp")
               , ((modm .|. shiftMask, xK_bracketright), spawn "ncmpcpp next")
               , ((modm .|. shiftMask, xK_bracketleft ), spawn "ncmpcpp prev")
               , ((modm              , xK_a           ), sendMessage $ Toggle MIRROR)
@@ -73,8 +72,6 @@ main = do
               , ((modm .|. shiftMask, xK_slash       ), spawn "xfce4-terminal -x less /usr/share/X11/locale/en_US.UTF-8/Compose")
 --              , ((0                 , xK_Print ), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
 --              , ((modm              , xK_Print ), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
---              , ((modm              , xK_z     ), scratchpadSpawnActionCustom "xfce4-terminal --disable-server --name scratchpad")
---              , ((modm .|. shiftMask, xK_d     ), spawn "xfce4-terminal -e ~robbie/.getmail/script.sh")
               ]
               ++
               [((m .|. modm, k), windows $ f i)
@@ -82,7 +79,7 @@ main = do
               , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
               ++
               [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-              | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+              | (key, sc) <- zip [xK_y, xK_u, xK_i] [0..]
               , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
         mouseBindings      = 
           \XConfig {XMonad.modMask = modm} -> 
@@ -131,5 +128,5 @@ main = do
           ),
         handleEventHook    = mempty,
         startupHook        = do
-          spawn "xfce4-terminal"
+          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay -W 100 && bash\""
     }

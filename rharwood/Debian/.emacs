@@ -1,9 +1,16 @@
 (display-time)
+(column-number-mode)
 
-; Oh god some keys are wrong in emacs23
-(add-hook 'term-setup-hook
-          (lambda () (define-key input-decode-map "\e[Z" [backtab])))
-(define-key function-key-map [S-tab] [backtab])
+(defadvice split-window-vertically
+    (after my-window-splitting-advice first () activate)
+    (set-window-buffer (next-window) (other-buffer)))
+
+; more org-mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq require-final-newline t)
 
 ; TODO: fix this!
 (setq c-tab-always-indent t)
@@ -12,13 +19,18 @@
 (setq c-continued-statement-offset 4)
 (setq c-brace-offset 0)
 (setq c-argdecl-indent 5)
-(setq c-label-offset 0)
+(setq c-label-offset 2)
 (setq c-continued-brace-offset 0)
 (setq c-mode-hook 
       '(lambda () 
-	 (setq case-fold-search nil c-argdecl-indent 0 fill-prefix " * ")
-	 )
+         (setq case-fold-search nil c-argdecl-indent 0 fill-prefix " * ")
+         )
       )
+
+(setq-default c-basic-offset 2)
+; fuck tabs
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
 
 ;(setq default-major-mode 'text-mode)
 
@@ -27,6 +39,25 @@
 
 (setq info-mode-hook 'visual-mode)
 
+(setq org-indent-indentation-per-level 1)
+(setq org-mode-hook '(org-indent-mode))
+
+(defun backward-kill-line (arg)
+  "Kill chars backward until encountering the end of a line."
+  (interactive "p")
+  (kill-line 0))
+(global-set-key "\C-u" 'backward-kill-line) ; FUCK ARGUMENT PASSING
+
+(global-set-key "\C-h" 'delete-backward-char) ; fuck everything about bash and emacs not matching
+(defun kill-word-backward ()
+  "M-d except it's M-h."
+  (interactive)
+  (unless (looking-at "\\<")
+    (backward-word))
+  (kill-word 1))
+(global-set-key "\M-h" 'backward-kill-word) ; and frankly fuck that too
+
+;(add-to-list 'auto-mode-alist '(
 (setq auto-mode-alist '(
                         ("\\.c$" . c-mode)
                         ("\\.h$" . c-mode)
@@ -38,6 +69,7 @@
                         ("\\.el$" . emacs-lisp-mode)
                         ("\\.text$" . text-mode)
                         ("\\.gwm$" . lisp-mode)
+                        ("\\.cl$" . lisp-mode)
                         ("\\.scm$" . scheme-mode)
                         ("\\.md$" . emacs-lisp-mode)
                         ("\\.l$" . lisp-mode)
@@ -54,20 +86,26 @@
                         ("\\.lsp$" . lisp-mode)
                         ("\\.y$" . c-mode)
                         ("\\.cc$" . c-mode)
-			("\\.hs$" . haskell-mode)
-			("\\.cpp$" . c++-mode)
-			("\\.py$" . python-mode)
-			("\\.org$" . org-mode)
+                        ("\\.hs$" . haskell-mode)
+                        ("\\.cpp$" . c++-mode)
+                        ("\\.py$" . python-mode)
+                        ("\\.org$" . org-mode)
                         ("\\.scm.[0-9]*$" . scheme-mode)
-			("[]>:/]\\..*emacs" . emacs-lisp-mode)
-			("Makefile" . makefile-mode)
+                        ("\\.java$" . java-mode)
+                        ("\\.txt$" . text-mode)
+                        ("[]>:/]\\..*emacs" . emacs-lisp-mode)
+                        ("Makefile" . makefile-mode)
+                        (".bashrc" . shell-script-mode)
+                        (".bash_profile" . shell-script-mode)
+                        (".bash_aliases" . shell-script-mode)
+                        ("\\.sh$" . shell-script-mode)
                         ("\\.ml$" . lisp-mode)))
 
 (setq completion-ignored-extensions
       (append completion-ignored-extensions
               (quote
                (".bak" "~" ".CKP" ".aux" ".otl" ".err"
-		".lib" ".dvi" ".PS" ".o")
+		".lib" ".dvi" ".PS" ".o" ".pdf" ".log")
 	       )
 	      )
       )
@@ -98,7 +136,7 @@
 
 (setq auto-save-interval 1024)
 
-(setq explicit-shell-file-name "/bin/bash")
+;(setq explicit-shell-file-name "/bin/bash")
 
 ;(setq text-mode-hook '(setq line-move-visual 't)) ; TODO: MAKE THIS WORK SO I CAN TURN OFF THE STUPIDITY WITH AUTO-FILL
 (setq line-move-visual 'nil)
@@ -112,9 +150,9 @@
 
 (add-to-list 'auto-mode-alist '("sup\\.\\(compose\\|forward\\|reply\\|resume\\)-mode$" . post-mode))
 
-(add-to-list 'load-path (expand-file-name "/home/robbie/sage-4.6.1/data/emacs"))
-(require 'sage "sage")
-(setq sage-command "/home/robbie/sage-4.6.1/sage")
+;(add-to-list 'load-path (expand-file-name "/home/robbie/sage-4.6.1/data/emacs"))
+;(require 'sage "sage")
+;(setq sage-command "/home/robbie/sage-4.6.1/sage")
 
 ; If you want sage-view to typeset all your output and have plot()
 ; commands inline, uncomment the following line and configure sage-view:
@@ -125,7 +163,6 @@
 ; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
 ; to have some combination of features.  In future, the customize interface
 ; will make this simpler... hint, hint!
-
 
 (load "/home/robbie/.emacs.d/ats-mode.el")
 

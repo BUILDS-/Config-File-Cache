@@ -1,5 +1,5 @@
 # setting history length and file size
-HISTSIZE=10000
+export HISTSIZE=10000
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -12,7 +12,7 @@ HISTSIZE=10000
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 # ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
+#export HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -32,9 +32,11 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
+#case "$TERM" in
+#    xterm-color) color_prompt=yes;;
+#esac
+
+color_prompt=yes
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -101,14 +103,16 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-fortune -a | cowsay -n -W 100
+#fortune -a | cowsay -n -W 100
 
 PATH="/var/lib/gems/1.8/bin:${PATH}"
 export EDITOR=emacs
 
 export ATSHOME=/usr/share/atshome
-export ATSHOMERELOC=ATS-0.2.3
+export ATSHOMERELOC=ATS-0.2.4
 
 export DEBEMAIL="rharwood@bu.edu"
 export DEBFULLNAME="Robbie Harwood"
 export MPD_HOST=/home/robbie/.mpd/.socket
+
+export PATH="/sbin:${PATH}"

@@ -21,7 +21,11 @@ Secondly, I have a set of things for running an up-to-date install of sup.
 These are copied wholesale from the overlay 'xarthisius,' which is in Layman.
 However, xarthisius is entirely lacking any x86 keywords, so I added them
 myself. I may pester him at some point to add those keywords: this setup runs
-fine.
+fine. Thirdly, I have a slightly modified ebuild for
+dev-texlive/texlive-latex. Because of bug #369883, as of a week or two ago,
+texlive fails to build. This modification, as taken from a very helpful
+comment (http://bugs.gentoo.org/show_bug.cgi?id=369883#c15) fixes that
+problem.
 
 Enjoy
 - George Silvis, III

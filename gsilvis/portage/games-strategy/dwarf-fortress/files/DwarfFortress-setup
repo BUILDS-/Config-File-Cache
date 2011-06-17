@@ -1,0 +1,54 @@
+#!/bin/bash
+
+DFDIR=/opt/dwarf-fortress
+DFUSER=~/.DwarfFortress
+
+dfln () {
+	ln -s -v ${DFDIR}/$1 ${DFUSER}/$1
+}
+
+dfcp () {
+	cp -v ${DFDIR}/$1 ${DFUSER}/$1
+}
+
+dfmkdir () {
+	mkdir -v ${DFUSER}/$1
+}
+
+if [ -a ~/.DwarfFortress ]
+then
+	echo "There is already a file or folder called \"~/.DwarfFortress\" ." 
+	echo "Clean that up first, please."
+	exit 1
+else
+	echo "Making directory structure."
+	echo
+
+	mkdir -v ~/.DwarfFortress
+	dfmkdir data
+	dfln data/announcement
+	dfln data/art
+	dfln data/dipscript
+	dfln data/help
+	dfcp data/index # Dwarf Fortress will not read a symlink here.
+	dfmkdir data/init
+	dfln data/init/announcements.txt
+	dfln data/init/arena.txt
+	dfln data/init/colors.txt
+	dfcp data/init/d_init.txt # Most users will want to customize this
+	dfcp data/init/init.txt # This too
+	dfln data/init/interface.txt
+	dfmkdir data/init/macros
+	dfln data/init/world_gen.txt
+	dfln data/initial_movies
+	dfln data/movies
+	dfmkdir data/save
+	dfln data/sound
+	dfln data/speech
+	dfln libs
+	dfln raw
+	
+	echo
+	echo "The folder \"~/.DwarfFortress\" now contains the data for the game."
+	echo "Local alterations can be made here, and games will be saved here."
+fi

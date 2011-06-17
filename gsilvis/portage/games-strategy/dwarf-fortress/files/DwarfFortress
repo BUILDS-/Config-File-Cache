@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ ! -d ~/.DwarfFortress ]
+then
+	echo "No ~/.DwarfFortress directory. Setting that up."
+	/usr/games/bin/DwarfFortress-setup || exit 1
+fi
+
+cd ~/.DwarfFortress
+export SDL_DISABLE_LOCK_KEYS=1 # Work around for bug in Debian/Ubuntu SDL patch.
+#export SDL_VIDEO_CENTERED=1 # Centre the screen.  Messes up resizing.
+./libs/Dwarf_Fortress $* # Go, go, go! :)	

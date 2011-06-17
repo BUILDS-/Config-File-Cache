@@ -23,11 +23,10 @@ S="${WORKDIR}"
 src_install() {
 	dodir /usr/share/atshome
 	dodir /usr/bin
-	ewarn "Copying ${S}/usr to ${D} ..."
 	cp -R "${S}/usr" "${D}" || die "Install failed!"
 	cat > ${T}/95ats <<-EOF
 ATSHOME="${EPREFIX}/usr/share/atshome"
-ATSRELOC="ATS-${PV}"
+ATSHOMERELOC="ATS-${PV}"
 EOF
 	doenvd "${T}/95ats" || die "env.d failed!"
 }

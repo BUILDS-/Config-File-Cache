@@ -7,7 +7,6 @@ media-sound/ncmpcpp bash-completion curl outputs taglib
 media-sound/ncmpc artist-screen colors key-screen lyrics-screen search-screen song-screen
 media-sound/mpc bash-completion
 www-client/midori -libnotify
-x11-libs/gtk+ -cups
 app-misc/screen nethack
 app-admin/sudo offensive
 app-editors/vim -X
@@ -16,3 +15,16 @@ app-editors/emacs -X -alsa -gif -gpm -gtk -jpeg -png -svg -tiff -xpm
 www-client/firefox -libnotify -startup-notification
 net-libs/xulrunner -libnotify -startup-notification
 net-misc/openssh X
+media-sound/abcde cdparanoia id3 normalize replaygain
+media-video/mplayer cdparanoia doc dvb ftp libcaca libmpeg2 md5sum mpg123
+app-text/evince -dbus dvi djvu
+app-text/texlive-core -X
+dev-vcs/subversion vim-syntax
+net-misc/networkmanager -bluetooth
+net-wireless/wpa_supplicant eap-sim gnutls wimax wps
+net-misc/wicd -libnotify -pm-utils
+app-emulation/qemu -bluetooth -pulseaudio
+app-emulation/wine -cups
+app-admin/conky imlib math mpd nano-syntax vim-syntax weather-meta weather-xoap wifi
+net-misc/ntp vim-syntax
+sys-auth/polkit -gtk

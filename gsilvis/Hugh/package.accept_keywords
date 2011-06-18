@@ -1,2 +1,7 @@
 x11-misc/xmobar ~amd64
 dev-haskell/x11-xft ~amd64
+net-irc/ii ~amd64
+dev-python/pyusb ~amd64
+games-arcade/aquaria ~amd64
+games-strategy/dwarf-fortress ~amd64
+dev-lang/ats-anairiats-bin ~amd64

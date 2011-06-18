@@ -4,12 +4,12 @@
 
 EAPI=3
 
-DESCRIPTION=""
+DESCRIPTION="Compiler for ATS, a functional programming language with proof and dependent types."
 HOMEPAGE="http://www.ats-lang.org/"
 SRC_URI="x86? ( mirror://sourceforge/ats-lang/ats-lang-anairiats-${PV}-linux-x86-32.tar.gz )
 	amd64? ( mirror://sourceforge/ats-lang/ats-lang-anairiats-${PV}-linux-x86-64.tar.gz )"
 
-LICENSE=""
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 -*"
 IUSE=""

@@ -1,0 +1,17 @@
+# Defaults for mpdscribble initscript
+# sourced by /etc/init.d/mpdscribble
+# installed at /etc/default/mpdscribble by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# Whether to enable system wide daemon
+MPD_SYSTEMWIDE=1
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS=""
+
+# user/group to use (mpdscribble:mpdscribble are default)
+#USER=mpdscribble
+#GROUP=mpdscribble

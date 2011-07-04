@@ -33,11 +33,21 @@ main = do
               , ((modm,               xK_Return), spawn "xfce4-terminal -x emacsclient -nw")
               , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
               , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
-              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"sudo -k sleep 0 && xscreensaver-command --lock && sudo pm-suspend\"") -- 
-              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x bash -c \"sudo -k reboot\"") --
-              , ((modm              , xK_z     ), spawn "xfce4-terminal -x bash -c \"sudo -k poweroff\"") --
-                
-              , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")
+              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"su -c /home/frozencemetery/script.sh\" ")
+--              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"sudo -k sleep 0 && xscreensaver-command --lock && sudo pm-suspend\"") -- 
+              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c reboot\"") --
+              , ((modm              , xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c poweroff\"")
+              , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")                
+              , ((0,                  0x1008ff16   ), spawn "ncmpcpp prev")
+              , ((0,                  0x1008ff17   ), spawn "ncmpcpp next")
+              , ((0,                  0x1008ff14   ), spawn "ncmpcpp toggle")
+              , ((modm              , 0x1008ff16 ), spawn "ncmpcpp pause")
+              , ((modm              , 0x1008ff17), spawn "ncmpcpp play")
+              , ((modm              , 0x1008ff14), spawn "xfce4-terminal -x alsamixer")
+              , ((modm .|. shiftMask, 0x1008ff16 ), spawn "ncmpcpp prev")
+              , ((modm .|. shiftMask, 0x1008ff17), spawn "ncmpcpp next")
+              , ((modm .|. shiftMask, 0x1008ff14), spawn "xfce4-terminal -x ncmpcpp")
+              
               , ((modm .|. shiftMask, xK_c     ), kill)
               , ((modm,               xK_s     ), sendMessage NextLayout)
               , ((modm .|. shiftMask, xK_s     ), setLayout $ XMonad.layoutHook conf)                
@@ -60,13 +70,6 @@ main = do
                     spawn "killall -g .mpdmonitor.sh"
                     io (exitWith ExitSuccess))
               , ((modm              , xK_q     ), spawn "killall -g .mpdmonitor.sh; xmonad --recompile && xmonad --restart")
-              , ((modm              , xK_bracketleft ), spawn "ncmpcpp pause")
-              , ((modm              , xK_bracketright), spawn "ncmpcpp play")
-              , ((modm              , xK_backslash   ), spawn "xfce4-terminal -x alsamixer")
-              , ((modm .|. shiftMask, xK_backslash   ), spawn "xfce4-terminal -x ncmpcpp")
-              , ((modm .|. controlMask, xK_backslash   ), spawn "xfce4-terminal -x ncmpcpp")
-              , ((modm .|. shiftMask, xK_bracketright), spawn "ncmpcpp next")
-              , ((modm .|. shiftMask, xK_bracketleft ), spawn "ncmpcpp prev")
               , ((modm              , xK_a           ), sendMessage $ Toggle MIRROR)
               , ((modm              , xK_f           ), sendMessage $ Toggle FULL)
               , ((modm .|. shiftMask, xK_slash       ), spawn "xfce4-terminal -x less /usr/share/X11/locale/en_US.UTF-8/Compose")
@@ -128,5 +131,5 @@ main = do
           ),
         handleEventHook    = mempty,
         startupHook        = do
-          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay -W 100 && bash\""
+          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay && bash\""
     }

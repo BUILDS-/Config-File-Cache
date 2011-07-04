@@ -6,15 +6,15 @@ xrdb -merge .Xresources
 
 xsetroot -solid black
 
-gnome-screensaver &
+xscreensaver -no-splash &
 
 nm-applet &
 
 xfce4-power-manager &
 
-~robbie/.fehbg
+/home/frozencemetery/.fehbg
 
-trayer --edge top --align right --SetDockType true --SetPartialStrut true  --expand true --width 5 --transparent true --tint 0x000000 --height 12 &
+trayer --edge top --align right --SetDockType true --SetPartialStrut true  --expand true --width 5 --tint 0x000000 --height 12 --transparent true --alpha 0 &
 
 setxkbmap -option compose:caps
 
@@ -24,5 +24,5 @@ xmodmap ~/.Xmodmap
 
 unclutter &
 
-exec xmonad
+exec ck-launch-session xmonad
 

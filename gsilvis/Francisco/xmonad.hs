@@ -43,5 +43,5 @@ main = do
       , ((mod4Mask .|. shiftMask, xK_l ), spawn "xfce4-terminal -e alsamixer")
       , ((mod4Mask    , xK_F11         ), spawn "xfce4-terminal -e 'vim /home/george/.xmonad/xmonad.hs'")
 -- lock screen
-      , ((mod4Mask    , xK_x           ), spawn "gnome-screensaver-command --lock")
+      , ((mod4Mask    , xK_x           ), spawn "xscreensaver-command --lock")
       ]

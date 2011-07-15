@@ -1,6 +1,8 @@
 (display-time)
 (column-number-mode)
 
+(require 'notmuch)
+
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
@@ -39,8 +41,8 @@
 
 (setq info-mode-hook 'visual-mode)
 
-(setq org-indent-indentation-per-level 1)
-(setq org-mode-hook '(org-indent-mode))
+;(setq org-indent-indentation-per-level 1)
+;(setq org-mode-hook '(org-indent-mode))
 
 (defun backward-kill-line (arg)
   "Kill chars backward until encountering the end of a line."
@@ -150,9 +152,9 @@
 
 (add-to-list 'auto-mode-alist '("sup\\.\\(compose\\|forward\\|reply\\|resume\\)-mode$" . post-mode))
 
-;(add-to-list 'load-path (expand-file-name "/home/robbie/sage-4.6.1/data/emacs"))
+;(add-to-list 'load-path (expand-file-name "/home/frozencemetery/sage-4.6.1/data/emacs"))
 ;(require 'sage "sage")
-;(setq sage-command "/home/robbie/sage-4.6.1/sage")
+;(setq sage-command "/home/frozencemetery/sage-4.6.1/sage")
 
 ; If you want sage-view to typeset all your output and have plot()
 ; commands inline, uncomment the following line and configure sage-view:
@@ -164,7 +166,7 @@
 ; to have some combination of features.  In future, the customize interface
 ; will make this simpler... hint, hint!
 
-(load "/home/robbie/.emacs.d/ats-mode.el")
+(load "/home/frozencemetery/.emacs.d/ats-mode.el")
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)

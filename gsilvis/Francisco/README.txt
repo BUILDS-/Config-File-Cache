@@ -23,7 +23,7 @@ will be saved in the wpa_supplicant configuration.
 
 Other stuff I have here:
 
-.emacs: Uh, what do you THINK this is?
+.emacs: Notably contains stuff for notmuch.el
 
 .xinitrc is run when my X session starts. Note the first part especially,
 which deals with a nasty nm-applet bug where it fails to save any wireless

@@ -10,10 +10,13 @@ import System.IO
 
 
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , title     =? "Dwarf Fortress" --> doFloat
-    , title     =? "Minecraft Launcher" --> doFloat
+    [ className =? "MPlayer"              --> doFloat
+    , className =? "Gimp"                 --> doFloat
+    , title     =? "Dwarf Fortress"       --> doFloat
+    , title     =? "Minecraft Launcher"   --> doFloat
+    , title     =? "xfce4-notifyd"        --> doIgnore
+    , title     =? "Pidgin"               --> doFloat
+    , resource  =? "Dialog"               --> doFloat
     ]
 
 main = do 
@@ -42,6 +45,7 @@ main = do
       , ((mod4Mask .|. shiftMask, xK_z ), spawn "xfce4-terminal -e ncmpcpp")
       , ((mod4Mask .|. shiftMask, xK_l ), spawn "xfce4-terminal -e alsamixer")
       , ((mod4Mask    , xK_F11         ), spawn "xfce4-terminal -e 'vim /home/george/.xmonad/xmonad.hs'")
+      , ((mod4Mask .|. shiftMask, xK_a ), spawn "xfce4-terminal -e 'emacs -f notmuch'")
 -- lock screen
       , ((mod4Mask    , xK_x           ), spawn "xscreensaver-command --lock")
       ]

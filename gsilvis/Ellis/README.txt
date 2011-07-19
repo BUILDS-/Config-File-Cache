@@ -2,14 +2,16 @@ Welcome to Ellis, round two: THIS TIME, WITH GENTOO! MWAHAHAHAHAHAHAHAHA!
 
 There are only really two kinds of config files here, because it's a rather
 minimal install. There are the Gentoo administration things, and the
-sup/offlinimap/msmtp config.
+sup/offlinimap/msmtp config. [WHICH BY THE WAY IS DEPRECATED.]
 
   Gentoo:
 make.conf
 packages.accept_keywords
 package.use
 
-  Mail:
+  Mail: ----I NO LONGER USE THIS MAIL SETUP. I AM LEAVING THESE HERE
+FOR POSTERITY ONLY.-----
+
 .sup/config.yaml -- sup!
 .sup/sources.yaml -- also for sup
 .offlineimaprc -- offlineimap

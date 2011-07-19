@@ -19,21 +19,21 @@
 (setq-default indent-tabs-mode nil)
 (menu-bar-mode 0)
 
-;; HERE FOLLOWS EMAIL CONFIGURATION.
+;; HERE FOLLOWS A DEPRECATED NOTMUCH.EL CONFIGURATION.
 
 ;; notmuch
-(require 'notmuch)
-(setq message-kill-buffer-on-exit t)
+;(require 'notmuch)
+;(setq message-kill-buffer-on-exit t)
 ;; bbdb
-(require 'bbdb)
-(bbdb-initialize 'message)
-(bbdb-insinuate-message)
-(bbdb-insinuate-w3)
+;(require 'bbdb)
+;(bbdb-initialize 'message)
+;(bbdb-insinuate-message)
+;(bbdb-insinuate-w3)
 ;; msmtp
-(setq message-send-mail-function 'message-send-mail-with-sendmail)
-(setq sendmail-program "/usr/bin/msmtp")
-(setq message-sendmail-extra-arguments '("-a" "personalgmail"))
-(setq mail-host-address "gmail.com")
-(setq user-full-name "George Silvis, III")
-(setq user-mail-address "george.iii.silvis@gmail.com")
+;(setq message-send-mail-function 'message-send-mail-with-sendmail)
+;(setq sendmail-program "/usr/bin/msmtp")
+;(setq message-sendmail-extra-arguments '("-a" "personalgmail"))
+;(setq mail-host-address "gmail.com")
+;(setq user-full-name "George Silvis, III")
+;(setq user-mail-address "george.iii.silvis@gmail.com")
 

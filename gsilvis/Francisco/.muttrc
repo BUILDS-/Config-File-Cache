@@ -1,0 +1,23 @@
+source /usr/share/doc/mutt/examples/gpg.rc
+
+set mbox_type=Maildir 
+set folder="/home/george/Mail"
+set spoolfile=+"GMail/[Gmail].All Mail"
+set move=no
+set header_cache=/home/george/Mail/.mutthcache
+
+macro index <F8> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/bin/mutt-notmuch --prompt search<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "search mail (using notmuch)"
+
+macro index <F9> "<enter-command>unset wait_key<enter><pipe-message>/usr/local/bin/mutt-notmuch thread<enter><change-folder-readonly>~/.cache/mutt_results<enter><enter-command>set wait_key<enter>" "search and reconstruct owning thread (using notmuch)"
+
+macro index <F10> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/bin/mutt-notmuch search tag:inbox<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "get inbox (using notmuch)"
+
+set sendmail="/usr/bin/msmtp"
+set use_from=yes
+set realname="George Silvis, III"
+set from="george.iii.silvis@gmail.com"
+set envelope_from=yes
+set edit_headers=yes
+
+set sort=threads
+set sort_aux=reverse-last-date-received

@@ -1,0 +1,23 @@
+set mbox_type=Maildir
+set folder="/home/shidash/Mail"
+set spoolfile=+"[Gmail].All Mail"
+set move=no
+
+macro index <F8> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/bin/mutt-notmuch --prompt search<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "search mail (using notmuch)"
+
+macro index <F9> "<enter-command>unset wait_key<enter><pipe-message>/usr/local/bin/mutt-notmuch thread<enter><change-folder-readonly>~/.cache/mutt_results<enter><enter-command>set wait_key<enter>" "search and reconstruct owning thread (using notmuch)"
+
+macro index <F10> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/bin/mutt-notmuch search tag:inbox<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "get inbox (using notmuch)"
+
+set sendmail="/usr/bin/msmtp"
+set use_from=yes
+set realname="M. C. McGrath (Shidash)"
+set from="shidash@shidash.com"
+set envelope_from=yes
+set edit_headers=yes
+set signature="/home/shidash/.signature"
+
+set sort=threads
+set sort_aux=reverse-last-date-received
+
+source /usr/share/doc/mutt/examples/gpg.rc

@@ -1,0 +1,19 @@
+[general]
+metadata = ~/.offlineimap
+accounts = Account
+ui = Noninteractive.Quiet
+
+[Account Account]
+autorefresh = 1
+localrepository = Local
+remoterepository = GMail
+postsynchook = notmuch new
+
+[Repository Local]
+type = Maildir
+localfolders = /home/shidash/Mail/
+
+[Repository GMail]
+type = Gmail
+remoteuser = shidashs@gmail.com
+remotepass = ****

@@ -1,0 +1,14 @@
+Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "green"
+       , position = TopW L 90
+       , lowerOnStart = True
+       , commands = [ Run MultiCpu ["-t", "(<total0>, <total1>)", "-L","25","-H","75", "--normal","green","--high","red", "-m", "3", "-w", "3"] 10
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Date "%a %b %d %Y %R" "date" 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %multicpu% | %memory% | %date%"
+       }

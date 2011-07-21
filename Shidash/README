@@ -1,20 +1,64 @@
-These are organized by computer.
+The following is a description of my configuration files for killua (microSD install usually run on a ThinkPad X220) running Debian using xmonad as a window manager.
+.bash_aliases: I need to edit this.
+.bash_profile: I need to edit this.
+.bashrc: I need to edit this.
+.emacs: I need to edit this.
+.msmtprc: This is what I use to send mail from my mail accounts.
+.muttrc: Configuration file for mutt which changes how mutt runs and displays things. If you want to see how I setup accounts see my .msmtprc. This is setup to work with notmuch.
+.offlineimaprc: offlineimap pulls my mail from all mail accounts through gmail. Notmuch hangs off of it.
+.signature: My email signature.
+.tahoe/tahoe.cfg: My Tahoe-LAFS config file for killua.
+.xinitrc: This runs on startup and starts my programs.
+.xmobarrc: My xmobar config file made for use with trayer and two processors.
+.xmonad/xmonad.hs: My xmonad config file which is fairly standard and minimal.
 
-Kurapica (my laptop):
+The following are other files I need to keep track of but will not post for security reasons.
+.bitcoin
+.gnupg
+.purple
+.ssh
+.tahoe/aliases
+/etc/proxychains.conf
+ 
+All other config files are unedited. Below, I have a list of programs I install when I have to reconstruct a new microSD. All of my files and mail are stored on a Tahoe-LAFS grid so with the files in this cache and the below list I can compeletely reconstruct my system as long as I have a debian install and an internet connection.
+bash completion
+xmonad
+xmobar
+dmrun
+scrot
+git
+trayer
+dmenu
+emacs
+mplayer
+latex
+abiword
+network manager gnome
+xfce power manager
+xscreensaver
+skype
+bitcoin
+tahoe-lafs
+pidgin and pidgin-otr
+gnupg
+tor
+unzip
+proxychains
+polipo
+evince
+gparted
+mutt
+offlineimap
+notmuch
+vpn programs (check online)
+iceweasel with adblock plus, torbutton, https everywhere, noscript, ghostery, rikaichan, firemacs, vimperator, and user agent switcher
+flash
+drivers for computer
 
-.xinitrc -- Similar to my .xsession on Kamina.
+Additionally, I need to setup my VPN, disable the effects that show the screen on xscreensaver, and go through the settings of the iceweasel addons.
 
-.xmobarrc -- xmobar config file for xmonad. The primary difference from the one on Kamina is that it has two processors instead of four.
+Each time I startup I need to exit the virtual terminal after starting x, change my mac address, and connect to VPN when connecting to internet. Every night before bed and other times as needed, I backup to Tahoe-LAFS.
 
-xmonad.hs -- Config file for xmonad. This is almost exactly the same as the one on Kamina.
+Thank you for reading about my wonderful, secure, and customized system.
 
-
-Kamina (my desktop and server):
-
-.xsession -- The script that runs when I log into Ubuntu.
-
-.xmobarrc -- xmobar config file for xmonad.
-
-xmonad.hs -- Config file for xmonad.
-
-.offlineimap -- My offlineimap config file for use with sup.
+~M. C. McGrath (Shidash)

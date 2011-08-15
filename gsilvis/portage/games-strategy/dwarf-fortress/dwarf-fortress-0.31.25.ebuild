@@ -20,7 +20,8 @@ IUSE=""
 RESTRICT="strip"
 
 DEPEND=""
-RDEPEND="app-emulation/emul-linux-x86-sdl"
+RDEPEND="app-emulation/emul-linux-x86-sdl
+	app-emulation/emul-linux-x86-gtklibs"
 
 S="${WORKDIR}/df_linux"
 
@@ -45,8 +46,14 @@ src_install() {
 		"release notes.txt" \
 		|| die
 
-	dogamesbin "${FILESDIR}/DwarfFortress"
-	dogamesbin "${FILESDIR}/DwarfFortress-setup"
+	cp "${FILESDIR}/DwarfFortress" "${T}/DwarfFortress"
+	echo "${dir}/libs/Dwarf_Fortress" >> "${T}/DwarfFortress"
+	dogamesbin "${T}/DwarfFortress"
+
+	echo "#!/bin/bash" >> "${T}"/DwarfFortress-setup
+	echo "DFDIR=${dir}" >> "${T}"/DwarfFortress-setup
+	cat "${FILESDIR}"/DwarfFortress-setup >>  "${T}"/DwarfFortress-setup
+	dogamesbin "${T}/DwarfFortress-setup"
 
 	prepgamesdirs
 }

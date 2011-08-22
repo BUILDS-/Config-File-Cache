@@ -78,6 +78,9 @@
 ; church
 (require 'church)
 
+; nyan cat
+(require 'nyan-mode)
+
 ;;;;;;;;;;;;;;;;;
 ;; KEYBINDINGS ;;
 ;;;;;;;;;;;;;;;;;
@@ -128,6 +131,7 @@
  '(line-number-mode t)
  '(menu-bar-mode nil)
  '(mouse-wheel-mode t nil (mwheel))
+ '(nyan-mode t)
  '(py-smart-indentation nil)
  '(python-guess-indent nil)
  '(quack-fontify-style (quote emacs))

@@ -1,17 +1,27 @@
+(setq display-time-24hr-format 1)
 (display-time)
 (column-number-mode)
-
-(require 'notmuch)
+(display-battery-mode)
 
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
+
+; TODO make this more general; it's goddamn useful
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (auto-fill-mode 1)
+            (set (make-local-variable 'fill-nobreak-predicate)
+                 (lambda ()
+                   (not (eq (get-text-property (point) 'face)
+                            'font-lock-comment-face))))))
 
 ; more org-mode
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+(global-set-key "\C-xp" 'previous-multiframe-window)
 (setq require-final-newline t)
 
 ; TODO: fix this!
@@ -40,24 +50,6 @@
 (setq-default fill-column 78)
 
 (setq info-mode-hook 'visual-mode)
-
-;(setq org-indent-indentation-per-level 1)
-;(setq org-mode-hook '(org-indent-mode))
-
-(defun backward-kill-line (arg)
-  "Kill chars backward until encountering the end of a line."
-  (interactive "p")
-  (kill-line 0))
-(global-set-key "\C-u" 'backward-kill-line) ; FUCK ARGUMENT PASSING
-
-(global-set-key "\C-h" 'delete-backward-char) ; fuck everything about bash and emacs not matching
-(defun kill-word-backward ()
-  "M-d except it's M-h."
-  (interactive)
-  (unless (looking-at "\\<")
-    (backward-word))
-  (kill-word 1))
-(global-set-key "\M-h" 'backward-kill-word) ; and frankly fuck that too
 
 ;(add-to-list 'auto-mode-alist '(
 (setq auto-mode-alist '(
@@ -101,15 +93,31 @@
                         (".bash_profile" . shell-script-mode)
                         (".bash_aliases" . shell-script-mode)
                         ("\\.sh$" . shell-script-mode)
+                        ("/mutt" . mail-mode)
+                        ("\\.xml$" . xml-mode)
+                        ("\\.sml$" . sml-mode)
+                        ("\\.awk$" . awk-mode)
                         ("\\.ml$" . lisp-mode)))
+
+(setq sml-program-name "/usr/bin/poly")
 
 (setq completion-ignored-extensions
       (append completion-ignored-extensions
               (quote
-               (".bak" "~" ".CKP" ".aux" ".otl" ".err"
-		".lib" ".dvi" ".PS" ".o" ".pdf" ".log")
-	       )
-	      )
+               (".bak" 
+                "~" 
+                ".CKP" 
+                ".aux" 
+                ".otl" 
+                ".err" 
+                ".lib" 
+                ".dvi" 
+                ".PS" 
+                ".o" 
+                ".pdf" 
+                ".log")
+               )
+              )
       )
 
 (if (eq window-system 'x)
@@ -124,12 +132,7 @@
 	  )
       )
   )
-(custom-set-variables
- '(font-lock-maximum-decoration t)
- '(font-lock-support-mode nil)
- '(global-font-lock-mode nil nil (font-lock))
- '(font-lock-global-modes t))
-(custom-set-faces)
+
 (when (fboundp 'global-font-lock-mode)
   (require 'font-lock)
   (setq font-lock-maximum-decoration t)
@@ -140,7 +143,6 @@
 
 ;(setq explicit-shell-file-name "/bin/bash")
 
-;(setq text-mode-hook '(setq line-move-visual 't)) ; TODO: MAKE THIS WORK SO I CAN TURN OFF THE STUPIDITY WITH AUTO-FILL
 (setq line-move-visual 'nil)
 (setq track-eol 1)
 
@@ -149,8 +151,6 @@
   (setq buffer-file-name (expand-file-name "~/scratch"))
   )
 (setq backup-directory-alist (quote ((".*" . "~/.emacs_backups/"))))
-
-(add-to-list 'auto-mode-alist '("sup\\.\\(compose\\|forward\\|reply\\|resume\\)-mode$" . post-mode))
 
 ;(add-to-list 'load-path (expand-file-name "/home/frozencemetery/sage-4.6.1/data/emacs"))
 ;(require 'sage "sage")
@@ -183,6 +183,5 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(message "I loaded your damn init file.  I nearly choked on it, too; I hope you're happy.")
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)

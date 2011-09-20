@@ -3,6 +3,31 @@
 (column-number-mode)
 (display-battery-mode)
 
+(require 'auto-complete)
+(add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
+(require 'auto-complete-config)
+(ac-config-default)
+(ac-flyspell-workaround)
+
+(load "/home/frozencemetery/.emacs.d/ac-math.el")
+(require 'ac-math)
+(defun ac-latex-mode-setup ()         ; add ac-sources to default ac-sources
+  (setq ac-sources
+        (append '(ac-source-math-latex ac-source-latex-commands  ac-source-math-unicode)
+                ac-sources))
+  )
+(add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)
+
+;(add-to-list 'ac-modes 'latex-mode)
+; the below is a stupid way to do the above globally
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                           (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
+
+
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
@@ -24,22 +49,25 @@
 (global-set-key "\C-xp" 'previous-multiframe-window)
 (setq require-final-newline t)
 
-; TODO: fix this!
-(setq c-tab-always-indent t)
-(setq c-auto-newline nil)
-(setq c-indent-level 2)
-(setq c-continued-statement-offset 4)
-(setq c-brace-offset 0)
-(setq c-argdecl-indent 5)
-(setq c-label-offset 2)
-(setq c-continued-brace-offset 0)
-(setq c-mode-hook 
-      '(lambda () 
-         (setq case-fold-search nil c-argdecl-indent 0 fill-prefix " * ")
-         )
-      )
+(setq c-default-style "k&r" c-basic-offset 2)
+;; I'm actually otbs but eh close enough.
 
-(setq-default c-basic-offset 2)
+;; ; TODO: fix this!
+;; (setq c-tab-always-indent t)
+;; (setq c-auto-newline nil)
+;; (setq c-indent-level 2)
+;; (setq c-continued-statement-offset 4)
+;; (setq c-brace-offset 0)
+;; (setq c-argdecl-indent 5)
+;; (setq c-label-offset 2)
+;; (setq c-continued-brace-offset 0)
+;; (setq c-mode-hook 
+;;       '(lambda () 
+;;          (setq case-fold-search nil c-argdecl-indent 0 fill-prefix " * ")
+;;          )
+;;       )
+
+;; (setq-default c-basic-offset 2)
 ; fuck tabs
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
@@ -50,6 +78,10 @@
 (setq-default fill-column 78)
 
 (setq info-mode-hook 'visual-mode)
+
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(setq TeX-PDF-mode t)
 
 ;(add-to-list 'auto-mode-alist '(
 (setq auto-mode-alist '(
@@ -74,8 +106,6 @@
                         ("\\.sty$" . LaTeX-mode)
                         ("\\.bbl$" . LaTeX-mode)
                         ("\\.bib$" . text-mode)
-                        ("\\.article$" . text-mode)
-                        ("\\.letter$" . text-mode)
                         ("\\.texinfo$" . texinfo-mode)
                         ("\\.lsp$" . lisp-mode)
                         ("\\.y$" . c-mode)
@@ -84,7 +114,6 @@
                         ("\\.cpp$" . c++-mode)
                         ("\\.py$" . python-mode)
                         ("\\.org$" . org-mode)
-                        ("\\.scm.[0-9]*$" . scheme-mode)
                         ("\\.java$" . java-mode)
                         ("\\.txt$" . text-mode)
                         ("[]>:/]\\..*emacs" . emacs-lisp-mode)
@@ -97,7 +126,7 @@
                         ("\\.xml$" . xml-mode)
                         ("\\.sml$" . sml-mode)
                         ("\\.awk$" . awk-mode)
-                        ("\\.ml$" . lisp-mode)))
+                        ("\\.ml$" . sml-mode)))
 
 (setq sml-program-name "/usr/bin/poly")
 
@@ -183,5 +212,27 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq TeX-PDF-mode t)
+
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(inferior-lisp-program "sbcl"))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(font-latex-math-face ((((class color) (background light)) (:foreground "green")))))
+
+(require 'icicles)
+(icy-mode 1)
+
+(setq TeX-output-view-style
+      (quote
+       (("^pdf$" "." "evince -f %o")
+        ("^html?$" "." "iceweasel %o"))))

@@ -30,24 +30,21 @@ main = do
           \conf@(XConfig {XMonad.modMask = modm}) -> 
             M.fromList $
               [ ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
-              , ((modm,               xK_Return), spawn "xfce4-terminal -x emacsclient -nw")
+              , ((modm,               xK_Return), spawn "xfce4-terminal -x mutt")
               , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
               , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
               , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"su -c /home/frozencemetery/script.sh\" ")
---              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"sudo -k sleep 0 && xscreensaver-command --lock && sudo pm-suspend\"") -- 
               , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c reboot\"") --
               , ((modm              , xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c poweroff\"")
               , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")                
-              , ((0,                  0x1008ff16   ), spawn "ncmpcpp prev")
-              , ((0,                  0x1008ff17   ), spawn "ncmpcpp next")
-              , ((0,                  0x1008ff14   ), spawn "ncmpcpp toggle")
-              , ((modm              , 0x1008ff16 ), spawn "ncmpcpp pause")
-              , ((modm              , 0x1008ff17), spawn "ncmpcpp play")
-              , ((modm              , 0x1008ff14), spawn "xfce4-terminal -x alsamixer")
-              , ((modm .|. shiftMask, 0x1008ff16 ), spawn "ncmpcpp prev")
-              , ((modm .|. shiftMask, 0x1008ff17), spawn "ncmpcpp next")
-              , ((modm .|. shiftMask, 0x1008ff14), spawn "xfce4-terminal -x ncmpcpp")
-              
+                
+              , ((modm .|. shiftMask, 0x1008ff16   ), spawn "ncmpcpp prev")              
+              , ((modm .|. shiftMask, 0x1008ff17   ), spawn "ncmpcpp next")
+              , ((modm .|. shiftMask, 0x1008ff14   ), spawn "xfce4-terminal -x ncmpcpp")
+              , ((modm              , 0x1008ff16   ), spawn "ncmpcpp pause")
+              , ((modm              , 0x1008ff17   ), spawn "ncmpcpp play")
+              , ((modm              , 0x1008ff14   ), spawn "xfce4-terminal -x alsamixer")
+                
               , ((modm .|. shiftMask, xK_c     ), kill)
               , ((modm,               xK_s     ), sendMessage NextLayout)
               , ((modm .|. shiftMask, xK_s     ), setLayout $ XMonad.layoutHook conf)                
@@ -106,7 +103,7 @@ main = do
                                ),
         logHook            = dynamicLogWithPP $ xmobarPP
                                { ppOutput = hPutStrLn xmproc
-			       , ppTitle = \_ -> ""
+			       , ppTitle = \a -> ""
 			       , ppSep = " "
 			       , ppLayout  = \a -> ( 
                                    case a of
@@ -123,7 +120,6 @@ main = do
           , resource  =? "desktop_window" --> doIgnore
           , resource  =? "Dialog"         --> doFloat
           , title     =? "Pidgin"         --> doFloat
-          , title     =? "CS480/CS680"    --> doFloat
 --        , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat -- note: this is a relic of the config I pulled from; I refuse to use chrome and anything else made by google
 --        , title     =? "Dwarf Fortress" --> doFloat
           , scratchpadManageHookDefault
@@ -131,5 +127,5 @@ main = do
           ),
         handleEventHook    = mempty,
         startupHook        = do
-          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay && bash\""
+          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay -n && bash\""
     }

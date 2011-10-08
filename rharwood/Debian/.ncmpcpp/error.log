@@ -1,0 +1,33 @@
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: Ogg::PageHeader::read() -- error reading page header
+TagLib: Ogg::File::packet() -- Could not find the requested packet.
+TagLib: Vorbis::File::read() - Could not find the Vorbis comment header.
+TagLib: Ogg::PageHeader::read() -- error reading page header
+TagLib: Ogg::File::packet() -- Could not find the requested packet.
+TagLib: Vorbis::File::read() - Could not find the Vorbis comment header.
+TagLib: Ogg::PageHeader::read() -- error reading page header
+TagLib: Ogg::File::packet() -- Could not find the requested packet.
+TagLib: Vorbis::File::read() - Could not find the Vorbis comment header.
+TagLib: MP4: Invalid free-form item name "----:com.apple.iTunes:UFIDhttp://www.cddb.com/id3/taginfo1.html"
+TagLib: MPEG::Header::parse() -- Invalid sample rate.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.
+TagLib: ID3v2.4 no longer supports the frame type TDAT.  It will be discarded from the tag.

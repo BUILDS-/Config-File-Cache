@@ -20,12 +20,12 @@
 
 ;(add-to-list 'ac-modes 'latex-mode)
 ; the below is a stupid way to do the above globally
-(define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
-                       (if (not (minibufferp (current-buffer)))
-                           (auto-complete-mode 1))
-                       ))
-(real-global-auto-complete-mode t)
+;(define-globalized-minor-mode real-global-auto-complete-mode
+;  auto-complete-mode (lambda ()
+;                       (if (not (minibufferp (current-buffer)))
+;                           (auto-complete-mode 1))
+;                       ))
+;(real-global-auto-complete-mode t)
 
 
 (defadvice split-window-vertically
@@ -45,6 +45,8 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+(global-set-key "\C-c\C-\\" 'flyspell-auto-correct-word)
 
 (global-set-key "\C-xp" 'previous-multiframe-window)
 (setq require-final-newline t)

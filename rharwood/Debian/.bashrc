@@ -1,3 +1,4 @@
+#!/bin/bash
 # setting history length and file size
 export HISTSIZE=10000
 
@@ -105,14 +106,7 @@ fi
 
 #fortune -a | cowsay -n -W 100
 
-PATH="/var/lib/gems/1.8/bin:${PATH}"
-export EDITOR=emacs
+export EDITOR="emacs"
 
-export ATSHOME=/usr/share/atshome
-export ATSHOMERELOC=ATS-0.2.4
-
-export DEBEMAIL="rharwood@bu.edu"
-export DEBFULLNAME="Robbie Harwood"
-export MPD_HOST=/home/robbie/.mpd/.socket
-
-export PATH="/sbin:${PATH}"
+export PATH="/usr/sbin:/sbin:${PATH}"
+export MPD_HOST=/var/run/mpd/socket

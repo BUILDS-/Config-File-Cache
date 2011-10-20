@@ -3,11 +3,17 @@
 (column-number-mode)
 (display-battery-mode)
 
+(require 'notmuch)
+;; TODO more notmuch here
+
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
 (require 'auto-complete-config)
 (ac-config-default)
 (ac-flyspell-workaround)
+
+(load "/home/frozencemetery/.emacs.d/sml-modeline.el")
+(sml-modeline-mode)
 
 (load "/home/frozencemetery/.emacs.d/ac-math.el")
 (require 'ac-math)
@@ -54,22 +60,6 @@
 (setq c-default-style "k&r" c-basic-offset 2)
 ;; I'm actually otbs but eh close enough.
 
-;; ; TODO: fix this!
-;; (setq c-tab-always-indent t)
-;; (setq c-auto-newline nil)
-;; (setq c-indent-level 2)
-;; (setq c-continued-statement-offset 4)
-;; (setq c-brace-offset 0)
-;; (setq c-argdecl-indent 5)
-;; (setq c-label-offset 2)
-;; (setq c-continued-brace-offset 0)
-;; (setq c-mode-hook 
-;;       '(lambda () 
-;;          (setq case-fold-search nil c-argdecl-indent 0 fill-prefix " * ")
-;;          )
-;;       )
-
-;; (setq-default c-basic-offset 2)
 ; fuck tabs
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
@@ -151,18 +141,18 @@
               )
       )
 
-(if (eq window-system 'x)
-    (if (x-display-color-p)
-	(progn
-	  (require 'font-lock)
-	  (add-hook 'emacs-lisp-mode-hook 'font-lock-mode)
-	  (add-hook 'c++-mode-hook 'font-lock-mode)
-	  (add-hook 'c-mode-hook 'font-lock-mode)
-	  (add-hook 'perl-mode-hook 'font-lock-mode)
-	  (add-hook 'java-mode-hook 'font-lock-mode)
-	  )
-      )
-  )
+;; (if (eq window-system 'x)
+;;     (if (x-display-color-p)
+;; 	(progn
+;; 	  (require 'font-lock)
+;; 	  (add-hook 'emacs-lisp-mode-hook 'font-lock-mode)
+;; 	  (add-hook 'c++-mode-hook 'font-lock-mode)
+;; 	  (add-hook 'c-mode-hook 'font-lock-mode)
+;; 	  (add-hook 'perl-mode-hook 'font-lock-mode)
+;; 	  (add-hook 'java-mode-hook 'font-lock-mode)
+;; 	  )
+;;       )
+;;   )
 
 (when (fboundp 'global-font-lock-mode)
   (require 'font-lock)
@@ -172,37 +162,33 @@
 
 (setq auto-save-interval 1024)
 
-;(setq explicit-shell-file-name "/bin/bash")
+(setq explicit-shell-file-name "/bin/bash")
 
 (setq line-move-visual 'nil)
 (setq track-eol 1)
 
-(save-excursion
-  (set-buffer "*scratch*")
-  (setq buffer-file-name (expand-file-name "~/scratch"))
-  )
 (setq backup-directory-alist (quote ((".*" . "~/.emacs_backups/"))))
 
-;(add-to-list 'load-path (expand-file-name "/home/frozencemetery/sage-4.6.1/data/emacs"))
-;(require 'sage "sage")
-;(setq sage-command "/home/frozencemetery/sage-4.6.1/sage")
+;; (add-to-list 'load-path (expand-file-name "/home/frozencemetery/sage-4.6.1/data/emacs"))
+;; (require 'sage "sage")
+;; (setq sage-command "/home/frozencemetery/sage-4.6.1/sage")
 
-; If you want sage-view to typeset all your output and have plot()
-; commands inline, uncomment the following line and configure sage-view:
-;(require 'sage-view "sage-view")
-;(add-hook 'sage-startup-hook 'sage-view)
-; You can use commands like
-; (add-hook 'sage-startup-hook 'sage-view
-; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
-; to have some combination of features.  In future, the customize interface
-; will make this simpler... hint, hint!
+;; ;; If you want sage-view to typeset all your output and have plot()
+;; ;; commands inline, uncomment the following line and configure sage-view:
+;; (require 'sage-view "sage-view")
+;; (add-hook 'sage-startup-hook 'sage-view)
+;; ;; You can use commands like
+;; (add-hook 'sage-startup-hook 'sage-view
+;; ;; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
+;; ;; to have some combination of features.  In future, the customize interface
+;; ;; will make this simpler... hint, hint!
 
 (load "/home/frozencemetery/.emacs.d/ats-mode.el")
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 
 (global-font-lock-mode 1)
 

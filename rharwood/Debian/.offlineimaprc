@@ -1,0 +1,108 @@
+[general]
+metadata = ~/.offlineimap
+accounts = CMU, GMail, BU
+#autorefresh=5
+#ui = Noninteractive.Quiet
+
+[Account BU]
+localrepository = LocalBU
+remoterepository = RemoteBU
+#postsynchook = notmuch new
+
+[Repository LocalBU]
+type = Maildir
+localfolders = /home/frozencemetery/Mail/BU
+
+[Repository RemoteBU]
+ssl = yes
+port = 993
+type = IMAP
+remotehost = imap.gmail.com
+remoteuser = rharwood@bu.edu
+remotepass = [THIS HAS TO BE THE SYNC PASSWORD NOT THE LOGIN PASSWORD]
+# CANNOT EMPHASIZE THE ABOVE ENOUGH
+folderfilter = lambda foldername: foldername in [
+      'INBOX',
+      'Inbox',
+      'DRAFTS',
+      'Drafts',
+      'Sent',
+      'Sent Messages',
+      '[Gmail]/Sent Mail',
+      '[Gmail]/Drafts',
+      '[Gmail]/drafts'
+      ]
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('sent_mail', 'sent',
+                               re.sub ('starred', 'flagged',
+                               re.sub (' ', '_', foldername.lower()))))
+
+
+[Account GMail]
+localrepository = LocalGMail
+remoterepository = RemoteGMail
+#postsynchook = notmuch new
+
+[Repository LocalGMail]
+type = Maildir
+localfolders = /home/frozencemetery/Mail/GMail
+
+[Repository RemoteGMail]
+ssl = yes
+type = Gmail
+remoteuser = threeoften@gmail.com
+remotepass = [nothing to see here]
+folderfilter = lambda foldername: foldername in [
+      'INBOX',
+      'Inbox',
+      'DRAFTS',
+      'Drafts',
+      'Sent',
+      'Sent Messages',
+      '[Gmail]/Sent Mail'
+      ]
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('sent_mail', 'sent',
+                               re.sub ('starred', 'flagged',
+                               re.sub (' ', '_', foldername.lower()))))
+
+[Account CMU]
+#postsynchook = notmuch new
+localrepository = LocalCMU
+remoterepository = RemoteCMU
+
+[Repository LocalCMU]
+type = Maildir
+localfolders = /home/frozencemetery/Mail/CMU
+
+[Repository RemoteCMU]
+ssl = yes
+type = IMAP
+remotehost = cyrus.andrew.cmu.edu
+remoteuser = rharwood+
+# the plus at the end of the above is important for not getting waaay too many bboards
+remotepass = [password]
+folderfilter = lambda foldername: foldername in [
+      'INBOX',
+      'INBOX.Drafts',
+      'INBOX.Sent',
+      '[IMAP]INBOX',
+      'academic.cs.15-150.announce',
+      'academic.cs.15-150.discuss',
+      'cmu.student.computer-club',
+      'cmu.student.computer-club.afs',
+      'cmu.student.computer-club.linux',
+      'cmu.student.computer-club.mac'
+      ]
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('sent_mail', 'sent',
+                               re.sub ('starred', 'flagged',
+                               re.sub (' ', '_', foldername.lower()))))
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"

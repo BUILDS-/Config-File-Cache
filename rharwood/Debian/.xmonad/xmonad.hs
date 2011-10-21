@@ -30,20 +30,20 @@ main = do
           \conf@(XConfig {XMonad.modMask = modm}) -> 
             M.fromList $
               [ ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
-              , ((modm,               xK_Return), spawn "xfce4-terminal -x mutt")
+              , ((modm,               xK_Return), spawn "xfce4-terminal -x sh -c 'if [ -z \"$(pgrep tmux)\" ]; then tmux; else tmux attach; fi'")
               , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
               , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
-              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x bash -c \"su -c /home/frozencemetery/script.sh\" ")
-              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c reboot\"") --
-              , ((modm              , xK_z     ), spawn "xfce4-terminal -x bash -c \"su -c poweroff\"")
+              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x sh -c \"su -c /home/frozencemetery/script.sh\" ")
+              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c reboot\"") -- not necessary with xfce4-power-manager
+              , ((modm              , xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c poweroff\"")
               , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")                
                 
-              , ((modm .|. shiftMask, 0x1008ff16   ), spawn "ncmpcpp prev")              
-              , ((modm .|. shiftMask, 0x1008ff17   ), spawn "ncmpcpp next")
-              , ((modm .|. shiftMask, 0x1008ff14   ), spawn "xfce4-terminal -x ncmpcpp")
-              , ((modm              , 0x1008ff16   ), spawn "ncmpcpp pause")
-              , ((modm              , 0x1008ff17   ), spawn "ncmpcpp play")
-              , ((modm              , 0x1008ff14   ), spawn "xfce4-terminal -x alsamixer")
+              , ((modm .|. shiftMask, 0x1008ff16   ), spawn "ncmpcpp prev") -- modm shift <|<|
+              , ((modm .|. shiftMask, 0x1008ff17   ), spawn "ncmpcpp next") -- modm shift |>|>
+              , ((modm .|. shiftMask, 0x1008ff14   ), spawn "xfce4-terminal -x ncmpcpp") -- modm shift |>||
+              , ((modm              , 0x1008ff16   ), spawn "ncmpcpp pause") -- modm <|<|
+              , ((modm              , 0x1008ff17   ), spawn "ncmpcpp play") -- modm |>|>
+              , ((modm              , 0x1008ff14   ), spawn "xfce4-terminal -x alsamixer") -- modm |>||
                 
               , ((modm .|. shiftMask, xK_c     ), kill)
               , ((modm,               xK_s     ), sendMessage NextLayout)

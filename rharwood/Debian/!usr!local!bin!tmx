@@ -1,0 +1,23 @@
+#!/bin/bash
+# script credit ricky (rickyz riczho); used by rharwood with permission
+# tmux is licensed BSD
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 session [tmux arguments]"
+    exit 1
+fi
+
+session=$1
+shift
+
+newsession="${session}_$$"
+
+if ! tmux "$@" has -t "$session" > /dev/null 2>&1; then
+    exec tmux "$@" new -s "$session"
+fi
+
+if tmux "$@" new -d -t "$session" -s "$newsession"; then
+    trap 'tmux "$@" kill-session -t "$newsession" > /dev/null 2>&1' EXIT
+    tmux "$@" attach -t "$newsession"
+fi
+

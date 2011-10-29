@@ -4,7 +4,8 @@
 (display-battery-mode)
 
 (require 'notmuch)
-;; TODO more notmuch here
+;; Sign messages by default.
+(add-hook 'message-setup-hook 'mml-secure-sign-pgpmime)
 
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
@@ -51,8 +52,6 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-
-(global-set-key "\C-c\C-\\" 'flyspell-auto-correct-word)
 
 (global-set-key "\C-xp" 'previous-multiframe-window)
 (setq require-final-newline t)
@@ -209,7 +208,8 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(inferior-lisp-program "sbcl"))
+ '(inferior-lisp-program "sbcl")
+ '(notmuch-fcc-dirs (quote true)))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -224,3 +224,4 @@
       (quote
        (("^pdf$" "." "evince -f %o")
         ("^html?$" "." "iceweasel %o"))))
+(slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))

@@ -2,10 +2,36 @@
 (display-time)
 (column-number-mode)
 (display-battery-mode)
+(load "/home/frozencemetery/.emacs.d/sml-modeline.el")
+(sml-modeline-mode)
 
 (require 'notmuch)
-;; Sign messages by default.
 (add-hook 'message-setup-hook 'mml-secure-sign-pgpmime)
+(setq message-kill-buffer-on-exit t)
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+(setq sendmail-program "/usr/bin/msmtp")
+(require 'bbdb)
+(bbdb-initialize 'message)
+(bbdb-insinuate-message)
+(bbdb-insinuate-w3)
+(defun cg-feed-msmtp ()
+  (if (message-mail-p)
+      (save-excursion
+        (let* ((from
+                (save-restriction
+                  (message-narrow-to-headers)
+                  (message-fetch-field "from")))
+               (account
+                (cond
+                 ;; I use email address as account label in ~/.msmtprc
+                 ((string-match "rharwood@bu.edu" from)"rharwood@bu.edu")
+                 ((string-match "rharwood@cmu.edu" from)"rharwood@andrew.cmu.edu")
+                 ((string-match "rharwood@andrew.cmu.edu" from)"rharwood@andrew.cmu.edu")
+                 ((string-match "threeoften@gmail.com" from)"threeoften@gmail.com"))))
+          (setq message-sendmail-extra-arguments (list '"-a" account))))))
+(setq message-sendmail-envelope-from 'header)
+(add-hook 'message-send-mail-hook 'cg-feed-msmtp)
+(setq message-mode-hook 'flyspell-mode)
 
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
@@ -13,33 +39,10 @@
 (ac-config-default)
 (ac-flyspell-workaround)
 
-(load "/home/frozencemetery/.emacs.d/sml-modeline.el")
-(sml-modeline-mode)
-
-(load "/home/frozencemetery/.emacs.d/ac-math.el")
-(require 'ac-math)
-(defun ac-latex-mode-setup ()         ; add ac-sources to default ac-sources
-  (setq ac-sources
-        (append '(ac-source-math-latex ac-source-latex-commands  ac-source-math-unicode)
-                ac-sources))
-  )
-(add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)
-
-;(add-to-list 'ac-modes 'latex-mode)
-; the below is a stupid way to do the above globally
-;(define-globalized-minor-mode real-global-auto-complete-mode
-;  auto-complete-mode (lambda ()
-;                       (if (not (minibufferp (current-buffer)))
-;                           (auto-complete-mode 1))
-;                       ))
-;(real-global-auto-complete-mode t)
-
-
 (defadvice split-window-vertically
     (after my-window-splitting-advice first () activate)
     (set-window-buffer (next-window) (other-buffer)))
 
-; TODO make this more general; it's goddamn useful
 (add-hook 'c-mode-common-hook
           (lambda ()
             (auto-fill-mode 1)
@@ -47,6 +50,8 @@
                  (lambda ()
                    (not (eq (get-text-property (point) 'face)
                             'font-lock-comment-face))))))
+(setq c-default-style "k&r" c-basic-offset 2)
+;; I'm actually otbs but eh close enough.
 
 ; more org-mode
 (global-set-key "\C-cl" 'org-store-link)
@@ -54,10 +59,8 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (global-set-key "\C-xp" 'previous-multiframe-window)
-(setq require-final-newline t)
 
-(setq c-default-style "k&r" c-basic-offset 2)
-;; I'm actually otbs but eh close enough.
+(setq require-final-newline t)
 
 ; fuck tabs
 (setq-default indent-tabs-mode nil)
@@ -140,24 +143,11 @@
               )
       )
 
-;; (if (eq window-system 'x)
-;;     (if (x-display-color-p)
-;; 	(progn
-;; 	  (require 'font-lock)
-;; 	  (add-hook 'emacs-lisp-mode-hook 'font-lock-mode)
-;; 	  (add-hook 'c++-mode-hook 'font-lock-mode)
-;; 	  (add-hook 'c-mode-hook 'font-lock-mode)
-;; 	  (add-hook 'perl-mode-hook 'font-lock-mode)
-;; 	  (add-hook 'java-mode-hook 'font-lock-mode)
-;; 	  )
-;;       )
+;; (when (fboundp 'global-font-lock-mode)
+;;   (require 'font-lock)
+;;   (setq font-lock-maximum-decoration t)
+;;   (global-font-lock-mode t)
 ;;   )
-
-(when (fboundp 'global-font-lock-mode)
-  (require 'font-lock)
-  (setq font-lock-maximum-decoration t)
-  (global-font-lock-mode t)
-  )
 
 (setq auto-save-interval 1024)
 
@@ -167,20 +157,6 @@
 (setq track-eol 1)
 
 (setq backup-directory-alist (quote ((".*" . "~/.emacs_backups/"))))
-
-;; (add-to-list 'load-path (expand-file-name "/home/frozencemetery/sage-4.6.1/data/emacs"))
-;; (require 'sage "sage")
-;; (setq sage-command "/home/frozencemetery/sage-4.6.1/sage")
-
-;; ;; If you want sage-view to typeset all your output and have plot()
-;; ;; commands inline, uncomment the following line and configure sage-view:
-;; (require 'sage-view "sage-view")
-;; (add-hook 'sage-startup-hook 'sage-view)
-;; ;; You can use commands like
-;; (add-hook 'sage-startup-hook 'sage-view
-;; ;; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
-;; ;; to have some combination of features.  In future, the customize interface
-;; ;; will make this simpler... hint, hint!
 
 (load "/home/frozencemetery/.emacs.d/ats-mode.el")
 
@@ -203,13 +179,7 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(inferior-lisp-program "sbcl")
- '(notmuch-fcc-dirs (quote true)))
+(setq inferior-lisp-program 'sbcl)
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

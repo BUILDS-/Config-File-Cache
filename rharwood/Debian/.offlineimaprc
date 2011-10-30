@@ -1,13 +1,13 @@
 [general]
 metadata = ~/.offlineimap
 accounts = CMU, GMail, BU
+postsynchook = notmuch new
 #autorefresh=5
 #ui = Noninteractive.Quiet
 
 [Account BU]
 localrepository = LocalBU
 remoterepository = RemoteBU
-#postsynchook = notmuch new
 
 [Repository LocalBU]
 type = Maildir
@@ -19,8 +19,7 @@ port = 993
 type = IMAP
 remotehost = imap.gmail.com
 remoteuser = rharwood@bu.edu
-remotepass = [THIS HAS TO BE THE SYNC PASSWORD NOT THE LOGIN PASSWORD]
-# CANNOT EMPHASIZE THE ABOVE ENOUGH
+remotepass = [redact]
 folderfilter = lambda foldername: foldername in [
       'INBOX',
       'Inbox',
@@ -41,7 +40,6 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
 [Account GMail]
 localrepository = LocalGMail
 remoterepository = RemoteGMail
-#postsynchook = notmuch new
 
 [Repository LocalGMail]
 type = Maildir
@@ -51,7 +49,7 @@ localfolders = /home/frozencemetery/Mail/GMail
 ssl = yes
 type = Gmail
 remoteuser = threeoften@gmail.com
-remotepass = [nothing to see here]
+remotepass = [redact]
 folderfilter = lambda foldername: foldername in [
       'INBOX',
       'Inbox',
@@ -67,7 +65,6 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
                                re.sub (' ', '_', foldername.lower()))))
 
 [Account CMU]
-#postsynchook = notmuch new
 localrepository = LocalCMU
 remoterepository = RemoteCMU
 
@@ -79,20 +76,25 @@ localfolders = /home/frozencemetery/Mail/CMU
 ssl = yes
 type = IMAP
 remotehost = cyrus.andrew.cmu.edu
-remoteuser = rharwood+
-# the plus at the end of the above is important for not getting waaay too many bboards
-remotepass = [password]
+remoteuser = rharwood
+remotepass = [redact]
 folderfilter = lambda foldername: foldername in [
-      'INBOX',
-      'INBOX.Drafts',
-      'INBOX.Sent',
-      '[IMAP]INBOX',
-      'academic.cs.15-150.announce',
-      'academic.cs.15-150.discuss',
-      'cmu.student.computer-club',
-      'cmu.student.computer-club.afs',
-      'cmu.student.computer-club.linux',
-      'cmu.student.computer-club.mac'
+      'INBOX', 
+      'Inbox',  
+      'DRAFTS', 
+      'Drafts', 
+      'Sent',   
+      'Sent Messages',
+      '[Gmail]/Sent Mail',
+      'INBOX.Drafts',   
+      'INBOX.Sent',   
+      '[IMAP]INBOX', 
+      'academic.cs.15-150.announce',    
+      'academic.cs.15-150.discuss',  
+      'cmu.student.computer-club', 
+      'cmu.student.computer-club.afs', 
+      'cmu.student.computer-club.linux', 
+      'cmu.student.computer-club.mac' 
       ]
 nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
                                re.sub ('sent_mail', 'sent',

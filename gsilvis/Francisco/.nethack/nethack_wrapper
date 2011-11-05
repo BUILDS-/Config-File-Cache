@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ ! -e "/var/games/nethack/save/1000george.gz" ]
+then
+    echo "Beginning new game... "
+    if [ -e "/home/george/.nethack/ttyrecs/current" ]
+    then
+        echo "Clearing stale ttyrec... "
+        rm "/home/george/.nethack/ttyrecs/current"
+    fi
+fi
+
+
+
+/usr/bin/ttyrec -e /usr/games/nethack "/home/george/.nethack/ttyrecs/latest"
+cat "/home/george/.nethack/ttyrecs/latest" >> "/home/george/.nethack/ttyrecs/current"
+rm "/home/george/.nethack/ttyrecs/latest"
+
+[ -e "/var/games/nethack/save/1000george.gz" ] && exit
+[ -e "/home/george/.nethack/dumps/latest.txt" ] || touch "/home/george/.nethack/dumps/latest.txt"
+diff "/var/games/nethack/dumps/george.lastgame.txt" "/home/george/.nethack/dumps/latest.txt" > /dev/null 2>&1 && exit
+
+DATE=`/bin/date +%Y-%m-%d-%H:%M:%S`
+
+echo "Saving dumpfile... "
+rm -f "/home/george/.nethack/dumps/latest.txt"
+cp -f "/var/games/nethack/dumps/george.lastgame.txt" "/home/george/.nethack/dumps/latest.txt"
+cp -f "/home/george/.nethack/dumps/latest.txt" "/home/george/.nethack/dumps/"$DATE".txt"
+echo "Moving and compressing ttyrec... "
+mv -f "/home/george/.nethack/ttyrecs/current" "/home/george/.nethack/ttyrecs/"$DATE".ttyrec"
+bzip2 "/home/george/.nethack/ttyrecs/"$DATE".ttyrec"
+echo "Goodbye."

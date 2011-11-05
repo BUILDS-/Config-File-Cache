@@ -8,6 +8,9 @@ My machines are:
  Hugh: My actual desktop. Now running Gentoo.
  all: uh, this isn't a computer.
 
+Of potential note is my nethack setup on Francisco.  See Francisco/README.txt
+for more details.
+
 Secondly, I have the folder 'usrlocal,' which represents what I've installed
 manually on my machines. In this case, all that's there is a short perl
 script called 'mutt-notmuch.' See Francisco for more on that.

@@ -1,3 +1,4 @@
+
 Welcome to Francisco. I finally reinstalled this machine. There is no longer a
 Windows partition, nor an Ubuntu one, nor the ridiculous setup I had with two
 separate storage partitions. Added this time is the fact that my root
@@ -5,20 +6,22 @@ partition is encrypted, using LVM/dm-crypt/LUKS. Doing this with the installer
 is not too difficult, if you just have it do it all for you. It boots a little
 more slowly, though.
 
-Also different, I have decided to only install things with aptitude, this time.
-So, no crazy up-to-date xmobar or xmonad or anything for me. Things appear to
-work, though. [exception: I installed mutt-notmuch manually, because it's just
-that awesome]
+Also different, I have decided to only install things with aptitude, this
+time.  So, no crazy up-to-date xmobar or xmonad or anything for me.  Things
+appear to work, though. [exception: I installed mutt-notmuch manually, because
+it's just that awesome]
 
-I now do all my email on Francisco. I am using mutt with offlineimap and msmtp,
-and additionally using notmuch for fast text search of all my email. The
-relevant config files are:
-.muttrc
-.offlineimaprc
-.msmtprc
-Also in use here is mutt-notmuch, which can be found in the usrlocal directory
-one level up. note for those who care! This setup does PGP, with no fiddling
-around! I will be writing a short guide for that... later.
+I now do all my email on Francisco. I am using mutt with offlineimap and
+msmtp, and additionally using notmuch for fast text search of all my
+email. The relevant config files are: .muttrc .offlineimaprc .msmtprc
+
+I like recording all my nethack games, so I set up some scripts that do that
+for me, automatically.  Tested on Debian Wheezy, but should work on any
+Debian-like system.  This is stored in the directory '~.nethack' as it is on
+my system.  Note the alias in .bash_aliases that deals with it.  You need to
+have 'ttyrec' installed, and some related packages, and need to be using
+either the tty or console version of nethack.  (As of course any true
+nethacker should be doing anyways.)
 
 Finally, I have an interesting net setup that involves only wpa_supplicant and
 ifplugd. To duplicate this setup:

@@ -29,11 +29,11 @@ main = do
         keys               =           
           \conf@(XConfig {XMonad.modMask = modm}) -> 
             M.fromList $
-              [ ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
-              , ((modm,               xK_Return), spawn "xfce4-terminal -x sh -c 'if [ -z \"$(pgrep tmux)\" ]; then tmux; else tmux attach; fi'")
+              [ ((modm,               xK_Return), spawn "xfce4-terminal -x sh -c 'sleep 0.1; emacsclient -nw -e \"(list (eshell \\\"new\\\") (delete-other-windows))\"'")
+              , ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
               , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
               , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
-              , ((modm .|. shiftMask, xK_x     ), spawn "xfce4-terminal -x sh -c \"su -c /home/frozencemetery/script.sh\" ")
+              , ((modm .|. shiftMask, xK_x     ), spawn "killall vlock-main")
               , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c reboot\"") -- not necessary with xfce4-power-manager
               , ((modm              , xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c poweroff\"")
               , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")                

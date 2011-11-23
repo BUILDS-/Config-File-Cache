@@ -5,8 +5,10 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Util.Scratchpad
 import System.IO 
+
+--
+
 import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -14,11 +16,19 @@ import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ResizableTile
+import XMonad.Hooks.UrgencyHook
+spawnterm :: String -> X ()
+spawnterm s = spawn $ "xfce4-terminal -x sh -c 'sleep .05; " ++ s ++ "'"
+-- spawnterm = spawn . ("bluh" ++) . (++ "bluh2")
 
+mpc :: String -> X ()
+mpc s = spawn $ "MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ s
+-- in an ideal world, I only need one of these damn things (mpd clients)
+-- but mpd has no ui, and ncmpcpp neither reports back nor clears nicely
 
 main = do 
   xmproc <- spawnPipe "xmobar"
-  xmonad $ defaultConfig {
+  xmonad $ withUrgencyHook NoUrgencyHook defaultConfig {
         terminal           = "xfce4-terminal",
         focusFollowsMouse  = False,
         borderWidth        = 1,
@@ -29,21 +39,25 @@ main = do
         keys               =           
           \conf@(XConfig {XMonad.modMask = modm}) -> 
             M.fromList $
-              [ ((modm,               xK_Return), spawn "xfce4-terminal -x sh -c 'sleep 0.1; emacsclient -nw -e \"(list (eshell \\\"new\\\") (delete-other-windows))\"'")
-              , ((modm .|. shiftMask, xK_Return), spawn "xfce4-terminal")
+              [ ((modm,               xK_Return), spawnterm "emacsclient -nw -e \"(list (eshell) (delete-other-windows))\"")
+              , ((modm .|. shiftMask, xK_Return), spawnterm "bash")
               , ((modm,               xK_space     ), spawn "exe=`dmenu_path | dmenu -fn Terminus` && eval \"exec $exe\"")
               , ((modm,               xK_x     ), spawn "xscreensaver-command --lock")
-              , ((modm .|. shiftMask, xK_x     ), spawn "killall vlock-main")
-              , ((modm .|. shiftMask, xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c reboot\"") -- not necessary with xfce4-power-manager
-              , ((modm              , xK_z     ), spawn "xfce4-terminal -x sh -c \"su -c poweroff\"")
-              , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")                
-                
-              , ((modm .|. shiftMask, 0x1008ff16   ), spawn "ncmpcpp prev") -- modm shift <|<|
-              , ((modm .|. shiftMask, 0x1008ff17   ), spawn "ncmpcpp next") -- modm shift |>|>
-              , ((modm .|. shiftMask, 0x1008ff14   ), spawn "xfce4-terminal -x ncmpcpp") -- modm shift |>||
-              , ((modm              , 0x1008ff16   ), spawn "ncmpcpp pause") -- modm <|<|
-              , ((modm              , 0x1008ff17   ), spawn "ncmpcpp play") -- modm |>|>
-              , ((modm              , 0x1008ff14   ), spawn "xfce4-terminal -x alsamixer") -- modm |>||
+              , ((modm .|. shiftMask, xK_x     ), spawn "killall vlock-main") -- this unlocks all vlocked vterms
+              , ((modm .|. shiftMask, xK_z     ), spawnterm "su -c reboot")
+              , ((modm              , xK_z     ), spawnterm "su -c poweroff")
+              , ((modm .|. shiftMask, xK_space     ), spawn "gmrun")
+
+              , ((modm .|. shiftMask, 0x1008ff16   ), mpc "prev") -- modm shift <|<|
+                -- this just goes to the beginning of the track.
+              , ((modm .|. shiftMask, 0x1008ff17   ), mpc "clear") -- modm shift |>|>
+                -- the above makes sence in context with .mpdmonitor.sh.  Trust me on this one.
+              , ((modm .|. shiftMask, 0x1008ff14   ), spawnterm "ncmpcpp") -- modm shift |>||
+              , ((modm              , 0x1008ff16   ), mpc "pause") -- modm <|<|
+              , ((modm              , 0x1008ff17   ), mpc "play") -- modm |>|>
+              , ((modm              , 0x1008ff14   ), spawnterm "alsamixer") -- modm |>||
+
+              , ((modm              , xK_i         ), spawn "xcalib -i -a") -- invert the clors
                 
               , ((modm .|. shiftMask, xK_c     ), kill)
               , ((modm,               xK_s     ), sendMessage NextLayout)
@@ -69,43 +83,44 @@ main = do
               , ((modm              , xK_q     ), spawn "killall -g .mpdmonitor.sh; xmonad --recompile && xmonad --restart")
               , ((modm              , xK_a           ), sendMessage $ Toggle MIRROR)
               , ((modm              , xK_f           ), sendMessage $ Toggle FULL)
-              , ((modm .|. shiftMask, xK_slash       ), spawn "xfce4-terminal -x less /usr/share/X11/locale/en_US.UTF-8/Compose")
+              , ((modm .|. shiftMask, xK_slash       ), spawnterm "less /usr/share/X11/locale/en_US.UTF-8/Compose")
 --              , ((0                 , xK_Print ), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
 --              , ((modm              , xK_Print ), spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
               ]
               ++
               [((m .|. modm, k), windows $ f i)
               | (i, k) <- zip (XMonad.workspaces conf) ([xK_1 .. xK_9] ++ [xK_0])
-              , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-              ++
-              [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-              | (key, sc) <- zip [xK_y, xK_u, xK_i] [0..]
-              , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
+              , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]],
+--              ++
+              -- todo: I had a very nice screen configuration bound to m4-C-<numbers> that I would like back
+--              [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+--              | (key, sc) <- zip [xK_y, xK_u, xK_i] [0..]
+--              , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
         mouseBindings      = 
           \XConfig {XMonad.modMask = modm} -> 
             M.fromList $
-              [ ((modm, button1), (\w -> focus w 
+              [ ((modm, button1), (\w -> focus w
                                          >> mouseMoveWindow w
                                          >> windows W.shiftMaster))
               , ((modm, button2), (\w -> focus w 
                                          >> windows W.shiftMaster))
-              , ((modm, button3), (\w -> focus w 
+              , ((modm, button3), (\w -> focus w
                                          >> mouseResizeWindow w
                                          >> windows W.shiftMaster))
               ],
-        layoutHook         = id 
-                             . avoidStruts 
+        layoutHook         = avoidStruts 
                              $ smartBorders 
-                             $ ( -- operator precedence?  Just one of many free services we offer.
+                             $ (
                                mkToggle (single FULL)
                                . mkToggle (single MIRROR)           
                                $ ResizableTall 1 (3/100) (1/2) [] ||| Grid
                                ),
         logHook            = dynamicLogWithPP $ xmobarPP
                                { ppOutput = hPutStrLn xmproc
-			       , ppTitle = \a -> ""
+			       , ppTitle = \a -> "" -- no one needs window titles
 			       , ppSep = " "
-			       , ppLayout  = \a -> ( 
+                               , ppUrgent = xmobarColor "orange" "black" . xmobarStrip
+			       , ppLayout  = \a -> (
                                    case a of
                                      "Full" -> "ƒ"
                                      "Grid" -> "g"
@@ -121,11 +136,9 @@ main = do
           , resource  =? "Dialog"         --> doFloat
           , title     =? "Pidgin"         --> doFloat
 --        , (className =? "google-chrome" <&&> resource =? "Dialog") --> doFloat -- note: this is a relic of the config I pulled from; I refuse to use chrome and anything else made by google
---        , title     =? "Dwarf Fortress" --> doFloat
-          , scratchpadManageHookDefault
           ]
           ),
         handleEventHook    = mempty,
         startupHook        = do
-          spawn "xfce4-terminal -x bash -c \"fortune -a | cowsay -n && bash\""
+          spawnterm "fortune -a | cowsay -n && bash"
     }

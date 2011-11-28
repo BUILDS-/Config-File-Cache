@@ -1,4 +1,4 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-12-*-*-*-*-*-*-*"
+Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
        , position = TopW L 95
@@ -9,8 +9,9 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-12-*-*-*-*-*-*-*"
 		    , Run Date "%a %b %d %Y %R" "date" 10
 		    , Run StdinReader
 		    , Run CommandReader "/home/frozencemetery/.mpdmonitor.sh" "MPD"
+                    , Run CommandReader "/home/frozencemetery/.alsamonitor.sh" "ALSA"
 		    ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%date% %multicpu% %memory% %swap% %StdinReader%}{ %MPD%"
+       , template = "%date% %multicpu% %memory% %swap% %StdinReader% %ALSA% %MPD%}{"
        }

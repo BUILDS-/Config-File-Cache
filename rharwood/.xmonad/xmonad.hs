@@ -5,9 +5,8 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import System.IO
-
---
-
+import qualified XMonad.Util.WorkspaceCompare as C
+import qualified XMonad.Util.Loggers as L
 import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -82,6 +81,8 @@ main = do
       , ((modm, xK_q), spawn $
                        "killall -g .mpdmonitor.sh"
                        ++ "; " ++
+                       "killall -g .alsamonitor.sh"
+                       ++ "; " ++
                        "xmonad --recompile"
                        ++ " && " ++
                        "xmonad --restart"
@@ -131,10 +132,14 @@ main = do
                  mkToggle (single FULL) . mkToggle (single MIRROR) $
                  ResizableTall 1 (3/100) (1/2) [] ||| Grid,
       logHook = dynamicLogWithPP $ xmobarPP {
-        ppOutput = hPutStrLn xmproc,
-        ppTitle = \a -> "",
-        ppSep = " ",
+        ppCurrent = xmobarColor "orange" "" . xmobarStrip . ("[" ++) . (++ "]"),
+        ppVisible = xmobarColor "grey" "" . xmobarStrip . ("(" ++) . (++ ")"),
+        ppHidden = xmobarColor "grey" "" . xmobarStrip,
+        ppHiddenNoWindows = \ _ -> "_",
         ppUrgent = xmobarColor "orange" "black" . xmobarStrip,
+        ppSep = " ",
+        ppWsSep = " ",
+        ppTitle = \_ -> "",
         ppLayout  = \a ->
           case a of
             "Full" -> "ƒ"
@@ -142,7 +147,12 @@ main = do
             "Mirror Grid" -> "G"
             "ResizableTall" -> "t"
             "Mirror ResizableTall" -> "T"
-            _ -> a
+            _ -> a,
+        ppOrder = id,
+        ppSort = C.mkWsSort C.getWsCompare,
+        ppExtras = [],
+        -- aumixVolume, maildirNew, maildirUnread
+        ppOutput = hPutStrLn xmproc
         }
     ,
     manageHook = manageDocks <+> (

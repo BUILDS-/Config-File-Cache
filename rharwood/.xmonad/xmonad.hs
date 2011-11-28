@@ -157,6 +157,5 @@ main = do
       )
     ,
     handleEventHook = mempty,
-    startupHook = do
-      spawnterm "fortune -a | cowsay -n && bash"
+    startupHook = spawnterm "fortune -a | cowsay -n && bash"
     }

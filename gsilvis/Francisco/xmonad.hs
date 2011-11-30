@@ -48,6 +48,7 @@ main = do
       , ((mod4Mask .|. shiftMask, xK_s  ), spawnterm "ssh ellis")
       , ((mod4Mask .|. shiftMask, xK_F11), spawnterm "emacsclient -nw /home/george/.xmonad/xmonad.hs")
       , ((mod4Mask .|. shiftMask, xK_e  ), spawnterm "emacsclient -nw -e \"(list (eshell \\\"new\\\") (delete-other-windows))\"")
+      , ((mod4Mask .|. shiftMask, xK_r  ), spawnterm "sudo -s")
 -- applications
       , ((mod4Mask .|. controlMask, xK_f), spawn "firefox")
       , ((mod4Mask .|. controlMask, xK_t), spawn "liferea")

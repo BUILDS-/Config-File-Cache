@@ -1,4 +1,4 @@
-
+B
 Welcome to Francisco. I finally reinstalled this machine. There is no longer a
 Windows partition, nor an Ubuntu one, nor the ridiculous setup I had with two
 separate storage partitions. Added this time is the fact that my root
@@ -34,14 +34,16 @@ need to modify it for your particular interface names.)
 Then you can use wpa_cli or wpa_gui to configure networks, and that information
 will be saved in the wpa_supplicant configuration.
 
+For more information on this setup, see the following guide:
+http://anonscm.debian.org/viewvc/pkg-wpa/wpasupplicant/trunk/debian/README.Debian?view=co
+
 
 Other stuff I have here:
 
-.emacs: Notably contains stuff for notmuch.el
+.emacs: I like emacs.
 
-.xinitrc is run when my X session starts. Note the first part especially,
-which deals with a nasty nm-applet bug where it fails to save any wireless
-keys.
+.xinitrc is run when my X session starts.  The first part contains a fix for a
+nasty nm-applet bug where it fails to save any wireless keys.
 
 .xmobarrc is for xmobar
 

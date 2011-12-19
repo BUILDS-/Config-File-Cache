@@ -2,11 +2,15 @@
 (display-time)
 (column-number-mode)
 (display-battery-mode)
-(load "/home/frozencemetery/.emacs.d/sml-modeline.el")
+(load "/home/frozencemetery/.emacs.d/sml-modeline/sml-modeline.el")
+(require 'sml-modeline)
 (sml-modeline-mode)
 
+(defalias 'e 'find-file)
+(setq eshell-aliases-file "/home/frozencemetery/.emacs.d/eshell-aliases")
+
 (require 'notmuch)
-(add-hook 'message-setup-hook 'mml-secure-sign-pgpmime)
+(add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime)
 (setq message-kill-buffer-on-exit t)
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program "/usr/bin/msmtp")
@@ -24,6 +28,7 @@
                (account
                 (cond
                  ;; I use email address as account label in ~/.msmtprc
+                 ((string-match "rharwood@club.cc.cmu.edu" from)"rharwood@club.cc.cmu.edu")
                  ((string-match "rharwood@bu.edu" from)"rharwood@bu.edu")
                  ((string-match "rharwood@cmu.edu" from)"rharwood@andrew.cmu.edu")
                  ((string-match "rharwood@andrew.cmu.edu" from)"rharwood@andrew.cmu.edu")
@@ -32,16 +37,27 @@
 (setq message-sendmail-envelope-from 'header)
 (add-hook 'message-send-mail-hook 'cg-feed-msmtp)
 (setq message-mode-hook 'flyspell-mode)
-
-(require 'auto-complete)
-(add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
-(require 'auto-complete-config)
-(ac-config-default)
-(ac-flyspell-workaround)
-
-(defadvice split-window-vertically
-    (after my-window-splitting-advice first () activate)
-    (set-window-buffer (next-window) (other-buffer)))
+(defun notmuch-show-bury()
+  "remove inpile tag"
+  (interactive)
+  (kill-this-buffer)
+  (notmuch-search-remove-tag "inpile")
+  (notmuch-search-next-thread)
+  (notmuch-search-show-thread)
+  )
+(define-key notmuch-show-mode-map "a" 'notmuch-show-bury)
+(defun notmuch-search-bury()
+  "remove inpile tag"
+  (interactive)
+  (notmuch-search-remove-tag "inpile")
+  (notmuch-search-next-thread)
+  )
+(define-key notmuch-search-mode-map "a" 'notmuch-search-bury)
+;; (require 'auto-complete)
+;; (add-to-list 'ac-dictionary-directories "/usr/share/auto-complete/dict/")
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (ac-flyspell-workaround)
 
 (add-hook 'c-mode-common-hook
           (lambda ()
@@ -59,6 +75,8 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (global-set-key "\C-xp" 'previous-multiframe-window)
+(global-set-key "\C-c;" 'comment-region)
+(global-set-key "\C-c:" 'uncomment-region)
 
 (setq require-final-newline t)
 
@@ -103,7 +121,7 @@
                         ("\\.texinfo$" . texinfo-mode)
                         ("\\.lsp$" . lisp-mode)
                         ("\\.y$" . c-mode)
-                        ("\\.cc$" . c-mode)
+                        ("\\.cc$" . c++-mode)
                         ("\\.hs$" . haskell-mode)
                         ("\\.cpp$" . c++-mode)
                         ("\\.py$" . python-mode)
@@ -143,12 +161,6 @@
               )
       )
 
-;; (when (fboundp 'global-font-lock-mode)
-;;   (require 'font-lock)
-;;   (setq font-lock-maximum-decoration t)
-;;   (global-font-lock-mode t)
-;;   )
-
 (setq auto-save-interval 1024)
 
 (setq explicit-shell-file-name "/bin/bash")
@@ -179,7 +191,7 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-(setq inferior-lisp-program 'sbcl)
+(setq inferior-lisp-program 'clisp)
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -187,29 +199,37 @@
   ;; If there is more than one, they won't work right.
  '(font-latex-math-face ((((class color) (background light)) (:foreground "green")))))
 
-(require 'icicles)
-(icy-mode 1)
-
 (setq TeX-output-view-style
       (quote
        (("^pdf$" "." "evince -f %o")
         ("^html?$" "." "iceweasel %o"))))
 (slime-setup  '(slime-repl slime-asdf slime-fancy slime-banner))
 
-(require 'desktop)
-(desktop-save-mode 1)
-(defun my-desktop-save ()
-  (interactive)
-  (if (eq (desktop-owner) (emacs-pid))
-      (desktop-save desktop-dirname)))
-(add-hook 'auto-save-hook 'my-desktop-save)
-(defun emacs-process-p (pid)
-  (when pid
-    (let ((attributes (process-attributes pid)) (cmd))
-      (dolist (attr attributes)
-        (if (string= "comm" (car attr))
-            (setq cmd (cdr attr))))
-      (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
-(defadvice desktop-owner (after pry-from-cold-dead-hands-activate)
-  (when (not (emacs-process-p ad-return-value))
-    (setq ad-return-value nil)))
+;; notmuch.el sets its variables through custom-set-variables 
+;; this is fine, albiet a bit strange
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(notmuch-saved-searches (quote (
+                                  ("inpile" . "tag:inpile")
+                                  ("unread" . "tag:unread")
+                                  ("builds" . "tag:builds")
+                                  ("gutenbach" . "tag:gutenbach")
+                                  ("cclub" . "tag:cclub")
+                                  ("PPP" . "tag:PPP")
+                                  ("debian" . "tag:debian")
+                                  ("debugs" . "tag:debugs")
+                                  ("buildspolitical" . "tag:buildspolitical")
+                                  ("buildssecurity" . "tag:buildssecurity")
+                                  ("osssec" . "tag:osssec")
+                                  ("cypher" . "tag:cypher")
+                                  ("ATS" . "tag:ATS")
+                                  ("notmuch" . "tag:notmuch")
+                                  ("15150ann" . "tag:15150ann")
+                                  ("15150disc" . "tag:15150disc")
+                                  ("sent" . "tag:sent")
+                                  ("csc" . "tag:csc")
+                                  ("spam" . "tag:spam and tag:unread")
+                                  ))))

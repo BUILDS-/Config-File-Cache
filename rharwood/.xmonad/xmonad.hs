@@ -5,7 +5,6 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import System.IO
-import qualified XMonad.Util.WorkspaceCompare as C
 import qualified XMonad.Util.Loggers as L
 import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
@@ -17,13 +16,13 @@ import XMonad.Layout.ResizableTile
 import XMonad.Hooks.UrgencyHook
 
 spawnterm :: String -> X ()
-spawnterm = spawn . ("xfce4-terminal -x sh -c 'sleep .05; " ++) . (++ "'")
+spawnterm = spawn . wrap "xfce4-terminal -x sh -c 'sleep .05; " "'"
 
 mpc :: String -> X ()
 mpc = spawn . ("MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++)
 
 asroot :: String -> X ()
-asroot = spawnterm . ("su -c '" ++) . (++ "'")
+asroot = spawnterm . wrap "su -c '" "'"
 
 main = do
   xmproc <- spawnPipe "xmobar"
@@ -34,18 +33,21 @@ main = do
     modMask = mod4Mask,
     workspaces = ["1","2","3","4","5","6","7","8","9","0"],
     normalBorderColor = "#000000",
-    focusedBorderColor = "#00ff00",
+    focusedBorderColor = "#FF7228",
     keys =          
       \conf@(XConfig {XMonad.modMask = modm}) ->
       M.fromList $
       [ ((modm, xK_Return), spawnterm "emacsclient -nw -e \"(eshell)\"")
       , ((modm .|. shiftMask, xK_Return), spawnterm "bash")
-      , ((modm, xK_space), spawn "exec \"$(dmenu_path | dmenu -fn Terminus)\"")
+      , ((modm, xK_space), 
+         spawn "exec \"$(dmenu_path | dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p cmd:)\""
+        )
+      , ((modm .|. shiftMask, xK_space), spawn "gmrun")
+        
       , ((modm, xK_x), spawn "xscreensaver-command --lock")
       , ((modm .|. shiftMask, xK_x), spawn "killall vlock-main")
       , ((modm .|. shiftMask, xK_z), asroot "reboot")
       , ((modm, xK_z), asroot "poweroff")
-      , ((modm .|. shiftMask, xK_space), spawn "gmrun")
        
       , ((modm .|. shiftMask, 0x1008ff16), mpc "prev")
       , ((modm .|. shiftMask, 0x1008ff17), mpc "clear")
@@ -53,7 +55,12 @@ main = do
       , ((modm, 0x1008ff16), mpc "pause")
       , ((modm, 0x1008ff17), mpc "play")
       , ((modm, 0x1008ff14), spawnterm "alsamixer")
-       
+        
+      , ((modm, xK_u), spawnterm "canto -u")
+      , ((modm .|. shiftMask, xK_u), spawnterm "emacsclient -nw -e \"(notmuch)\"")
+      , ((modm .|. shiftMask, xK_a), spawnterm "htop")
+      , ((modm .|. shiftMask, xK_d), spawnterm "iotop")
+        
       , ((modm, xK_i), spawn "xcalib -i -a")
        
       , ((modm .|. shiftMask, xK_c), kill)
@@ -74,18 +81,18 @@ main = do
       , ((modm, xK_comma), sendMessage (IncMasterN 1))
       , ((modm, xK_period), sendMessage (IncMasterN (-1)))
       , ((modm, xK_b), sendMessage ToggleStruts)
-      , ((modm .|. shiftMask, xK_q), do
-            spawn "killall -g .mpdmonitor.sh"
-            io $ exitWith ExitSuccess
-        )
-      , ((modm, xK_q), spawn $
-                       "killall -g .mpdmonitor.sh"
-                       ++ "; " ++
-                       "killall -g .alsamonitor.sh"
-                       ++ "; " ++
-                       "xmonad --recompile"
-                       ++ " && " ++
-                       "xmonad --restart"
+      -- , ((modm .|. shiftMask, xK_q), do
+      --       spawn "killall -g .mpdmonitor.sh"
+      --       spawn "killall -g .alsamonitor.sh"
+      --       io $ exitWith ExitSuccess
+      --   )
+      , ((modm, xK_q), do
+         spawn "killall -g .mpdmonitor.sh"
+         spawn "killall -g .alsamonitor.sh"
+         spawn $
+           "xmonad --recompile"
+           ++ " && " ++
+           "xmonad --restart"
         )
       , ((modm, xK_a), sendMessage $ Toggle MIRROR)
       , ((modm, xK_f), sendMessage $ Toggle FULL)
@@ -101,13 +108,10 @@ main = do
       | (i, k) <- zip (XMonad.workspaces conf) ([xK_1 .. xK_9] ++ [xK_0])
       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
       ]
-    ,
-    --              ++
-    -- todo: I had a very nice screen configuration bound to m4-C-<numbers>
-    -- that I would like back
-    -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-    --               | (key, sc) <- zip [xK_y, xK_u, xK_i] [0..]
-    --               , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
+      ++
+      [((m .|. modm .|. mod1Mask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      | (key, sc) <- zip [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0] [0..]
+      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
     mouseBindings =
       \XConfig {XMonad.modMask = modm} ->
       M.fromList $
@@ -132,26 +136,23 @@ main = do
                  mkToggle (single FULL) . mkToggle (single MIRROR) $
                  ResizableTall 1 (3/100) (1/2) [] ||| Grid,
       logHook = dynamicLogWithPP $ xmobarPP {
-        ppCurrent = xmobarColor "orange" "" . xmobarStrip . ("[" ++) . (++ "]"),
-        ppVisible = xmobarColor "grey" "" . xmobarStrip . ("(" ++) . (++ ")"),
-        ppHidden = xmobarColor "grey" "" . xmobarStrip,
-        ppHiddenNoWindows = \ _ -> "_",
+        ppCurrent = xmobarColor "" "orange" . xmobarStrip,
+        ppVisible = xmobarColor "" "white" . xmobarStrip,
+        ppWsSep = "",
+        ppHidden = xmobarColor "black" "grey" . xmobarStrip,
+        ppHiddenNoWindows = id,
         ppUrgent = xmobarColor "orange" "black" . xmobarStrip,
         ppSep = " ",
-        ppWsSep = " ",
-        ppTitle = \_ -> "",
-        ppLayout  = \a ->
-          case a of
-            "Full" -> "ƒ"
-            "Grid" -> "g"
-            "Mirror Grid" -> "G"
-            "ResizableTall" -> "t"
-            "Mirror ResizableTall" -> "T"
-            _ -> a,
-        ppOrder = id,
-        ppSort = C.mkWsSort C.getWsCompare,
-        ppExtras = [],
-        -- aumixVolume, maildirNew, maildirUnread
+        ppTitle = const "",
+        ppLayout  = \a -> case a of
+          "Full" -> "ƒ"
+          "Grid" -> "g"
+          "Mirror Grid" -> "G"
+          "ResizableTall" -> "t"
+          "Mirror ResizableTall" -> "T"
+          _ -> a,
+        ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:unread):$(notmuch count tag:inpile)\""],
+        ppOrder = \[workspaces, layout, title, average, mail] -> [average ++ " |", workspaces, layout, title, mail],
         ppOutput = hPutStrLn xmproc
         }
     ,
@@ -161,6 +162,7 @@ main = do
       , resource =? "desktop_window" --> doIgnore
       , resource =? "Dialog" --> doFloat
       , title =? "Pidgin" --> doFloat
+      , className =? "Pidgin" --> doShift "1"
       ]
       )
     ,

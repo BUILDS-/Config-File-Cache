@@ -1,19 +1,36 @@
 [general]
 metadata = ~/.offlineimap
-accounts = Account
-ui = Noninteractive.Quiet
+accounts = GMail
 
-[Account Account]
-autorefresh = 1
-localrepository = Local
-remoterepository = GMail
-postsynchook = notmuch new
+[Account GMail]
+localrepository = LocalGMail
+remoterepository = RemoteGMail
 
-[Repository Local]
+[Repository LocalGMail]
 type = Maildir
 localfolders = /home/shidash/Mail/
 
-[Repository GMail]
+[Repository RemoteGMail]
+ssl = yes
 type = Gmail
 remoteuser = shidashs@gmail.com
-remotepass = ****
+remotepass = [Redacted]
+folderfilter = lambda foldername: foldername in [
+      'INBOX',
+      'Inbox',
+      'School',
+      'Open',
+      'Personal',
+      'Receipts',
+      'MIT Media Lab',
+      'DRAFTS',
+      'Drafts',
+      'Sent',
+      'Sent Messages',
+      '[Gmail]/Sent Mail'
+      ]
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('sent_mail', 'sent',
+                               re.sub ('starred', 'flagged',
+                               re.sub (' ', '_', foldername.lower()))))
+

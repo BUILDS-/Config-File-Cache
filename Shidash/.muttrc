@@ -1,6 +1,6 @@
 set mbox_type=Maildir
 set folder="/home/shidash/Mail"
-set spoolfile=+"[Gmail].All Mail"
+set spoolfile=+inbox
 set move=no
 
 macro index <F8> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/bin/mutt-notmuch --prompt search<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "search mail (using notmuch)"
@@ -12,10 +12,12 @@ macro index <F10> "<enter-command>unset wait_key<enter><shell-escape>/usr/local/
 set sendmail="/usr/bin/msmtp"
 set use_from=yes
 set realname="M. C. McGrath (Shidash)"
-set from="shidash@shidash.com"
+set from="shidash@media.mit.edu"
 set envelope_from=yes
 set edit_headers=yes
 set signature="/home/shidash/.signature"
+
+set editor="emacs"
 
 set sort=threads
 set sort_aux=reverse-last-date-received

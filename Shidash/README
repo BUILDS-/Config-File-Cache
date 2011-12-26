@@ -1,27 +1,30 @@
-The following is a description of my configuration files for killua (microSD install usually run on a ThinkPad X220) running Debian using xmonad as a window manager.
-.bash_aliases: I need to edit this.
-.bash_profile: I need to edit this.
-.bashrc: I need to edit this.
-.emacs: I need to edit this.
+The following is a description of my configuration files for killua (ThinkPad X220) running Debian using xmonad as a window manager.
+.emacs: My emacs config.
 .msmtprc: This is what I use to send mail from my mail accounts.
 .muttrc: Configuration file for mutt which changes how mutt runs and displays things. If you want to see how I setup accounts see my .msmtprc. This is setup to work with notmuch.
-.offlineimaprc: offlineimap pulls my mail from all mail accounts through gmail. Notmuch hangs off of it.
+.offlineimaprc: offlineimap pulls my mail from all mail accounts through gmail.
 .signature: My email signature.
-.tahoe/tahoe.cfg: My Tahoe-LAFS config file for killua.
 .xinitrc: This runs on startup and starts my programs.
 .xmobarrc: My xmobar config file made for use with trayer and two processors.
 .xmonad/xmonad.hs: My xmonad config file which is fairly standard and minimal.
+.xscreensaver: My xscreensaver config file.
+.bashrc: Bash config file.
 
 The following are other files I need to keep track of but will not post for security reasons.
 .bitcoin
 .gnupg
 .purple
 .ssh
-.tahoe/aliases
 /etc/proxychains.conf
- 
-All other config files are unedited. Below, I have a list of programs I install when I have to reconstruct a new microSD. All of my files and mail are stored on a Tahoe-LAFS grid so with the files in this cache and the below list I can compeletely reconstruct my system as long as I have a debian install and an internet connection.
+
+Installation and setup:
+1. Install debian 
+
+2. Change /etc/apt/sources.list to use mirrors.mit.edu and contrib and non-free
+
+3. Install the following programs-
 bash completion
+xorg
 xmonad
 xmobar
 dmrun
@@ -33,13 +36,14 @@ emacs
 mplayer
 latex
 abiword
-network manager gnome
-xfce power manager
+network-manager-gnome
+xfce4-power-manager
 xscreensaver
-skype
+xscreensaver-screensaver-webcollage
 bitcoin
-tahoe-lafs
-pidgin with pidgin-otr and pidgin-plugin-package (using last seen and contact availability prediction)
+pidgin 
+pidgin-otr
+pidgin-plugin-package
 gnupg
 tor
 unzip
@@ -49,15 +53,33 @@ gparted
 mutt
 offlineimap
 notmuch
-vpn programs (check online)
-iceweasel with adblock plus, https everywhere, noscript, ghostery, rikaichan, firemacs, vimperator, and user agent switcher
-flash
+network-manager-pptp-gnome
+iceweasel
+gtk2-engines
+lxapparance
+flashplugin-nonfree
 drivers for computer
 
-Additionally, I need to setup my VPN, disable the effects that show the screen on xscreensaver, and go through the settings of the iceweasel addons.
+4. Put config files in appropriate directories
 
-Each time I startup I need to exit the virtual terminal after starting x, change my mac address, and connect to VPN when connecting to internet. Every night before bed and other times as needed, I backup to Tahoe-LAFS.
+5. Install and configure the following programs-
+skype
+adblock plus
+https everywhere
+https finder
+noscript
+request policy
+rikaichan
+rikaichan dictionary
+firemacs
+user agent switcher
 
-Thank you for reading about my wonderful, secure, and customized system.
+6. Change default search engine on firefox to seeks by adding the engine and  going to about:config and changing the value of browser.search.defaultenginename to Seeks Search
+
+7. Setup VPN info
+
+8. Change terminal shortcuts for copy and paste
+
+9. Test all programs and configure themes and appearances
 
 ~M. C. McGrath (Shidash)

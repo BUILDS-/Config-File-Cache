@@ -36,7 +36,6 @@ emacs
 mplayer
 latex
 abiword
-network-manager-gnome
 xfce4-power-manager
 xscreensaver
 xscreensaver-screensaver-webcollage
@@ -54,7 +53,6 @@ gparted
 mutt
 offlineimap
 notmuch
-network-manager-pptp-gnome
 iceweasel
 gtk2-engines
 lxapparance
@@ -75,7 +73,7 @@ rikaichan dictionary
 firemacs
 user agent switcher
 
-6. Change default search engine on firefox to seeks by adding the engine and  going to about:config and changing the value of browser.search.defaultenginename to Seeks Search
+6. Change default search engine on firefox to seeks by adding the engine and going to about:config and changing the value of browser.search.defaultenginename to Seeks Search
 
 7. Setup VPN info
 

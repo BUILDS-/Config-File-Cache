@@ -39,8 +39,7 @@ export RUBYLIB=$HOME/project/sup/lib
 export PYTHONPATH="$HOME/project/cogphysics/dev/code:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/gutenbach/server/lib:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pystoch/src:$PYTHONPATH"
-export PYTHONPATH="$HOME/project/datarray/src:$PYTHONPATH"
-export PYTHONPATH="$HOME/project/cogphysics/meng/src:$PYTHONPATH"
+export PYTHONPATH="$HOME/project/pyutil/src:$PYTHONPATH"
 
 # where to look for the pylint config
 export PYLINTRC="$HOME/.pylintrc"

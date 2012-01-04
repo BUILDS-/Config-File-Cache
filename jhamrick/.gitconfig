@@ -11,7 +11,7 @@ di = diff
 dc = diff --cached
   
 [color]
-diff = auto
+	diff = auto
 status = auto
 branch = auto
 ui = auto

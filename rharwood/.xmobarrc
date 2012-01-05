@@ -3,15 +3,15 @@ Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
        , fgColor = "grey"
        , position = TopW L 95
        , lowerOnStart = True
-       , commands = [ Run MultiCpu ["-t", "(<total0>, <total1>)", "-L","25","-H","75", "--normal","green","--high","red", "-m", "3", "-w", "3"] 10
-                    , Run Swap ["-t", "<used>MB", "-L", "1000", "-H", "2500",  "--normal", "green", "--high", "red", "-w", "4"] 100
-                    , Run Memory ["-t", "<used>MB", "-L", "1000", "-H", "2500",  "--normal", "green", "--high", "red", "-w", "4"] 10
-		    , Run Date "%a %b %d %Y %R" "date" 10
-		    , Run StdinReader
-		    , Run CommandReader "/home/frozencemetery/.mpdmonitor.sh" "MPD"
+       , commands = [ Run MultiCpu ["-t", "(<total0>, <total1>)", "-L", "25", "-H", "75", "--normal", "white", "--high", "orange", "-m", "3", "-w", "3"] 10
+                    , Run Swap ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 100
+                    , Run Memory ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 10
+                    , Run Date "%a %y:%m:%d:%R" "date" 10
+                    , Run StdinReader
+                    , Run CommandReader "/home/frozencemetery/.mpdmonitor.sh" "MPD"
                     , Run CommandReader "/home/frozencemetery/.alsamonitor.sh" "ALSA"
-		    ]
+                    ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%date% %multicpu% %memory% %swap% %StdinReader% %ALSA% %MPD%}{"
+       , template = "%date% | %memory%->%swap% | %multicpu% | %StdinReader% | (%ALSA%) %MPD%}{"
        }

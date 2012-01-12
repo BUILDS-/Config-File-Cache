@@ -1,0 +1,7 @@
+README for jcrowell config files
+
+.vimrc : relatively simple vim config, used with cygwin's vim and visual studio
+.bashrc : also simple, just alias-ing the csharp compiler mostly
+rc.xml : openbox config, adding "aero-snap" keybindings to my openbox.
+Config.ini : bug.n tiling wm config for windows.  Uses a nicer font, and reads in battery stats for usage on laptop, otherwise mostly stock
+

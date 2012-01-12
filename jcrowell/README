@@ -4,4 +4,4 @@ README for jcrowell config files
 .bashrc : also simple, just alias-ing the csharp compiler mostly
 rc.xml : openbox config, adding "aero-snap" keybindings to my openbox.
 Config.ini : bug.n tiling wm config for windows.  Uses a nicer font, and reads in battery stats for usage on laptop, otherwise mostly stock
-
+dark.vssettings : visual studio settings, dark theme, line numbers, different colorization.  mostly taken from studiostyl.es

@@ -1,0 +1,45 @@
+# .notmuch-config - Configuration file for the notmuch mail system
+#
+# For more information about notmuch, see http://notmuchmail.org
+
+# Database configuration
+#
+# The only value supported here is 'path' which should be the top-level
+# directory where your mail currently exists and to where mail will be
+# delivered in the future. Files should be individual email messages.
+# Notmuch will store its database within a sub-directory of the path
+# configured here named ".notmuch".
+#
+[database]
+path=/home/frozencemetery/Mail
+
+# User configuration
+#
+# Here is where you can let notmuch know how you would like to be
+# addressed. Valid settings are
+#
+#	name		Your full name.
+#	primary_email	Your primary email address.
+#	other_email	A list (separated by ';') of other email addresses
+#			at which you receive email.
+#
+# Notmuch will use the various email addresses configured here when
+# formatting replies. It will avoid including your own addresses in the
+# recipient list of replies, and will set the From address based on the
+# address to which the original email was addressed.
+#
+[user]
+name=frozencemetery
+primary_email=rharwood@club.cc.cmu.edu
+other_email=rharwood@cmu.edu;rharwood@andrew.cmu.edu;rharwood@bu.edu;threeoften@gmail.com
+
+# Configuration for "notmuch new"
+#
+# The following options are supported here:
+#
+#	tags	A list (separated by ';') of the tags that will be
+#		added to all messages incorporated by "notmuch new".
+#
+[new]
+tags=unread;new;untagged;
+

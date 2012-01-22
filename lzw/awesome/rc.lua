@@ -27,6 +27,7 @@ local modkey = "Mod4"
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
+-- should be nine (for nine screens)
 local scount = screen.count()
 
 -- Beautiful theme
@@ -37,26 +38,25 @@ layouts = {
   awful.layout.suit.tile,        -- 1
   awful.layout.suit.tile.bottom, -- 2
   awful.layout.suit.fair,        -- 3
-  awful.layout.suit.max,         -- 4
-  awful.layout.suit.magnifier,   -- 5
-  awful.layout.suit.floating     -- 6
+  awful.layout.suit.magnifier,   -- 4
+  awful.layout.suit.floating     -- 5
 }
 -- }}}
 
 
 -- {{{ Tags
 tags = {
-  names  = { "term", "emacs", "web", "mail", "im", 6, 7, "rss", "media" },
-  layout = { layouts[2], layouts[1], layouts[1], layouts[4], layouts[1],
-             layouts[6], layouts[6], layouts[5], layouts[6]
+  names  = { "α", "β", "γ", "θ", "λ", "ξ", "π", "φ", "ω" },
+  layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1],
+             layouts[1], layouts[1], layouts[1], layouts[1]
 }}
 
 for s = 1, scount do
   tags[s] = awful.tag(tags.names, s, tags.layout)
-  for i, t in ipairs(tags[s]) do
-      awful.tag.setproperty(t, "mwfact", i==5 and 0.13  or  0.5)
-      awful.tag.setproperty(t, "hide",  (i==6 or  i==7) and true)
-  end
+--  for i, t in ipairs(tags[s]) do
+--      awful.tag.setproperty(t, "mwfact", i==5 and 0.13  or  0.5)
+--      awful.tag.setproperty(t, "hide",  (i==6 or  i==7) and true)
+--  end
 end
 -- }}}
 
@@ -81,7 +81,8 @@ cpugraph:set_width(40):set_height(14)
 cpugraph:set_background_color(beautiful.fg_off_widget)
 cpugraph:set_gradient_angle(0):set_gradient_colors({
    beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget
-}) -- Register widgets
+												   }) 
+-- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
@@ -92,7 +93,7 @@ baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
 batwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT1")
 -- }}}
 
 -- {{{ Memory usage
@@ -101,13 +102,16 @@ memicon.image = image(beautiful.widget_mem)
 -- Initialize widget
 membar = awful.widget.progressbar()
 -- Pogressbar properties
+
 membar:set_vertical(true):set_ticks(true)
 membar:set_height(12):set_width(8):set_ticks_size(2)
 membar:set_background_color(beautiful.fg_off_widget)
 membar:set_gradient_colors({ beautiful.fg_widget,
-   beautiful.fg_center_widget, beautiful.fg_end_widget
-}) -- Register widget
-vicious.register(membar, vicious.widgets.mem, "$1", 13)
+							 beautiful.fg_center_widget, beautiful.fg_end_widget
+}) 
+
+-- Register widget
+vicious.register(membar, vicious.widgets.mem, "$5", 13)
 -- }}}
 
 -- {{{ File system usage
@@ -148,9 +152,10 @@ upicon.image = image(beautiful.widget_netup)
 netwidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="'
-  .. beautiful.fg_netdn_widget ..'">${eth0 down_kb}</span> <span color="'
-  .. beautiful.fg_netup_widget ..'">${eth0 up_kb}</span>', 3)
+  .. beautiful.fg_netdn_widget ..'">${wlan0 down_kb}</span> <span color="'
+  .. beautiful.fg_netup_widget ..'">${wlan0 up_kb}</span>', 3)
 -- }}}
+
 
 -- {{{ Mail subject
 mailicon = widget({ type = "imagebox" })
@@ -207,8 +212,8 @@ volbar:set_gradient_colors({ beautiful.fg_widget,
 }) -- Enable caching
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "PCM")
-vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
+vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
+vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 -- Register buttons
 volbar.widget:buttons(awful.util.table.join(
    awful.button({ }, 1, function () exec("kmix") end),
@@ -224,7 +229,7 @@ dateicon.image = image(beautiful.widget_date)
 -- Initialize widget
 datewidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(datewidget, vicious.widgets.date, "%R", 61)
+vicious.register(datewidget, vicious.widgets.date, "%a %D %R", 61)
 -- Register buttons
 datewidget:buttons(awful.util.table.join(
   awful.button({ }, 1, function () exec("pylendar.py") end)
@@ -276,8 +281,8 @@ for s = 1, scount do
         {   taglist[s], layoutbox[s], separator, promptbox[s],
             ["layout"] = awful.widget.layout.horizontal.leftright
         },
-        s == 1 and systray or nil,
         separator, datewidget, dateicon,
+        s == 1 and systray or nil,
         separator, volwidget,  volbar.widget, volicon,
         separator, orgwidget,  orgicon,
         separator, mailwidget, mailicon,
@@ -313,53 +318,26 @@ clientbuttons = awful.util.table.join(
 -- {{{ Global keys
 globalkeys = awful.util.table.join(
     -- {{{ Applications
-    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
-    awful.key({ modkey }, "r", function () exec("rox", false) end),
     awful.key({ modkey }, "w", function () exec("firefox") end),
-    awful.key({ altkey }, "F1",  function () exec("urxvt") end),
-    awful.key({ altkey }, "#49", function () scratch.drop("urxvt", "bottom", nil, nil, 0.30) end),
-    awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
-    awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
-    awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
-    awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
-        else boosk, osk = pcall(require, "osk") end
-    end),
-    -- }}}
-
-    -- {{{ Multimedia keys
-    awful.key({}, "#235", function () exec("kscreenlocker --forcelock") end),
-    awful.key({}, "#121", function () exec("pvol.py -m") end),
-    awful.key({}, "#122", function () exec("pvol.py -p -c -2") end),
-    awful.key({}, "#123", function () exec("pvol.py -p -c  2") end),
-    awful.key({}, "#232", function () exec("plight.py -c -10") end),
-    awful.key({}, "#233", function () exec("plight.py -c  10") end),
-    awful.key({}, "#165", function () exec("sudo /usr/sbin/pm-hibernate") end),
-    awful.key({}, "#150", function () exec("sudo /usr/sbin/pm-suspend")   end),
-    awful.key({}, "#163", function () exec("pypres.py") end),
+    awful.key({ modkey, "Shift" }, "Return", function () exec("xfce4-terminal --hide-menubar") end),
+    awful.key({ modkey, "Shift" }, "p", function () exec("dmenu_run") end),
+    awful.key({ modkey }, "j", function () exec("amixer set Master 10%+ > /dev/null") end),
+	awful.key({ modkey }, "k", function () exec("amixer set Master 10%- > /dev/null") end),
+	awful.key({ modkey, "Shift" }, "k", function () exec("amixer set Master 0% > /dev/null") end),
+    awful.key({ modkey }, "t", function () exec("xfce4-terminal -e 'emacs /home/mixal/.config/awesome/rc.lua' --hide-menubar") end),
     -- }}}
 
     -- {{{ Prompt menus
-    awful.key({ altkey }, "F2", function ()
+    awful.key({ modkey }, "p", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
             function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
             awful.completion.shell, awful.util.getdir("cache") .. "/history")
     end),
-    awful.key({ altkey }, "F3", function ()
-        awful.prompt.run({ prompt = "Dictionary: " }, promptbox[mouse.screen].widget,
-            function (words)
-                sexec("crodict "..words.." | ".."xmessage -timeout 10 -file -")
-            end)
-    end),
-    awful.key({ altkey }, "F4", function ()
+    awful.key({ modkey, "Shift" }, "w", function ()
         awful.prompt.run({ prompt = "Web: " }, promptbox[mouse.screen].widget,
             function (command)
                 sexec("firefox 'http://yubnub.org/parser/parse?command="..command.."'")
-                awful.tag.viewonly(tags[scount][3])
             end)
-    end),
-    awful.key({ altkey }, "F5", function ()
-        awful.prompt.run({ prompt = "Lua: " }, promptbox[mouse.screen].widget,
-        awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval")
     end),
     -- }}}
 
@@ -367,43 +345,43 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "b", function ()
         wibox[mouse.screen].visible = not wibox[mouse.screen].visible
     end),
+	awful.key({ modkey, "Shift" }, "v", awesome.restart),
     awful.key({ modkey, "Shift" }, "q", awesome.quit),
-    awful.key({ modkey, "Shift" }, "r", function ()
+    awful.key({ modkey, "Shift" }, "r", function () -- Same as mod shift v?
         promptbox[mouse.screen].text = awful.util.escape(awful.util.restart())
     end),
     -- }}}
 
     -- {{{ Tag browsing
-    awful.key({ altkey }, "n",   awful.tag.viewnext),
-    awful.key({ altkey }, "p",   awful.tag.viewprev),
-    awful.key({ altkey }, "Tab", awful.tag.history.restore),
+    awful.key({ altkey }, "l",   awful.tag.viewnext),
+    awful.key({ altkey }, "h",   awful.tag.viewprev),
     -- }}}
 
     -- {{{ Layout manipulation
+-- Increase/Decrease window size
     awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end),
-    awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end),
-    awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
-    awful.key({ modkey, "Shift" }, "h", function () awful.client.incwfact( 0.05) end),
+    awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end),   
+--  Look up these functions later.
+--	awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
+--  awful.key({ modkey, "Shift" }, "h", function () awful.client.incwfact( 0.05) end),
     awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end),
     awful.key({ modkey },          "space", function () awful.layout.inc(layouts,  1) end),
     -- }}}
 
     -- {{{ Focus controls
-    awful.key({ modkey }, "p", function () awful.screen.focus_relative(1) end),
-    awful.key({ modkey }, "s", function () scratch.pad.toggle() end),
+-- Look up this function
+--  awful.key({ modkey }, "p", function () awful.screen.focus_relative(1) end),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey }, "j", function ()
-        awful.client.focus.byidx(1)
-        if client.focus then client.focus:raise() end
-    end),
-    awful.key({ modkey }, "k", function ()
-        awful.client.focus.byidx(-1)
-        if client.focus then client.focus:raise() end
-    end),
-    awful.key({ modkey }, "Tab", function ()
-        awful.client.focus.history.previous()
-        if client.focus then client.focus:raise() end
-    end),
+-- Look up  
+	awful.key({ modkey }, "Tab", function ()
+      awful.client.focus.byidx(1)
+      if client.focus then client.focus:raise() end
+   end),
+	awful.key({ modkey, "Shift" }, "Tab", function ()
+      awful.client.focus.byidx(-1)
+      if client.focus then client.focus:raise() end
+   end),
+
     awful.key({ altkey }, "Escape", function ()
         awful.menu.menu_keys.down = { "Down", "Alt_L" }
         local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
@@ -416,7 +394,7 @@ globalkeys = awful.util.table.join(
 
 -- {{{ Client manipulation
 clientkeys = awful.util.table.join(
-    awful.key({ modkey }, "c", function (c) c:kill() end),
+    awful.key({ modkey, "Shift" }, "c", function (c) c:kill() end),
     awful.key({ modkey }, "d", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
     awful.key({ modkey }, "f", function (c) c.fullscreen = not c.fullscreen end),
     awful.key({ modkey }, "m", function (c)
@@ -523,12 +501,16 @@ client.add_signal("manage", function (c, startup)
     end
 
     -- Enable sloppy focus
+--[[ 
+-- Do Not Want
     c:add_signal("mouse::enter", function (c)
         if  awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
         and awful.client.focus.filter(c) then
             client.focus = c
         end
     end)
+--]]
+
 
     -- Client placement
     if not startup then

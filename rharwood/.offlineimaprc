@@ -1,6 +1,6 @@
 [general]
 metadata = ~/.offlineimap
-accounts = CMU, GMail, BU
+accounts = CMU, GMail, BU, CCLUB
 postsynchook = notmuch new
 #autorefresh=5
 #ui = Noninteractive.Quiet
@@ -14,12 +14,13 @@ type = Maildir
 localfolders = /home/frozencemetery/Mail/BU
 
 [Repository RemoteBU]
+postsynchook = notmuch new
 ssl = yes
 port = 993
 type = IMAP
 remotehost = imap.gmail.com
 remoteuser = rharwood@bu.edu
-remotepass = [redact]
+remotepass = nope
 folderfilter = lambda foldername: foldername in [
       'INBOX',
       'Inbox',
@@ -46,10 +47,11 @@ type = Maildir
 localfolders = /home/frozencemetery/Mail/GMail
 
 [Repository RemoteGMail]
+postsynchook = notmuch new
 ssl = yes
 type = Gmail
 remoteuser = threeoften@gmail.com
-remotepass = [redact]
+remotepass = nope
 folderfilter = lambda foldername: foldername in [
       'INBOX',
       'Inbox',
@@ -73,11 +75,12 @@ type = Maildir
 localfolders = /home/frozencemetery/Mail/CMU
 
 [Repository RemoteCMU]
+postsynchook = notmuch new
 ssl = yes
 type = IMAP
 remotehost = cyrus.andrew.cmu.edu
 remoteuser = rharwood
-remotepass = [redact]
+remotepass = nope
 folderfilter = lambda foldername: foldername in [
       'INBOX', 
       'Inbox',  
@@ -89,8 +92,6 @@ folderfilter = lambda foldername: foldername in [
       'INBOX.Drafts',   
       'INBOX.Sent',   
       '[IMAP]INBOX', 
-      'academic.cs.15-150.announce',    
-      'academic.cs.15-150.discuss',  
       'cmu.student.computer-club', 
       'cmu.student.computer-club.afs', 
       'cmu.student.computer-club.linux', 
@@ -101,10 +102,18 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
                                re.sub ('starred', 'flagged',
                                re.sub (' ', '_', foldername.lower()))))
 
-[mbnames]
-enabled = yes
-filename = ~/.mutt/mailboxes
-header = "mailboxes "
-peritem = "+%(accountname)s/%(foldername)s"
-sep = " "
-footer = "\n"
+[Account CCLUB]
+localrepository = LocalCCLUB
+remoterepository = RemoteCCLUB
+
+[Repository LocalCCLUB]
+type = Maildir
+localfolders = /home/frozencemetery/Mail/CCLUB
+
+[Repository RemoteCCLUB]
+postsynchook = notmuch new
+ssl = yes
+type = IMAP
+remotehost = imap.club.cc.cmu.edu
+remoteuser = rharwood
+remotepass = nope

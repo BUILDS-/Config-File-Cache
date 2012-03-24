@@ -41,7 +41,6 @@ export PYTHONPATH="$HOME/project/cogphysics/dev/code:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/gutenbach/server/lib:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pystoch/src:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pyutil/src:$PYTHONPATH"
-
 export COGPHYSICS="$HOME/project/cogphysics/"
 
 # where to look for the pylint config

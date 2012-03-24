@@ -2,7 +2,7 @@
 #alias sup=sup-mail
 
 # emacsclient alias
-alias emacs="emacsclient -t"
+#alias emacs="emacsclient -t"
 
 # git aliases
 alias gpull="git pull --rebase"

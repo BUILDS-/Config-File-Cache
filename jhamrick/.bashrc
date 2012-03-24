@@ -20,8 +20,9 @@ export AWT_TOOLKIT=MToolkit
 # the hostname of this machine, used for cont-renew-notify
 export HOST="$(hostname)"
 
-# update path to look for sup binaries
-export PATH=$HOME/project/bher-read-only:$HOME/project/sup/bin:$HOME/project/pystoch/bin:$PATH
+# update path to look for binaries
+export PATH="$HOME/project/pystoch/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # default editor should be emacsclient
 export EDITOR="emacsclient -t"
@@ -41,6 +42,8 @@ export PYTHONPATH="$HOME/project/gutenbach/server/lib:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pystoch/src:$PYTHONPATH"
 export PYTHONPATH="$HOME/project/pyutil/src:$PYTHONPATH"
 
+export COGPHYSICS="$HOME/project/cogphysics/"
+
 # where to look for the pylint config
 export PYLINTRC="$HOME/.pylintrc"
 
@@ -51,15 +54,6 @@ export TEXMFCNF=$TEXINPUTS
 # tell ikarus to look for mit-church
 export IKARUS_LIBRARY_PATH=/home/jhamrick/project/mit-church:
 #export IKARUS_LIBRARY_PATH=/home/jhamrick/project/bher-read-only:
-
-# blackships environment variable
-export blackships=$HOME/activities/roleplaying/assassin/blackships
-
-# set the correct calibration for the touchscreen on pomegranate
-# meringue
-if [ $(hostname) = "pomegranate-meringue" ]; then
-    xinput set-prop 8 273 250, 7900, 450, 7950 2&>1 >/dev/null
-fi
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.

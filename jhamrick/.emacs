@@ -1,5 +1,3 @@
-(modify-frame-parameters nil '((wait-for-wm . nil)))
-
 ;;;;;;;;;;;;;
 ;; INCLUDE ;;
 ;;;;;;;;;;;;;
@@ -65,7 +63,7 @@
 
 ; python stuff
 (require 'ipython)
-(setq py-python-command-args '( "-colors" "Linux"))
+(setq py-python-command-args '( "--colors" "Linux"))
 
 (require 'python-mode) 
 (provide 'python-programming)
@@ -79,7 +77,11 @@
 (require 'church)
 
 ; nyan cat
-(require 'nyan-mode)
+;(require 'nyan-mode)
+
+; fill column indicator
+(require 'fill-column-indicator)
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 
 ;;;;;;;;;;;;;;;;;
 ;; KEYBINDINGS ;;
@@ -114,47 +116,92 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; EMACS CUSTOMIZATION ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(TeX-view-program-selection (quote (((output-dvi style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf "Evince") (output-html "xdg-open"))))
+ '(blink-cursor-mode nil)
  '(c-basic-offset 8)
  '(c-default-style (quote ((c-mode . "bsd") (java-mode . "java") (awk-mode . "awk") (other . "gnu"))))
  '(case-fold-search t)
+ '(color-theme-selection "Subtle Hacker" nil (color-theme_seldefcustom))
+ '(column-number-mode t)
  '(current-language-environment "English")
+ '(default-frame-alist (quote ((menu-bar-lines . 0) (background-mode . dark) (right-fringe . 10))))
+ '(desktop-after-read-hook (quote (list-buffers)))
+ '(desktop-clear-preserve-buffers (quote ("\\*server\\*")))
+ '(desktop-dirname (quote ("~/.emacs.d/desktop/")) t)
+ '(desktop-path (quote ("~/.emacs.d/desktop/")))
+ '(desktop-restore-eager 5)
+ '(desktop-save t)
+ '(desktop-save-mode t)
+ '(fill-column 80)
+ '(font-lock-global-modes nil)
  '(font-lock-maximum-decoration t)
+ '(frame-background-mode (quote dark))
+ '(fringe-mode 10 nil (fringe))
  '(global-auto-complete-mode t)
+ '(global-fci-mode t)
  '(global-font-lock-mode t nil (font-lock))
+ '(global-hi-lock-mode nil)
+ '(global-hl-line-mode t)
+ '(global-linum-mode t)
+ '(highlight-current-line-globally t nil (highlight-current-line))
+ '(highlight-current-line-high-faces nil)
+ '(highlight-current-line-whole-line nil)
+ '(hl-line-face (quote highlight))
  '(ido-mode (quote both) nil (ido))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(inverse-video nil)
+ '(jit-lock-contextually t)
+ '(jit-lock-stealth-verbose t)
  '(line-number-mode t)
+ '(matlab-auto-mode t nil (matlab))
  '(menu-bar-mode nil)
+ '(mode-line-inverse-video t)
  '(mouse-wheel-mode t nil (mwheel))
- '(nyan-mode t)
- '(py-smart-indentation nil)
+ '(overflow-newline-into-fringe nil)
+ '(py-smart-indentation t)
  '(python-guess-indent nil)
- '(quack-fontify-style (quote emacs))
- '(quack-pretty-lambda-p nil)
- '(quack-run-scheme-always-prompts-p nil)
- '(quack-smart-open-paren-p t)
- '(quack-switch-to-scheme-method (quote own-frame))
- '(quack-warp-pointer-to-frame-p nil)
- '(ropemacs-enable-autoimport t)
+ '(scroll-bar-mode nil)
  '(show-paren-mode t nil (paren))
+ '(size-indication-mode t)
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
- '(weblogger-config-alist (quote (("default" "http://jhamrick.mit.edu/xmlrpc.php" "admin" "" "1")))))
+ '(truncate-lines t)
+ '(truncate-partial-width-windows t)
+ '(window-system-default-frame-alist default-frame-alist t))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :background "gray10" :foreground "lemon chiffon" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
+ '(border ((t nil)))
+ '(cursor ((t (:background "firebrick1" :foreground "black"))))
+ '(font-lock-comment-face ((t (:foreground "lime green"))))
+ '(font-lock-doc-face ((t (:foreground "tomato" :slant italic))))
+ '(font-lock-keyword-face ((t (:foreground "MediumOrchid1"))))
+ '(font-lock-string-face ((t (:foreground "tomato" :slant italic))))
+ '(fringe ((nil (:background "black"))))
+ ;'(highlight ((t (:inherit default :background "pale green" :foreground "black" :box (:line-width -1 :color "gray10")))))
+ '(highlight ((t (:background "khaki1" :foreground "black" :box (:line-width -1 :color "firebrick1")))))
+ '(highlight-current-line-face ((t (:inherit highlight))))
+ '(lazy-highlight ((t (:background "paleturquoise" :foreground "black"))))
+ '(link ((t (:foreground "DodgerBlue3" :underline t))))
+ '(menu ((t (:background "gray10" :foreground "lemon chiffon"))))
+ '(minibuffer-prompt ((t (:foreground "royal blue"))))
+ '(mode-line ((t (:background "dark olive green" :foreground "dark blue" :box (:line-width -1 :color "gray75") :weight bold))))
+ '(mode-line-buffer-id ((t (:background "dark olive green" :foreground "beige"))))
+ '(mode-line-highlight ((((class color) (min-colors 88)) nil)))
+ '(mode-line-inactive ((t (:background "dark olive green" :foreground "dark khaki" :weight light))))
+ '(mouse ((t (:background "Grey" :foreground "black"))))
+ '(trailing-whitespace ((((class color) (background dark)) (:background "firebrick1")))))
+
 
 ;;;;;;;;;;;
 ;; MODES ;;
@@ -233,3 +280,16 @@
 
 (global-set-key (kbd "C-c C--") 'camelcase-word-or-region)
 (global-set-key (kbd "C-c C-_") 'snakecase-word-or-region)
+
+(setq require-final-newline t)
+
+;; ----------------------------------------------------------------------
+; R emacs mode
+(require 'ess-site)
+; automatically get the correct mode 
+auto-mode-alist (append (list '("\\.R$" . R-mode)
+                              '("\\.r$" . R-mode)
+                              )
+                        auto-mode-alist)
+(setq-default inferior-R-program-name "R") 
+

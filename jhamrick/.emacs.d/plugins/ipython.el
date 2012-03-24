@@ -217,10 +217,10 @@ the second for a 'normal' command, and the third for a multiline command.")
     (setq py-shell-input-prompt-1-regexp "^In \\[[0-9]+\\]: *"
           py-shell-input-prompt-2-regexp "^   [.][.][.]+: *" )
     ;; select a suitable color-scheme
-    (unless (member "-colors" py-python-command-args)
+    (unless (member "--colors" py-python-command-args)
       (setq py-python-command-args
             (nconc py-python-command-args
-                   (list "-colors"
+                   (list "--colors"
                          (cond
                            ((eq frame-background-mode 'dark)
                             "Linux")
@@ -311,7 +311,8 @@ gets converted to:
         (replace-match "" t nil)))))
 
 (defvar ipython-completion-command-string
-  "print ';'.join(__IP.Completer.all_completions('%s')) #PYTHON-MODE SILENT\n"
+  ;"print ';'.join(__IP.Completer.all_completions('%s')) #PYTHON-MODE SILENT\n"
+  "print ';'.join(get_ipython().Completer.all_completions('%s')) #PYTHON-MODE SILENT\n"
   "The string send to ipython to query for all possible completions")
 
 

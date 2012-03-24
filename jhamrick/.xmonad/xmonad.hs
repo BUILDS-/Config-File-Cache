@@ -7,6 +7,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.SetWMName
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Layout.Gaps
 
 myManageHook = composeAll
     [ className =? "Gimp" --> doFloat 
@@ -14,7 +15,10 @@ myManageHook = composeAll
     , className =? "stalonetray" --> doIgnore 
     , className =? "nm-connection-editor" --> doFloat
     , className =? "anathema" --> doFloat
-    , className =? "blender" --> doFloat ]
+    , className =? "blender" --> doFloat 
+    , className =? "Unity-2d-panel"    --> doIgnore      
+    , className =? "Unity-2d-launcher" --> doIgnore ]
+myLayouts = gaps [(U, 24)]
 
 main = xmonad myConfig
 

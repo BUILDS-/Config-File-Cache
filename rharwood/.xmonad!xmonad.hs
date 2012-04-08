@@ -13,6 +13,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.PerWorkspace
 import XMonad.Hooks.UrgencyHook
 
 spawnterm :: String -> X ()
@@ -33,7 +34,7 @@ main = do
     modMask = mod4Mask,
     workspaces = ["1","2","3","4","5","6","7","8","9","0"],
     normalBorderColor = "#000000",
-    focusedBorderColor = "#FF7228",
+    focusedBorderColor = "#ff7228",
     keys =          
       \conf@(XConfig {XMonad.modMask = modm}) ->
       M.fromList $
@@ -58,15 +59,15 @@ main = do
         
       , ((modm, xK_u), spawnterm "canto -u")
       , ((modm .|. shiftMask, xK_u), spawnterm "emacsclient -nw -e \"(notmuch)\"")
-      , ((modm .|. shiftMask, xK_a), spawnterm "htop")
-      , ((modm .|. shiftMask, xK_d), spawnterm "iotop")
+      , ((modm              , xK_w), spawnterm "emacsclient -nw $(mktemp)")
+      , ((modm .|. shiftMask, xK_a), spawnterm "htop")        
         
       , ((modm, xK_i), spawn "xcalib -i -a")
        
       , ((modm .|. shiftMask, xK_c), kill)
       , ((modm, xK_s), sendMessage NextLayout)
       , ((modm .|. shiftMask, xK_s), setLayout $ XMonad.layoutHook conf)
-      , ((modm, xK_n), refresh)
+      , ((modm, xK_r), refresh)
       , ((modm, xK_Tab), windows W.focusDown)
       , ((modm .|. shiftMask, xK_Tab), windows W.swapDown)
       , ((modm, xK_quoteleft), windows W.focusUp)
@@ -131,30 +132,34 @@ main = do
         )
       ]
     ,
+    -- layoutHook = avoidStruts $
+    --              smartBorders $
+    --              mkToggle (single FULL) . mkToggle (single MIRROR) $
+    --              ResizableTall 1 (3/100) (1/2) [] ||| Grid,
     layoutHook = avoidStruts $
                  smartBorders $
                  mkToggle (single FULL) . mkToggle (single MIRROR) $
-                 ResizableTall 1 (3/100) (1/2) [] ||| Grid,
-      logHook = dynamicLogWithPP $ xmobarPP {
-        ppCurrent = xmobarColor "" "orange" . xmobarStrip,
-        ppVisible = xmobarColor "" "white" . xmobarStrip,
-        ppWsSep = "",
-        ppHidden = xmobarColor "black" "grey" . xmobarStrip,
-        ppHiddenNoWindows = id,
-        ppUrgent = xmobarColor "orange" "black" . xmobarStrip,
-        ppSep = " ",
-        ppTitle = const "",
-        ppLayout  = \a -> case a of
-          "Full" -> "ƒ"
-          "Grid" -> "g"
-          "Mirror Grid" -> "G"
-          "ResizableTall" -> "t"
-          "Mirror ResizableTall" -> "T"
-          _ -> a,
-        ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:unread):$(notmuch count tag:inpile)\""],
-        ppOrder = \[workspaces, layout, title, average, mail] -> [average ++ " |", workspaces, layout, title, mail],
-        ppOutput = hPutStrLn xmproc
-        }
+                 onWorkspace "1" (ResizableTall 1 (3/100) (1/5) []) (ResizableTall 1 (3/100) (1/2) []) ||| Grid,
+    logHook = dynamicLogWithPP $ xmobarPP {
+      ppCurrent = xmobarColor "" "orange" . xmobarStrip,
+      ppVisible = xmobarColor "" "white" . xmobarStrip,
+      ppWsSep = "",
+      ppHidden = xmobarColor "black" "grey" . xmobarStrip,
+      ppHiddenNoWindows = id,
+      ppUrgent = xmobarColor "orange" "black" . xmobarStrip,
+      ppSep = " ",
+      ppTitle = const "",
+      ppLayout  = \a -> case a of
+        "Full" -> "ƒ"
+        "Grid" -> "g"
+        "Mirror Grid" -> "G"
+        "ResizableTall" -> "t"
+        "Mirror ResizableTall" -> "T"
+        _ -> a,
+      ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:unread):$(notmuch count tag:inbox)\""],
+      ppOrder = \[workspaces, layout, title, average, mail] -> [average ++ " |", workspaces, layout, title, mail],
+      ppOutput = hPutStrLn xmproc
+      }
     ,
     manageHook = manageDocks <+> (
       composeAll
@@ -162,13 +167,17 @@ main = do
       , resource =? "desktop_window" --> doIgnore
       , resource =? "Dialog" --> doFloat
       , title =? "Pidgin" --> doFloat
+      , title =? "Dwarf Fortress" --> doFloat
+      , title =? "QEMU" --> doFloat -- this doesn't work
       , className =? "Pidgin" --> doShift "1"
       ]
       )
     ,
     handleEventHook = mempty,
-    startupHook = spawnterm $
-                  "fortune -a | cowsay -n" 
-                  ++ " && " ++
-                  "bash"
+    startupHook = do
+      spawn "pidgin"
+      spawnterm $
+        "fortune -a | cowsay -n"
+        ++ " && " ++
+        "bash"
     }

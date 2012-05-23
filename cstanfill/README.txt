@@ -1,0 +1,1 @@
+tex/   : random tex class files that must be in your tex-mf path

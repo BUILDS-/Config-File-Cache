@@ -3,6 +3,17 @@
 (column-number-mode)
 (display-battery-mode)
 
+(require 'auto-complete-config)
+(require 'auto-complete)
+;; dirty fix for having AC everywhere
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                         (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
+(ac-flyspell-workaround)
+
 (load "/home/frozencemetery/.emacs.d/sml-modeline/sml-modeline.el")
 (require 'sml-modeline)
 (sml-modeline-mode)
@@ -152,6 +163,8 @@
 
 (find-file "~/orgmain.org")
 (find-file "~/sched.org")
+(eshell)
+(run-sml "sml" "sml")
 
 (require 'notmuch)
 (setq notmuch-hello-thousands-separator ',)

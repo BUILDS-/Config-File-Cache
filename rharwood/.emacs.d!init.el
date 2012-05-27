@@ -23,13 +23,20 @@
 (require 'eshell)
 (eshell)
 
+(defun indent-properly ()
+  "Run indent on the buffer"
+  (shell-command-on-region (point-min) (point-max) "indent -" t t))
+(add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
+
 (add-hook 'c-mode-common-hook
           (lambda ()
             (auto-fill-mode 1)
             (set (make-local-variable 'fill-nobreak-predicate)
                  (lambda ()
                    (not (eq (get-text-property (point) 'face)
-                            'font-lock-comment-face))))))
+                            'font-lock-comment-face))))
+            (indent-properly)
+            ))
 (setq c-default-style "k&r" c-basic-offset 2)
 ;; I'm actually otbs but eh close enough.
 

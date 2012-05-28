@@ -156,6 +156,7 @@
 (slime)
 (slime-setup '(slime-repl slime-asdf slime-fancy slime-banner))
 
+(setq python-indent 2)
 (run-python)
 
 (setq sml-program-name "sml")

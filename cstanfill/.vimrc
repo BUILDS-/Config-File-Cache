@@ -1,5 +1,6 @@
 set tabstop=4     "4-wide tabs
 set shiftwidth=4  "4-wide indentation
+set softtabstop=4 "backspace = 1 tab
 set expandtab     "use spaces
 set modeline      "show modeline
 set showcmd       "show command as it is typed
@@ -24,6 +25,7 @@ inoremap <F6> <Esc>:make clean<CR>
 
 "load plugins
 set runtimepath+=$HOME/.vim/
+"let g:miniBufExplForceSyntaxEnable = 1
 
 "lets C-s and C-q be capture by vim instead of the terminal
 silent !stty -ixon > /dev/null 2>/dev/null

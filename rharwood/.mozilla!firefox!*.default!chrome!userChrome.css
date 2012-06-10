@@ -46,3 +46,7 @@
  
 
 .tabs-newtab-button {display: none; }
+
+.tabbrowser-tab:not([pinned]) {
+  min-width: 30px !important;
+}

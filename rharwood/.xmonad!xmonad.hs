@@ -63,7 +63,6 @@ main = do
       , ((modm .|. shiftMask, xK_u), spawnterm "emacsclient -nw -e \"(notmuch)\"")
       , ((modm              , xK_w), spawnterm "emacsclient -nw $(mktemp)")
       , ((modm .|. shiftMask, xK_a), spawnterm "htop")
-      , ((modm              , xK_d), spawn "pgrep trayer && killall trayer || trayer &")
         
       , ((modm, xK_i), spawn "xcalib -i -a")
        
@@ -85,6 +84,7 @@ main = do
       , ((modm, xK_comma), sendMessage (IncMasterN 1))
       , ((modm, xK_period), sendMessage (IncMasterN (-1)))
       , ((modm, xK_b), sendMessage ToggleStruts)
+      , ((modm .|. shiftMask, xK_b), spawn "pgrep trayer && killall trayer || trayer &")
       , ((modm, xK_v), spawn "echo \"\" | xsel -i && echo \"\" | xsel -ib")
       , ((modm, xK_q), do
          spawn "killall -g .mpdmonitor.sh"

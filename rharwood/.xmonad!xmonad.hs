@@ -17,13 +17,16 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Hooks.UrgencyHook
 
 spawnterm :: String -> X ()
-spawnterm = spawn . wrap "xfce4-terminal -x sh -c 'sleep .05; " "'"
+spawnterm = \x -> spawn("xfce4-terminal -x sh -c 'sleep .05; exec " ++ x ++ "'")
 
 mpc :: String -> X ()
-mpc = spawn . ("MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++)
+mpc = \x -> spawn("MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x)
 
 asroot :: String -> X ()
-asroot = spawnterm . wrap "su -c '" "'"
+asroot = \x -> spawnterm("su -c '" ++ x ++ "'")
+
+widthdelta :: Rational
+widthdelta = 3/100
 
 main = do
   xmproc <- spawnPipe "xmobar"
@@ -57,10 +60,10 @@ main = do
       , ((modm, 0x1008ff17), mpc "play")
       , ((modm, 0x1008ff14), spawnterm "alsamixer")
         
-      , ((modm, xK_u), spawnterm "canto -u")
       , ((modm .|. shiftMask, xK_u), spawnterm "emacsclient -nw -e \"(notmuch)\"")
       , ((modm              , xK_w), spawnterm "emacsclient -nw $(mktemp)")
-      , ((modm .|. shiftMask, xK_a), spawnterm "htop")        
+      , ((modm .|. shiftMask, xK_a), spawnterm "htop")
+      , ((modm              , xK_d), spawn "pgrep trayer && killall trayer || trayer &")
         
       , ((modm, xK_i), spawn "xcalib -i -a")
        
@@ -82,11 +85,7 @@ main = do
       , ((modm, xK_comma), sendMessage (IncMasterN 1))
       , ((modm, xK_period), sendMessage (IncMasterN (-1)))
       , ((modm, xK_b), sendMessage ToggleStruts)
-      -- , ((modm .|. shiftMask, xK_q), do
-      --       spawn "killall -g .mpdmonitor.sh"
-      --       spawn "killall -g .alsamonitor.sh"
-      --       io $ exitWith ExitSuccess
-      --   )
+      , ((modm, xK_v), spawn "echo \"\" | xsel -i && echo \"\" | xsel -ib")
       , ((modm, xK_q), do
          spawn "killall -g .mpdmonitor.sh"
          spawn "killall -g .alsamonitor.sh"
@@ -100,9 +99,6 @@ main = do
       , ((modm .|. shiftMask, xK_slash),
          spawnterm "less /usr/share/X11/locale/en_US.UTF-8/Compose"
         )
-        -- , ((0 , xK_Print ), spawn "scrot -e 'mv $f ~/Pictures/Captures/'")
-        -- , ((modm , xK_Print ),
-        --    spawn "scrot -u -e 'mv $f ~/Pictures/Captures/'")
       ]
       ++
       [((m .|. modm, k), windows $ f i)
@@ -132,14 +128,12 @@ main = do
         )
       ]
     ,
-    -- layoutHook = avoidStruts $
-    --              smartBorders $
-    --              mkToggle (single FULL) . mkToggle (single MIRROR) $
-    --              ResizableTall 1 (3/100) (1/2) [] ||| Grid,
     layoutHook = avoidStruts $
                  smartBorders $
                  mkToggle (single FULL) . mkToggle (single MIRROR) $
-                 onWorkspace "1" (ResizableTall 1 (3/100) (1/5) []) (ResizableTall 1 (3/100) (1/2) []) ||| Grid,
+                 onWorkspace "0" (ResizableTall 1 (widthdelta) (4/5) []) $
+                 onWorkspace "1" (ResizableTall 1 (widthdelta) (1/5) []) $
+                 (ResizableTall 1 (widthdelta) (1/2) []) ||| Grid,
     logHook = dynamicLogWithPP $ xmobarPP {
       ppCurrent = xmobarColor "" "orange" . xmobarStrip,
       ppVisible = xmobarColor "" "white" . xmobarStrip,
@@ -156,7 +150,7 @@ main = do
         "ResizableTall" -> "t"
         "Mirror ResizableTall" -> "T"
         _ -> a,
-      ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:unread):$(notmuch count tag:inbox)\""],
+      ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:inbox):$(notmuch count tag:unread)\""],
       ppOrder = \[workspaces, layout, title, average, mail] -> [average ++ " |", workspaces, layout, title, mail],
       ppOutput = hPutStrLn xmproc
       }
@@ -164,18 +158,17 @@ main = do
     manageHook = manageDocks <+> (
       composeAll
       [ className =? "MPlayer" --> doFloat
-      , resource =? "desktop_window" --> doIgnore
       , resource =? "Dialog" --> doFloat
       , title =? "Pidgin" --> doFloat
       , title =? "Dwarf Fortress" --> doFloat
       , title =? "QEMU" --> doFloat -- this doesn't work
       , className =? "Pidgin" --> doShift "1"
+      , className =? "Iceweasel" --> doShift "2"
       ]
       )
     ,
     handleEventHook = mempty,
     startupHook = do
-      spawn "pidgin"
       spawnterm $
         "fortune -a | cowsay -n"
         ++ " && " ++

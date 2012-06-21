@@ -31,13 +31,14 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (auto-fill-mode 1)
+            (hs-minor-mode)
             (set (make-local-variable 'fill-nobreak-predicate)
                  (lambda ()
                    (not (eq (get-text-property (point) 'face)
                             'font-lock-comment-face))))
             (indent-properly)
             ))
-(setq c-default-style "k&r" c-basic-offset 2)
+(setq c-default-style "linux" c-basic-offset 2)
 ;; I'm actually otbs but eh close enough.
 
 (global-set-key "\C-xp" 'previous-multiframe-window)
@@ -159,12 +160,12 @@
 (setq python-indent 2)
 (run-python)
 
-(setq sml-program-name "sml")
-;; fuck you
-;; sml-mode
-;; I want to override your bindings and CAN'T
-(global-set-key "\C-c " 'just-one-space)
-(global-set-key "\C-c\C- " 'just-one-space)
+;; (setq sml-program-name "sml")
+;; ;; fuck you
+;; ;; sml-mode
+;; ;; I want to override your bindings and CAN'T
+;; (global-set-key "\C-c " 'just-one-space)
+;; (global-set-key "\C-c\C- " 'just-one-space)
 
 (setq uniquify-buffer-name-style 'post-forward)
 (require 'uniquify)
@@ -172,7 +173,16 @@
 (find-file "~/orgmain.org")
 (find-file "~/sched.org")
 (eshell)
-(run-sml "sml" "sml")
+;; (run-sml "sml" "sml")
+
+(setq message-send-mail-partially-limit 10000000)
+
+(define-key notmuch-show-mode-map " "
+  (lambda ()
+    "restore old space behavior"
+    (interactive)
+    (unless (notmuch-show-next-open-message)
+      (notmuch-show-next-thread t))))
 
 (require 'notmuch)
 (setq notmuch-hello-thousands-separator ',)

@@ -84,7 +84,7 @@ main = do
       , ((modm, xK_comma), sendMessage (IncMasterN 1))
       , ((modm, xK_period), sendMessage (IncMasterN (-1)))
       , ((modm, xK_b), sendMessage ToggleStruts)
-      , ((modm .|. shiftMask, xK_b), spawn "pgrep trayer && killall trayer || trayer &")
+      , ((modm .|. shiftMask, xK_b), spawn "pgrep trayer && killall trayer || trayer --edge top")
       , ((modm, xK_v), spawn "echo \"\" | xsel -i && echo \"\" | xsel -ib")
       , ((modm, xK_q), do
          spawn "killall -g .mpdmonitor.sh"
@@ -164,6 +164,7 @@ main = do
       , title =? "QEMU" --> doFloat -- this doesn't work
       , className =? "Pidgin" --> doShift "1"
       , className =? "Iceweasel" --> doShift "2"
+      , className =? "stalonetray" --> doIgnore 
       ]
       )
     ,

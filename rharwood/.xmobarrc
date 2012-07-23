@@ -1,12 +1,12 @@
 Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 95
+       , position = TopW L 100
        , lowerOnStart = True
        , commands = [ Run MultiCpu ["-t", "(<total0>, <total1>)", "-L", "25", "-H", "75", "--normal", "white", "--high", "orange", "-m", "3", "-w", "3"] 10
                     , Run Swap ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 100
                     , Run Memory ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 10
-                    , Run Date "%a %y:%m:%d:%R" "date" 10
+                    , Run Date "%a %Y %b %d %R" "date" 10
                     , Run StdinReader
                     , Run CommandReader "/home/frozencemetery/.mpdmonitor.sh" "MPD"
                     , Run CommandReader "/home/frozencemetery/.alsamonitor.sh" "ALSA"

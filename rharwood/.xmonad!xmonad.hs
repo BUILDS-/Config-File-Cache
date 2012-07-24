@@ -131,8 +131,8 @@ main = do
     layoutHook = avoidStruts $
                  smartBorders $
                  mkToggle (single FULL) . mkToggle (single MIRROR) $
-                 onWorkspace "0" (ResizableTall 1 (widthdelta) (4/5) []) $
-                 onWorkspace "1" (ResizableTall 1 (widthdelta) (1/5) []) $
+                 onWorkspace "0" (ResizableTall 1 (widthdelta) (4/5) [] ||| Grid) $
+                 onWorkspace "1" (ResizableTall 1 (widthdelta) (1/5) [] ||| Grid) $
                  (ResizableTall 1 (widthdelta) (1/2) []) ||| Grid,
     logHook = dynamicLogWithPP $ xmobarPP {
       ppCurrent = xmobarColor "" "orange" . xmobarStrip,

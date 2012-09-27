@@ -1,7 +1,7 @@
-(setq display-time-24hr-format 1)
-(display-time)
+;(setq display-time-24hr-format 1)
+;(display-time)
 (column-number-mode)
-(display-battery-mode)
+;(display-battery-mode)
 
 (require 'auto-complete-config)
 (require 'auto-complete)
@@ -13,15 +13,12 @@
                        ))
 (real-global-auto-complete-mode t)
 (ac-flyspell-workaround)
+(define-key ac-complete-mode-map "\t" 'ac-complete)
+(define-key ac-complete-mode-map "\r" nil)
 
 (load "/home/frozencemetery/.emacs.d/sml-modeline/sml-modeline.el")
 (require 'sml-modeline)
 (sml-modeline-mode)
-
-(defalias 'e 'find-file)
-(setq eshell-aliases-file "/home/frozencemetery/.emacs.d/eshell-aliases")
-(require 'eshell)
-(eshell)
 
 (defun indent-properly ()
   "Run indent on the buffer"
@@ -71,6 +68,11 @@
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 (setq TeX-PDF-mode t)
 
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(setq org-special-ctrl-a t)
+(setq org-special-ctrl-e t)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-to-list 'auto-mode-alist '(".bash_aliases$" . sh-mode))
 
@@ -83,7 +85,6 @@
       (append completion-ignored-extensions
               (list
                ".bak" 
-               "~" 
                ".CKP" 
                ".aux" 
                ".otl" 
@@ -96,6 +97,12 @@
                ".log"
                )))
 
+(add-hook 'eshell-mode-hook '(lambda () (define-key eshell-mode-map "\t" 'comint-dynamic-complete)))
+(defalias 'e 'find-file)
+(setq eshell-aliases-file "/home/frozencemetery/.emacs.d/eshell-aliases")
+(require 'eshell)
+(eshell)
+
 (setq auto-save-interval 1024)
 
 (setq explicit-shell-file-name "/bin/bash")
@@ -107,10 +114,26 @@
 
 (load "/home/frozencemetery/.emacs.d/ats-mode.el")
 
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+(setq haskell-mode-hook 'turn-on-haskell-indent)
+(defun haskell-shit ()
+  (turn-on-haskell-doc-mode)
+  (defun haskell-electric-| ()
+    (interactive)
+    (haskell-indent-insert-guard)
+    (indent-for-tab-command)
+    )
+  (define-key haskell-mode-map "|" 'haskell-electric-|)
+  (define-key haskell-mode-map (kbd "C-c .") 'haskell-indent-align-guards-and-rhs)
+  (defun haskell-electric-eq ()
+    (interactive)
+    (insert "=")
+    (indent-for-tab-command)
+    )
+  (define-key haskell-mode-map (kbd "=") 'haskell-electric-eq)
+  (setq haskell-stylish-on-save t)
+)
+(add-hook haskell-mode-hook 'haskell-shit)
+(run-haskell)
 
 (global-font-lock-mode 1)
 
@@ -152,10 +175,10 @@
        (("^pdf$" "." "evince -f %o")
         ("^html?$" "." "iceweasel %o"))))
 
-(setq inferior-lisp-program 'clisp)
-(require 'slime)
-(slime)
-(slime-setup '(slime-repl slime-asdf slime-fancy slime-banner))
+(setq inferior-lisp-program 'sbcl)
+;; (require 'slime)
+;; (slime)
+;; (slime-setup '(slime-repl slime-asdf slime-fancy slime-banner))
 
 (setq python-indent 2)
 (run-python)
@@ -176,13 +199,6 @@
 ;; (run-sml "sml" "sml")
 
 (setq message-send-mail-partially-limit 10000000)
-
-(define-key notmuch-show-mode-map " "
-  (lambda ()
-    "restore old space behavior"
-    (interactive)
-    (unless (notmuch-show-next-open-message)
-      (notmuch-show-next-thread t))))
 
 (require 'notmuch)
 (setq notmuch-hello-thousands-separator ',)
@@ -214,6 +230,11 @@
 (setq message-sendmail-envelope-from 'header)
 (add-hook 'message-send-mail-hook 'cg-feed-msmtp)
 (setq message-mode-hook 'flyspell-mode)
+(define-key notmuch-show-mode-map " "
+  (lambda ()
+    "restore old space behavior"
+    (interactive)
+    (notmuch-show-next-thread t)))
 ;; notmuch.el sets its variables through custom-set-variables 
 ;; this is fine, albiet a bit strange
 (custom-set-variables
@@ -221,5 +242,9 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(haskell-indent-literate-Bird-default-offset 1)
+ '(haskell-indent-offset 2)
+ '(haskell-indentation-starter-offset 2)
  '(notmuch-saved-searches (quote (("inbox" . "tag:inbox") ("unread" . "tag:unread"))))
+ '(org-agenda-files (quote ("~/schedplan.org")))
  '(sml-indent-level 2))

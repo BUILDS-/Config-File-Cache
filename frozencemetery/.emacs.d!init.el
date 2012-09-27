@@ -97,7 +97,13 @@
                ".log"
                )))
 
-(add-hook 'eshell-mode-hook '(lambda () (define-key eshell-mode-map "\t" 'comint-dynamic-complete)))
+(defun stupid ()
+  "fix goddamn tab completion"
+  (interactive)
+  (pcomplete-std-complete)
+  (just-one-space)
+  (backward-delete-char 1))
+(add-hook 'eshell-mode-hook '(lambda () (define-key eshell-mode-map "\t" 'stupid)))
 (defalias 'e 'find-file)
 (setq eshell-aliases-file "/home/frozencemetery/.emacs.d/eshell-aliases")
 (require 'eshell)
@@ -195,7 +201,6 @@
 
 (find-file "~/orgmain.org")
 (find-file "~/sched.org")
-(eshell)
 ;; (run-sml "sml" "sml")
 
 (setq message-send-mail-partially-limit 10000000)

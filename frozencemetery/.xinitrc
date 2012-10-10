@@ -3,16 +3,16 @@
 gpg-agent --daemon --enable-ssh-support --write-env-file "${HOME}/.gpg-agent-info"
 echo "" > ~/.xsession-errors &
 iceweasel &
-pidgin &
+torify pidgin &
 xfce4-power-manager &
 xrdb -merge .Xresources &
 xsetroot -solid black &
 xscreensaver -no-splash &
 /home/frozencemetery/.fehbg &
-trayer --edge top --align right --expand true --width 5 --tint 0x000000 --heighttype pixel --height 8 --transparent true --alpha 0 &
+#trayer --edge top --align right --expand true --widthtype request --tint 0x000000 --heighttype pixel --height 8 --transparent true --alpha 0 &
 setxkbmap -option compose:caps && xmodmap ~/.Xmodmap
 #xset r rate 300 75
-unclutter &
+unclutter -not QEMU &
 xsetroot -cursor_name X_cursor &
 rm -f ~/.ssh/master* &
 #gnome-keyring-daemon &
@@ -20,6 +20,6 @@ rm -f ~/.ssh/master* &
 #export `grep ^DBUS_SESSION_BUS ~/.dbus/session-bus/-0`
 #gnome-keyring-daemon --start
 #nm-applet &
-wicd-gtk &
+#wicd-gtk &
 #thunar --daemon &
-exec ck-launch-session xmonad
+exec dbus-launch ck-launch-session xmonad

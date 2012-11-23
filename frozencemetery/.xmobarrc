@@ -7,11 +7,12 @@ Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
                     , Run Swap ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 100
                     , Run Memory ["-t", "<used>MB", "-L", "1000", "-H", "2500", "--normal", "white", "--high", "orange", "-w", "4"] 10
                     , Run Date "%a %Y %b %d %R" "date" 10
+                    , Run CommandReader "acpi -b | tr -d ',' | sed -e 's/100/FF/' | cut -b 12-29 | cut --complement -b 14" "battery"
                     , Run StdinReader
                     , Run CommandReader "/home/frozencemetery/.mpdmonitor.sh" "MPD"
                     , Run CommandReader "/home/frozencemetery/.alsamonitor.sh" "ALSA"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%date% | %memory%->%swap% | %multicpu% | %StdinReader% | (%ALSA%) %MPD%}{"
+       , template = "%date% | %memory%->%swap% | %battery% | %multicpu% | %StdinReader% | (%ALSA%) %MPD%}{"
        }

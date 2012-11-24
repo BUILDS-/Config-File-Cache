@@ -8,9 +8,6 @@
 ## - keys can be defined with a character or a decimal value
 ## - a command can be disabled by binding it to 0
 ##
-## Note: First bind of volume_up/down
-## will be used to switch between columns.
-##
 #
 key_up = '' 'k'
 #
@@ -38,9 +35,13 @@ key_page_down = 338 ''
 #
 #key_delete = 330 'd'
 #
-key_volume_up = 'l' '+'
+key_volume_up = 
 #
-key_volume_down = 'h' '-'
+key_volume_down = 
+#
+key_prev_column = 'h'
+#
+key_next_column = 'l'
 #
 #key_toggle_space_mode = 't'
 #

@@ -17,7 +17,10 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Hooks.UrgencyHook
 
 spawnterm :: String -> X ()
-spawnterm = \x -> spawn("xfce4-terminal -x sh -c 'sleep .05; exec " ++ x ++ "'")
+spawnterm x = spawn("urxvtc -e " ++ x)
+
+suckterm :: String -> X()
+suckterm x = spawn("urxvt -e sh -c 'sleep .07; exec " ++ x ++ "'")
 
 mpc :: String -> X ()
 mpc = \x -> spawn("MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x)
@@ -31,7 +34,7 @@ widthdelta = 3/100
 main = do
   xmproc <- spawnPipe "xmobar"
   xmonad $ withUrgencyHook NoUrgencyHook defaultConfig {
-    terminal = "xfce4-terminal",
+    terminal = "urxvtc",
     focusFollowsMouse = False,
     borderWidth = 1,
     modMask = mod4Mask,
@@ -42,7 +45,7 @@ main = do
       \conf@(XConfig {XMonad.modMask = modm}) ->
       M.fromList $
       [ ((modm, xK_Return), spawnterm "emacsclient -nw -e \"(eshell)\"")
-      , ((modm .|. shiftMask, xK_Return), spawnterm "bash")
+      , ((modm .|. shiftMask, xK_Return), spawnterm "tmx main")
       , ((modm, xK_space), 
          spawn "exec \"$(dmenu_path | dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p cmd:)\""
         )
@@ -59,7 +62,7 @@ main = do
       , ((modm, 0x1008ff16), mpc "pause")
       , ((modm, 0x1008ff17), mpc "play")
       , ((modm, 0x1008ff14), spawnterm "alsamixer")
-        
+      , ((modm,               xK_u), spawn "pwman -l -x -s$(pwman -L | dmenu)")  
       , ((modm .|. shiftMask, xK_u), spawnterm "emacsclient -nw -e \"(notmuch)\"")
       , ((modm              , xK_w), spawnterm "emacsclient -nw $(mktemp)")
       , ((modm .|. shiftMask, xK_a), spawnterm "htop")
@@ -84,7 +87,6 @@ main = do
       , ((modm, xK_comma), sendMessage (IncMasterN 1))
       , ((modm, xK_period), sendMessage (IncMasterN (-1)))
       , ((modm, xK_b), sendMessage ToggleStruts)
-      , ((modm .|. shiftMask, xK_b), spawn "pgrep trayer && killall trayer || trayer --edge top")
       , ((modm, xK_v), spawn "echo \"\" | xsel -i && echo \"\" | xsel -ib")
       , ((modm, xK_q), do
          spawn "killall -g .mpdmonitor.sh"
@@ -107,7 +109,7 @@ main = do
       ]
       ++
       [((m .|. modm .|. mod1Mask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-      | (key, sc) <- zip [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0] [0..]
+      | (key, sc) <- zip [xK_2, xK_1, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0] [0..]
       , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]],
     mouseBindings =
       \XConfig {XMonad.modMask = modm} ->
@@ -150,8 +152,8 @@ main = do
         "ResizableTall" -> "t"
         "Mirror ResizableTall" -> "T"
         _ -> a,
-      ppExtras = [L.loadAvg, L.logCmd "echo \"| $(notmuch count tag:inbox):$(notmuch count tag:unread)\""],
-      ppOrder = \[workspaces, layout, title, average, mail] -> [average ++ " |", workspaces, layout, title, mail],
+      ppExtras = [L.logCmd "echo \"| $(notmuch count tag:inbox):$(notmuch count tag:unread)\""],
+      ppOrder = \[workspaces, layout, title, mail] -> [workspaces, layout, title, mail],
       ppOutput = hPutStrLn xmproc
       }
     ,
@@ -169,9 +171,5 @@ main = do
       )
     ,
     handleEventHook = mempty,
-    startupHook = do
-      spawnterm $
-        "fortune -a | cowsay -n"
-        ++ " && " ++
-        "bash"
-    }
+    startupHook = suckterm $ "fortune -a | cowsay -n; linuxlogo" ++ " && " ++ "bash"
+}

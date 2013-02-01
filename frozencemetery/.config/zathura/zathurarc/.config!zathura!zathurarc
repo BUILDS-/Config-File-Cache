@@ -1,0 +1,13 @@
+map <C-w> quit
+map <C-q> quit
+map <A-.> goto bottom
+map <A-,> goto top
+map <C-v> scroll half-down
+map <A-v> scroll half-up
+map <A-Left> rotate rotate-ccw
+map <A-Right> rotate rotate-cw
+map <F11> toggle_fullscreen
+
+set recolor-darkcolor "#FFFFFF"
+set recolor-lightcolor "#000000"
+set recolor

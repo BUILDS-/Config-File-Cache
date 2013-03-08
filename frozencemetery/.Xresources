@@ -2,9 +2,6 @@ URxvt*saveLines: 12000
 URxvt*scrollBar: false
 URxvt*scrollstyle: rxvt
 
-URxvt*urlLauncher: iceweasel
-URxvt*matcher.button: 1
-
 URxvt*secondaryWheel: true
 
 URxvt*font: xft:Terminus:size=8
@@ -16,7 +13,7 @@ URxvt*letterSpace: 0;
 URxvt*modifier: mod1
 
 ! zanbarn
-URxvt*termName: xterm-color
+URxvt*background: #000000
 URxvt*foreground: #FFFFFF
 URxvt*cursorColor: magenta
 URxvt*colorUL: #c5f779
@@ -39,9 +36,9 @@ URxvt*color14: #71bebe
 URxvt*color15: #ffffff
 
 URxvt*transparent: true
-URxvt*shading: 25
+URxvt*shading: 15
 
-! Colored man pages?  
+! Colored man pages?
 URxvt.colorIT: #87af5f
 URxvt.colorBD: #d7d7d7
 URxvt.colorUL: #87afd7
@@ -55,3 +52,11 @@ URxvt*urgentOnBell: true
 URxvt*visualBell: true
 URxvt*scrollWithBuffer: false
 URxvt*scrollTtyKeypress: false
+URxvt*scrollTtyOutput: false
+
+! URLs
+URxvt.perl-ext-common: default,matcher,clipboard
+URxvt.urlLauncher: /usr/bin/iceweasel
+URxvt.matcher.button: 3
+! URxvt.keysym.C-Delete:  perl:matcher:last
+! URxvt.keysym.M-Delete:  perl:matcher:list

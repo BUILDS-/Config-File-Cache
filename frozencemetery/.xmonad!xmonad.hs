@@ -7,10 +7,9 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Layout.NoBorders
-import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
-import XMonad.Layout.ResizableTile
+import XMonad.Layout.MultiColumns
 import XMonad.Layout.PerWorkspace
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.EZConfig
@@ -37,6 +36,8 @@ dmenu prompt =
 
 widthdelta :: Rational
 widthdelta = 3/100
+eightychars :: Rational
+eightychars = 1/4
 
 main = do
   xmproc <- spawnPipe "xmobar"
@@ -53,7 +54,6 @@ main = do
                (mkKeymap conf $
                 [ ("M-S-<Return>", spawn $ terminal conf)
                 , ("M-S-c", kill)
-                , ("M-S-<Space>", spawn "gmrun")
                 , ("M-,", sendMessage $ IncMasterN 1)
                 , ("M-.", sendMessage $ IncMasterN $ -1)
                 , ("M-m", windows W.focusMaster)
@@ -63,37 +63,30 @@ main = do
                           "killall -g .mpdmonitor.sh ; killall -g .alsamonitor.sh;"
                           ++ "xmonad --recompile && xmonad --restart"
                   )
+                , ("M-h", sendMessage Shrink)
+                , ("M-l", sendMessage Expand)
 
                 , ("M-b", sendMessage ToggleStruts)
 
-                , ("M-h", sendMessage Shrink)
-                , ("M-l", sendMessage Expand)
-                , ("M-j", sendMessage MirrorShrink)
-                , ("M-k", sendMessage MirrorExpand)
+                , ("M-n", windows W.focusDown)
+                , ("M-S-n", windows W.swapDown)
+                , ("M-p", windows W.focusUp)
+                , ("M-S-p", windows W.swapUp)
 
-                , ("M-<Space>", spawn $ 
+                , ("M-S-x", spawn "gmrun")
+                , ("M-x", spawn $ 
                                 "exec \"$(dmenu_path | " 
                                 ++ dmenu "cmd:" ++ ")\"")
+
                 , ("M-u", spawn "pwman -l -x -s$(pwman -L | dmenu)")
                 , ("M-S-u", suckterm "emacsclient -nw -e \"(notmuch)\"")
 
-                , ("M-<XF86AudioPrev>", mpc "pause")
-                , ("M-<XF86AudioPlay>", spawnterm "alsamixer")
-                , ("M-<XF86AudioNext>", mpc "play")
-                , ("M-S-<XF86AudioPrev>", mpc "prev")
-                , ("M-S-<XF86AudioPlay>", spawnterm "ncmpcpp")
-                , ("M-S-<XF86AudioNext>", mpc "clear")
 
-                , ("M-<Tab>", windows W.focusDown)
-                , ("M-S-<Tab>", windows W.swapDown)
-                , ("M-`", windows W.focusUp)
-                , ("M-S-`", windows W.swapUp)
-
-                , ("M-s", sendMessage NextLayout) -- tall <-> grid
-                , ("M-S-s", setLayout $ XMonad.layoutHook conf) -- reset
+                , ("M-<Space>", sendMessage NextLayout) -- tall <-> grid
+                , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf) -- reset
                 , ("M-f", sendMessage $ Toggle FULL)
                 , ("M-a", sendMessage $ Toggle MIRROR)
-                , ("M-S-f", windows W.swapMaster)
+                , ("M-<Return>", windows W.swapMaster)
 
                 , ("M-r", refresh)
 
@@ -104,13 +97,23 @@ main = do
                 , ("M-S-/", spawnterm 
                             "less /usr/share/X11/locale/en_US.UTF-8/Compose")
 
-                , ("M-x", spawn "xscreensaver-command --lock")
-                , ("M-S-x", spawn "killall vlock-main")
-
-                , ("M-<Return>", spawnterm "emacsclient -nw -e \"(eshell\"")
                 , ("M-w", suckterm "emacsclient -nw $(mktemp)")
 
                 , ("M-S-a", spawnterm "htop")
+
+                , ("<XF86AudioPrev>", mpc "pause")
+                , ("<XF86AudioPlay>", spawnterm "alsamixer")
+                , ("<XF86AudioNext>", mpc "play")
+                , ("S-<XF86AudioPrev>", mpc "prev")
+                , ("S-<XF86AudioPlay>", spawnterm "ncmpcpp")
+                , ("S-<XF86AudioNext>", mpc "clear")
+
+                , ("<XF86AudioLowerVolume>", spawn "amixer set Master 3%-")
+                , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 3%+")
+
+                , ("<XF86ScreenSaver>", spawn "xscreensaver-command --lock")
+                , ("<XF86WebCam>", spawn "mplayer -vf mirror tv://")
+                , ("<XF86Launch1>", spawn "qemu-launcher")
                 ]
                )
              `M.union`
@@ -151,9 +154,11 @@ main = do
            , layoutHook = 
              avoidStruts $ smartBorders $
              mkToggle (single FULL) . mkToggle (single MIRROR) $
-             onWorkspace "0" (ResizableTall 1 widthdelta (4/5) [] ||| Grid) $
-             onWorkspace "1" (ResizableTall 1 widthdelta (1/5) [] ||| Grid) $
-             (ResizableTall 1 (widthdelta) (1/2) []) ||| Grid
+             onWorkspace "1" (multiCol [1, 1] 0 widthdelta (1/6)) $
+             onWorkspace "2" (multiCol [1, 1] 0 widthdelta (1/3)) $
+             onWorkspace "3" (multiCol [1, 1] 0 widthdelta (1/3)) $
+             multiCol [1, 1] 0 widthdelta eightychars ||| 
+             multiCol [2, 2, 2] 0 widthdelta eightychars
            , logHook = dynamicLogWithPP $ xmobarPP 
                        { ppCurrent = xmobarColor "" "orange" . xmobarStrip
                        , ppVisible = xmobarColor "" "white" . xmobarStrip
@@ -164,10 +169,10 @@ main = do
                        , ppSep = " "
                        , ppTitle = const ""
                        , ppLayout = \a -> case a of
+                                            "MultiCol" -> "m"
                                             "Full" -> "ƒ"
-                                            "Grid" -> "g"
-                                            "Mirror Grid" -> "G"
                                             "ResizableTall" -> "t"
+                                            "Mirror MultiCol" -> "M"
                                             "Mirror ResizableTall" -> "T"
                                             _ -> a
                        , ppExtras = [L.logCmd $
@@ -181,11 +186,13 @@ main = do
                        }
            , manageHook = manageDocks <+> 
                           (composeAll $
-                           [ className =? "MPlayer" --> doFloat
+                           [ title =? "MPlayer" --> doFloat
                            , resource =? "Dialog" --> doFloat
                            , title =? "Pidgin" --> doFloat
+                           , title =? "Accounts" --> doFloat
                            , title =? "Dwarf Fortress" --> doFloat
                            , title =? "QEMU" --> doFloat -- above doesn't work
+                           , className =? "Gimp" --> doFloat
                            , className =? "Pidgin" --> doShift "1"
                            , className =? "Iceweasel" --> doShift "2"
                            , className =? "Icedove" --> doShift "3"
@@ -193,6 +200,6 @@ main = do
                           )
            , handleEventHook = mempty
            , startupHook = suckterm $ 
-                           "fortune -a | cowsay -n; linuxlogo" 
+                           "fortune -a | cowsay -n; linuxlogo -F \"This is #H: Debian\n#O version #V\n#N #X #T #P\nwith #R#S RAM\n#B BogoMIPS\""
                            ++ " && " ++ "bash"
            }

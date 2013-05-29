@@ -12,7 +12,7 @@ export HISTSIZE=10000000
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 # export HISTCONTROL=$HISTCONTROL:ignoredups:ignoreboth
 # ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignorespace:ignoredups:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -29,7 +29,7 @@ shopt -s checkwinsize
 # fi
 
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if [[ \j != 0 ]]; then echo \"\[\033[01;36m\][\j] \"; fi)\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -46,11 +46,10 @@ PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 # fi
 
 
-export EDITOR="emacsclient -nw -a nano"
+export EDITOR="emacsclient -nw"
 
 export PATH="/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
 export MPD_HOST=/var/run/mpd/socket
-# export TERM="xterm-color"
 
 export ATSHOME="/usr/local/share/ats-anairiats-0.2.9"
 export ATSHOMERELOC="ATS-0.2.9"

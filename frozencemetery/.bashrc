@@ -29,7 +29,7 @@ shopt -s checkwinsize
 # fi
 
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if [[ \j != 0 ]]; then echo \"\[\033[01;36m\][\j] \"; fi)\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if [[ \j != 0 ]]; then echo \"\[\033[01;36m\][\j] \"; fi)\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\\$ "
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like

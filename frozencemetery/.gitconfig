@@ -1,0 +1,9 @@
+[user]
+	name = Robbie Harwood (frozencemetery)
+	email = rharwood@club.cc.cmu.edu
+[color]
+	status = true
+	branch = true
+	interactive = true
+	diff = always
+	ui = true

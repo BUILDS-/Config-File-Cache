@@ -61,7 +61,7 @@ main = do
                 , ("M-S-q", io $ exitWith ExitSuccess)
                 , ("M-q", spawn $
                           "killall -g .mpdmonitor.sh ; killall -g .alsamonitor.sh;"
-                          ++ "xmonad --recompile && xmonad --restart"
+                          ++ "xmonad --restart"
                   )
                 , ("M-h", sendMessage Shrink)
                 , ("M-l", sendMessage Expand)
@@ -78,7 +78,7 @@ main = do
                                 "exec \"$(dmenu_path | " 
                                 ++ dmenu "cmd:" ++ ")\"")
 
-                , ("M-u", spawn "pwman -l -x -s$(pwman -L | dmenu)")
+                , ("M-u", spawn "dmenu-pwman")
                 , ("M-S-u", suckterm "emacsclient -nw -e \"(notmuch)\"")
 
 
@@ -157,7 +157,7 @@ main = do
              onWorkspace "1" (multiCol [1, 1] 0 widthdelta (1/6)) $
              onWorkspace "2" (multiCol [1, 1] 0 widthdelta (1/3)) $
              onWorkspace "3" (multiCol [1, 1] 0 widthdelta (1/3)) $
-             multiCol [1, 1] 0 widthdelta eightychars ||| 
+             multiCol [1, 1, 1] 0 widthdelta eightychars ||| 
              multiCol [2, 2, 2] 0 widthdelta eightychars
            , logHook = dynamicLogWithPP $ xmobarPP 
                        { ppCurrent = xmobarColor "" "orange" . xmobarStrip
@@ -196,6 +196,8 @@ main = do
                            , className =? "Pidgin" --> doShift "1"
                            , className =? "Iceweasel" --> doShift "2"
                            , className =? "Icedove" --> doShift "3"
+                           , className =? "Qjackctl" --> doFloat
+                           , className =? "Qjackctl.real" --> doFloat
                            ]
                           )
            , handleEventHook = mempty

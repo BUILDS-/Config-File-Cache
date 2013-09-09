@@ -1,0 +1,1 @@
+/home/colin/.xmonad/xmonad.hs

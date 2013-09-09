@@ -38,3 +38,6 @@ nmap <F8> :TagbarToggle<CR>
 nmap <C-s>t :NERDTree<CR>
 nmap <C-s>c :NERDTreeClose<CR>
 nmap <C-s>s :set number!<CR> 
+
+autocmd FileType tex noremap <F5> <Esc>:!pdflatex %<Cr><Cr>
+autocmd FileType tex noremap <F6> <Esc>:silent !evince %<.pdf >/dev/null 2>&1 &<Cr><Cr>

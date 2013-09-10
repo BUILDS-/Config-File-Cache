@@ -1,1 +1,17 @@
-/home/colin/.xmobarrc
+Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = TopW L 100
+       , lowerOnStart = True
+       , commands = [ Run Memory ["-t", "<used>M"] 10
+                    , Run Swap ["-t", "<used>M"] 10
+                    , Run Cpu ["-t", "<total>", "-L","3","-H","50","--normal","green","--high","red", "-w", "3"] 10
+                    , Run Date "%a %D, %R" "date" 10
+                    , Run Battery ["-t","<left>% / <timeleft>","-L","50","-H","75","-h","green","-n","yellow","-l","red"] 10
+                    , Run MPD ["-t", "<artist> - <title>"] 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %mpd% | swap: %swap% | memory: %memory% | %cpu% | %battery% | <fc=#ee9a00>%date%</fc>"
+       }

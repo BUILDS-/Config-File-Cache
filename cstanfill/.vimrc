@@ -47,6 +47,32 @@ inoremap <F4> <Esc>:bd<CR>
 inoremap <F5> <Esc>:make<CR>
 inoremap <F6> <Esc>:make clean<CR>
 
+" filename
+set statusline =%#identifier#
+set statusline+=[%t]
+
+" line ending warning
+set statusline+=%#warningmsg#
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}
+
+" filetype
+set statusline+=%#identifier#
+set statusline+=%y
+
+" modified flag
+set statusline+=%m
+
+" git branch
+set statusline+=%{fugitive#statusline()}
+
+set statusline+=%=
+set statusline+=%c
+set statusline+=%l/%L
+set statusline+=\ %P
+
+set laststatus=2
+hi StatusLine ctermfg=4
+
 "load plugins
 set runtimepath+=$HOME/.vim/
 "let g:miniBufExplForceSyntaxEnable = 1

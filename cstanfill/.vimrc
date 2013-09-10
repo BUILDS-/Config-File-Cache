@@ -1,3 +1,25 @@
+" vundle
+filetype off
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-surround'
+" Not sure how I feel about YCM ...
+" Bundle 'Valloric/YouCompleteMe'
+Bundle 'vim-scripts/a.vim'
+Bundle 'argtextobj.vim'
+Bundle 'minibufexpl.vim'
+Bundle 'tComment'
+
+filetype plugin indent on
+
+
 set tabstop=4     "4-wide tabs
 set shiftwidth=4  "4-wide indentation
 set softtabstop=4 "backspace = 1 tab
@@ -7,7 +29,7 @@ set showcmd       "show command as it is typed
 set cindent       "use c-style auto-indentation
 set ignorecase    "case insensitive searching
 
-"remap jj to escape
+"remap jj to escape for extra pro hacking
 inoremap jj <Esc>
 
 "F2 = previous buffer, F3 = next, F4 = close buffer
@@ -15,6 +37,8 @@ inoremap jj <Esc>
 noremap <F2> <Esc>:bp<CR>
 noremap <F3> <Esc>:bn<CR>
 noremap <F4> <Esc>:bd<CR>
+noremap <C-h> <Esc>:bp<Cr>
+noremap <C-l> <Esc>:bn<Cr>
 noremap <F5> <Esc>:make<CR>
 noremap <F6> <Esc>:make clean<CR>
 inoremap <F2> <Esc>:bp<CR>

@@ -8,8 +8,8 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                     , Run Cpu ["-t", "<total>", "-L","3","-H","50","--normal","green","--high","red", "-w", "3"] 10
                     , Run Date "%a %D, %R" "date" 10
                     , Run Battery ["-t","<left>% / <timeleft>","-L","50","-H","75","-h","green","-n","yellow","-l","red"] 10
-                    , Run MPD ["-t", "<artist> - <title>"] 10
                     , Run StdinReader
+                    , Run MPD ["-t", "<artist> - <title>"] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"

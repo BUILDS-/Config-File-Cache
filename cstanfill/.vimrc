@@ -17,7 +17,7 @@ Bundle 'argtextobj.vim'
 Bundle 'minibufexpl.vim'
 Bundle 'tComment'
 
-filetype plugin indent on
+filetype plugin on
 
 
 set tabstop=4     "4-wide tabs
@@ -66,7 +66,7 @@ set statusline+=%m
 set statusline+=%{fugitive#statusline()}
 
 set statusline+=%=
-set statusline+=%c
+set statusline+=%c\ 
 set statusline+=%l/%L
 set statusline+=\ %P
 

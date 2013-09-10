@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+
+control=Master
+amixer | grep -q $control
+if [ $? -eq 1 ]
+then
+  control=PCM
+fi
+#####################################################################
+# Get current volume.
+function get_volume()
+{
+    mixer=$(amixer get $control 2>&1 | grep 'dB')
+    echo $mixer | cut -d ':' -f 2 | cut -d ' ' -f 3
+}
+
+
+#####################################################################
+# Set volume.
+function set_volume()
+{
+    amixer set $control $1
+}
+
+#####################################################################
+# Mute the volume.
+function mute_toggle()
+{
+    amixer sset $control toggle >/dev/null
+}
+vol=$(get_volume);
+diff=2;
+if [[ "$1" ]]; then
+	if [[ $1 == "up" ]]; then
+		let vol=vol+diff
+		set_volume $vol
+	else
+		if [[ $1 == "mute" ]]; then
+			mute_toggle
+		else
+			let vol=vol-diff
+			set_volume $vol
+		fi
+	fi
+else
+	echo "Current volume: $vol"
+fi

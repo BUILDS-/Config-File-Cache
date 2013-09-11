@@ -1,0 +1,26 @@
+#!/bin/bash
+outputs_=`xrandr | grep '^.* connected' | cut -d ' ' -f 1`
+IFS=$'\r\n' outputs=($(xrandr | grep '^.* connected' | cut -d ' ' -f 1))
+
+
+case $1 in
+left)
+    last="${outputs[0]}"
+    for output in "${outputs[@]:1}"
+    do xrandr --output $output --left-of $last --auto;
+       last=$output;
+    done
+    ;;
+right)
+    last="${outputs[0]}"
+    for output in "${outputs[@]:1}"
+    do xrandr --output $output --right-of $last --auto;
+       last=$output;
+    done
+    ;;
+single|*)
+    for output in ${outputs[@]:1}
+    do xrandr --output $output --off;
+    done
+    ;;
+esac

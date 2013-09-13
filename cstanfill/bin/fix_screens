@@ -1,9 +1,22 @@
 #!/bin/bash
-outputs_=`xrandr | grep '^.* connected' | cut -d ' ' -f 1`
-IFS=$'\r\n' outputs=($(xrandr | grep '^.* connected' | cut -d ' ' -f 1))
+IFS=$'\r\n' outputs=($(xrandr | egrep '^.* (dis)?connected' | cut -d ' ' -f 1))
+IFS=$'\r\n' coutputs=($(xrandr | egrep '^.* connected' | cut -d ' ' -f 1))
 
-
+function get_mode() {
+    id=`xrandr | grep -n $1 | cut -d ':' -f 1`
+    let id=id+1
+    mode=`xrandr | head -n $id | tail -n 1 | cut -d ' ' -f 4`
+    echo $mode
+}
 case $1 in
+cycle)
+    ;;
+res)
+    for output in "${coutputs[@]}"
+    do mode=`get_mode $output`;
+       xrandr --output $output --mode $mode
+    done
+    ;;
 left)
     last="${outputs[0]}"
     for output in "${outputs[@]:1}"
@@ -22,5 +35,7 @@ single|*)
     for output in ${outputs[@]:1}
     do xrandr --output $output --off;
     done
+    first="${outputs[0]}"
+    xrandr --output $output --primary
     ;;
 esac

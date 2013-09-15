@@ -29,7 +29,16 @@ shopt -s checkwinsize
 # fi
 
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if [[ \j != 0 ]]; then echo \"\[\033[01;36m\][\j] \"; fi)\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\\$ "
+function timer_start {
+    timer=${timer:-$SECONDS}
+}
+function timer_stop {
+    timer_show=$(($SECONDS - $timer))
+    unset timer
+}
+trap 'timer_start' DEBUG
+PROMPT_COMMAND=timer_stop
+PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if [[ \j != 0 ]]; then echo \"\[\033[01;36m\][\j] \"; fi)\[\e[0m\](\${timer_show}) \[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\\$ "
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -51,5 +60,9 @@ export EDITOR="emacsclient -nw"
 export PATH="/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
 export MPD_HOST=/var/run/mpd/socket
 
-export ATSHOME="/usr/local/share/ats-anairiats-0.2.9"
+export ATSHOME="/usr/local/lib/ats-anairiats-0.2.9"
 export ATSHOMERELOC="ATS-0.2.9"
+export PATSHOME="/usr/local/lib/ats2-postiats-0.0.1"
+
+export ANDREW="/afs/andrew.cmu.edu/usr/rharwood"
+export CCLUB="/afs/club.cc.cmu.edu/usr/rharwood"

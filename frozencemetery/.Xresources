@@ -1,3 +1,4 @@
+!!! here be urxvt
 URxvt*saveLines: 12000
 URxvt*scrollBar: false
 URxvt*scrollstyle: rxvt
@@ -36,12 +37,12 @@ URxvt*color14: #71bebe
 URxvt*color15: #ffffff
 
 URxvt*transparent: true
-URxvt*shading: 15
+URxvt*shading: 20
 
 ! Colored man pages?
 URxvt.colorIT: #87af5f
 URxvt.colorBD: #d7d7d7
-URxvt.colorUL: #87afd7
+! URxvt.colorUL: #87afd7
 
 ! Disable ctrl-shift hostile takeover
 URxvt.iso14755: false
@@ -55,8 +56,53 @@ URxvt*scrollTtyKeypress: false
 URxvt*scrollTtyOutput: false
 
 ! URLs
-URxvt.perl-ext-common: default,matcher,clipboard
+URxvt.perl-ext-common: matcher,clipboard
 URxvt.urlLauncher: /usr/bin/iceweasel
 URxvt.matcher.button: 3
 ! URxvt.keysym.C-Delete:  perl:matcher:last
 ! URxvt.keysym.M-Delete:  perl:matcher:list
+URxvt.keysym.C-Up:     perl:font-size:increase
+URxvt.keysym.C-Down:   perl:font-size:decrease
+
+! Disable any and all urxvt shortcuts
+URxvt.keysym.Meta-s: s
+
+!!! here be xterm
+XTerm*saveLines: 12000
+XTerm*scrollBar: false
+
+XTerm*secondaryWheel: true
+
+XTerm*font: -*-terminus-*-R-*-*-*-*-*-*-*-*-iso8859-1
+
+! that this is required drives me crazy
+XTerm*metaSendsEscape: true
+
+! zanbarn
+XTerm*termName: xterm-256color
+XTerm*background: #000000
+XTerm*foreground: #FFFFFF
+XTerm*cursorColor: magenta
+XTerm*colorUL: #c5f779
+XTerm*underlineColor: #c5f779
+XTerm*color0: #000000
+XTerm*color1: #9e1828
+XTerm*color2: #aece92
+XTerm*color3: #968a38
+XTerm*color4: #414171
+XTerm*color5: #963c59
+XTerm*color6: #418179
+XTerm*color7: #bebebe
+XTerm*color8: #666666
+XTerm*color9: #cf6171
+XTerm*color10: #c5f779
+XTerm*color11: #fff796
+XTerm*color12: #4186be
+XTerm*color13: #cf9ebe
+XTerm*color14: #71bebe
+XTerm*color15: #ffffff
+
+! Colored man pages?
+XTerm.colorIT: #87af5f
+XTerm.colorBD: #d7d7d7
+! XTerm.colorUL: #87afd7

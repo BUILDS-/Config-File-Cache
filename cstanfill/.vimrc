@@ -28,8 +28,9 @@ set modeline      "show modeline
 set showcmd       "show command as it is typed
 set cindent       "use c-style auto-indentation
 set ignorecase    "case insensitive searching
+syntax on
 
-"remap jj to escape for extra pro hacking
+"remap jj to escape for extra l33t hacking
 inoremap jj <Esc>
 
 "F2 = previous buffer, F3 = next, F4 = close buffer
@@ -37,6 +38,7 @@ inoremap jj <Esc>
 noremap <F2> <Esc>:bp<CR>
 noremap <F3> <Esc>:bn<CR>
 noremap <F4> <Esc>:bd<CR>
+"more hjkl!!!
 noremap <C-h> <Esc>:bp<Cr>
 noremap <C-l> <Esc>:bn<Cr>
 noremap <F5> <Esc>:make<CR>

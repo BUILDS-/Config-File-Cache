@@ -44,7 +44,7 @@ main = do
         , ((0, xF86XK_AudioPlay),                 spawn "mpc toggle")
         , ((0, xF86XK_AudioNext),                 spawn "mpc next")
         , ((0, xF86XK_AudioPrev),                 spawn "mpc prev")
-        , ((mod4Mask, xK_o),                      spawnAndDo doFloat $ myTerminal ++ 
+        , ((mod4Mask, xK_o),                      spawn $ myTerminal ++ 
                                                        " --title=__NCMPCPP -x ncmpcpp")
         , ((mod4Mask, xK_a),                      spawn $ myTerminal ++ " --title=__ALSAMIXER -x alsamixer")
         , ((mod4Mask .|. controlMask, xK_x),      spawn $ myTerminal ++ " --title=__XMONADHS -x vim ~/.xmonad/xmonad.hs")

@@ -7,6 +7,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 Bundle 'majutsushi/tagbar'
+Bundle 'mantiz/vim-plugin-dirsettings'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
@@ -16,19 +17,16 @@ Bundle 'vim-scripts/a.vim'
 Bundle 'argtextobj.vim'
 Bundle 'minibufexpl.vim'
 Bundle 'tComment'
-
+call dirsettings#Install()
 filetype plugin on
+filetype indent on
+syntax on
 
-
-set tabstop=4     "4-wide tabs
-set shiftwidth=4  "4-wide indentation
-set softtabstop=4 "backspace = 1 tab
 set expandtab     "use spaces
 set modeline      "show modeline
 set showcmd       "show command as it is typed
 set cindent       "use c-style auto-indentation
 set ignorecase    "case insensitive searching
-syntax on
 
 "remap jj to escape for extra l33t hacking
 inoremap jj <Esc>
@@ -93,3 +91,5 @@ nmap <C-s>s :set number!<CR>
 
 autocmd FileType tex noremap <F5> <Esc>:!pdflatex %<Cr><Cr>
 autocmd FileType tex noremap <F6> <Esc>:silent !evince %<.pdf >/dev/null 2>&1 &<Cr><Cr>
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+autocmd FileType go compiler go

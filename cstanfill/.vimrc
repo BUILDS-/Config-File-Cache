@@ -12,10 +12,11 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 " Not sure how I feel about YCM ...
+" Fuck, this takes actual work to set up, eff it all
 " Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-scripts/a.vim'
 Bundle 'argtextobj.vim'
-Bundle 'minibufexpl.vim'
+Bundle 'fholgado/minibufexpl.vim'
 Bundle 'tComment'
 call dirsettings#Install()
 filetype plugin on
@@ -28,8 +29,8 @@ set showcmd       "show command as it is typed
 set cindent       "use c-style auto-indentation
 set ignorecase    "case insensitive searching
 
-"remap jj to escape for extra l33t hacking
-inoremap jj <Esc>
+"remap jk to escape for 3xtr4 l33t h4xx|ng
+inoremap jk <Esc>
 
 "F2 = previous buffer, F3 = next, F4 = close buffer
 "F5 = make, F6 = make clean
@@ -46,6 +47,10 @@ inoremap <F3> <Esc>:bn<CR>
 inoremap <F4> <Esc>:bd<CR>
 inoremap <F5> <Esc>:make<CR>
 inoremap <F6> <Esc>:make clean<CR>
+
+" MORE HJKL!!!!!!!!!
+nmap <C-j> <C-e>
+nmap <C-k> <C-y>
 
 " filename
 set statusline =%#identifier#
@@ -89,7 +94,14 @@ nmap <C-s>t :NERDTree<CR>
 nmap <C-s>c :NERDTreeClose<CR>
 nmap <C-s>s :set number!<CR> 
 
+set ts=4
+set sw=4
+
 autocmd FileType tex noremap <F5> <Esc>:!pdflatex %<Cr><Cr>
 autocmd FileType tex noremap <F6> <Esc>:silent !evince %<.pdf >/dev/null 2>&1 &<Cr><Cr>
+autocmd FileType tex set ts=1
+autocmd FileType tex set sw=1
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 autocmd FileType go compiler go
+
+

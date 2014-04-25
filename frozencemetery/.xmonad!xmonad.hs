@@ -34,10 +34,20 @@ dmenu :: String -> String
 dmenu prompt = 
   "dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++ prompt
 
-widthdelta :: Rational
-widthdelta = 3/100
-eightychars :: Rational
-eightychars = 1/4
+-- some layout stuff
+widthdelta = 3/100 :: Rational
+eightychars = 1/4 :: Rational
+tentwentyfour = 1/3 :: Rational
+special = multiCol [1, 1] 0 widthdelta tentwentyfour
+regular = multiCol [1, 1, 1] 0 widthdelta eightychars
+regularLayout = regular ||| special
+offLayout = special ||| regular
+myLayouts = avoidStruts $ smartBorders $
+            mkToggle (single FULL) . mkToggle (single MIRROR) $
+            onWorkspace "1" offLayout $
+            onWorkspace "2" offLayout $
+            onWorkspace "3" offLayout $
+            regularLayout
 
 main = do
   xmproc <- spawnPipe "xmobar"
@@ -58,7 +68,6 @@ main = do
                 , ("M-.", sendMessage $ IncMasterN $ -1)
                 , ("M-m", windows W.focusMaster)
                 , ("M-t", withFocused $ windows . W.sink)
-                , ("M-S-q", io $ exitWith ExitSuccess)
                 , ("M-q", spawn $
                           "killall -g .mpdmonitor.sh ; killall -g .alsamonitor.sh;"
                           ++ "xmonad --restart"
@@ -78,12 +87,10 @@ main = do
                                 "exec \"$(dmenu_path | " 
                                 ++ dmenu "cmd:" ++ ")\"")
 
-                , ("M-u", spawn "dmenu-pwman")
-                , ("M-S-u", suckterm "emacsclient -nw -e \"(notmuch)\"")
+                , ("M-u", spawn "dmenu-haskey")
 
-
-                , ("M-<Space>", sendMessage NextLayout) -- tall <-> grid
-                , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf) -- reset
+                , ("M-<Space>", sendMessage NextLayout)
+                , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)
                 , ("M-f", sendMessage $ Toggle FULL)
                 , ("M-a", sendMessage $ Toggle MIRROR)
                 , ("M-<Return>", windows W.swapMaster)
@@ -151,14 +158,7 @@ main = do
                                       )
                     )
                   ]
-           , layoutHook = 
-             avoidStruts $ smartBorders $
-             mkToggle (single FULL) . mkToggle (single MIRROR) $
-             onWorkspace "1" (multiCol [1, 1] 0 widthdelta (1/6)) $
-             onWorkspace "2" (multiCol [1, 1] 0 widthdelta (1/3)) $
-             onWorkspace "3" (multiCol [1, 1] 0 widthdelta (1/3)) $
-             multiCol [1, 1, 1] 0 widthdelta eightychars ||| 
-             multiCol [2, 2, 2] 0 widthdelta eightychars
+           , layoutHook = myLayouts
            , logHook = dynamicLogWithPP $ xmobarPP 
                        { ppCurrent = xmobarColor "" "orange" . xmobarStrip
                        , ppVisible = xmobarColor "" "white" . xmobarStrip
@@ -176,7 +176,7 @@ main = do
                                             "Mirror ResizableTall" -> "T"
                                             _ -> a
                        , ppExtras = [L.logCmd $
-                                     "echo \"| `" ++ "notmuch count tag:inbox"
+                                     "echo \"│ `" ++ "notmuch count tag:inbox"
                                      ++ "`:`" ++ "notmuch count tag:unread" 
                                      ++ "`\""
                                     ]
@@ -194,7 +194,7 @@ main = do
                            , title =? "QEMU" --> doFloat -- above doesn't work
                            , className =? "Gimp" --> doFloat
                            , className =? "Pidgin" --> doShift "1"
-                           , className =? "Iceweasel" --> doShift "2"
+                           -- , className =? "Iceweasel" --> doShift "2"
                            , className =? "Icedove" --> doShift "3"
                            , className =? "Qjackctl" --> doFloat
                            , className =? "Qjackctl.real" --> doFloat
@@ -202,6 +202,6 @@ main = do
                           )
            , handleEventHook = mempty
            , startupHook = suckterm $ 
-                           "fortune -a | cowsay -n; linuxlogo -F \"This is #H: Debian\n#O version #V\n#N #X #T #P\nwith #R#S RAM\n#B BogoMIPS\""
+                           "fortune -a | cowsay -n; linuxlogo -F \"This is #H :: Debian\n#O version #V\n#N #X #T #P\nwith #R#S RAM\n#B BogoMIPS\""
                            ++ " && " ++ "bash"
            }

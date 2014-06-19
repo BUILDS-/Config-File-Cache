@@ -1,9 +1,16 @@
 #!/bin/bash
-~/.bash_profile &
-gpg-agent --daemon --write-env-file "${HOME}/.gpg-agent-info" &
+
+dbus-launch
+export `grep ^DBUS_SESSION_BUS ~/.dbus/session-bus/-0`
+gnome-keyring-daemon --start
+nm-applet &
+trayer --edge top --align right --expand true --widthtype request --heighttype pixel --height 14 --transparent false &
+
 iceweasel &
-pidgin &
-(xrdb -merge .Xresources ; urxvtd -q -f -o) &
+~/.bash_profile
+gpg-agent --daemon --write-env-file "${HOME}/.gpg-agent-info" &
+# pidgin &
+xrdb -merge .Xresources &
 xsetroot -solid black &
 xscreensaver -no-splash &
 # xcompmgr &
@@ -13,4 +20,5 @@ unclutter -not QEMU &
 xsetroot -cursor_name X_cursor &
 rm -f ~/.ssh/master* &
 # thunar --daemon &
-exec dbus-launch ck-launch-session xmonad
+
+exec ck-launch-session xmonad

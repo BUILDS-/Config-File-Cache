@@ -11,48 +11,51 @@ Bundle 'mantiz/vim-plugin-dirsettings'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
-" Not sure how I feel about YCM ...
-" Fuck, this takes actual work to set up, eff it all
-" Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 Bundle 'vim-scripts/a.vim'
 Bundle 'argtextobj.vim'
 Bundle 'fholgado/minibufexpl.vim'
 Bundle 'tComment'
 Bundle 'def-lkb/vimbufsync'
-Bundle 'the-lambda-church/coquille'
+" only uncomment if it's worth it
+" Bundle 'the-lambda-church/coquille'
 Bundle 'jceb/vim-orgmode'
-
+" only uncomment if +clientserver
+" Bundle 'pydave/AsyncCommand'
 call dirsettings#Install()
 filetype plugin on
 filetype indent on
 syntax on
+" end vundle nonsense
 
 set expandtab     "use spaces
 set modeline      "show modeline
 set showcmd       "show command as it is typed
 set cindent       "use c-style auto-indentation
 set ignorecase    "case insensitive searching
+set hidden        "hide buffers instead of closing when you open a new one
+set backspace=2   "fix some backspace nonsense
+set wildmode=longest,list,full
+set wildmenu      "this + previous gives more bash-like completion
 
 "remap jk to escape for 3xtr4 l33t h4xx|ng
 inoremap jk <Esc>
 
-"F2 = previous buffer, F3 = next, F4 = close buffer
-"F5 = make, F6 = make clean
-noremap <F2> <Esc>:bp<CR>
-noremap <F3> <Esc>:bn<CR>
-noremap <F4> <Esc>:bd<CR>
 "more hjkl!!!
 noremap <C-h> <Esc>:bp<Cr>
 noremap <C-l> <Esc>:bn<Cr>
+noremap <C-j> <C-e>
+noremap <C-k> <C-y>
 noremap <F5> <Esc>:make<CR>
 noremap <F6> <Esc>:make clean<CR>
+
 inoremap <F2> <Esc>:bp<CR>
 inoremap <F3> <Esc>:bn<CR>
 inoremap <F4> <Esc>:bd<CR>
 inoremap <F5> <Esc>:make<CR>
 inoremap <F6> <Esc>:make clean<CR>
 " whitespace management
-function ShowSpaces(...)
+function! ShowSpaces(...)
   let @/='\s\+$'
   let oldhlsearch=&hlsearch
   if !a:0
@@ -63,16 +66,13 @@ function ShowSpaces(...)
   return oldhlsearch
 endfunction
 
-command -bar -nargs=? ShowSpaces call ShowSpaces(<args>)
+command! -bar -nargs=? ShowSpaces call ShowSpaces(<args>)
 nnoremap <C-s>w     :ShowSpaces 1<CR>
 
 vmap gw :s/\s\+$<CR>
 nmap gw :s/\s\+$<CR>
 
-" MORE HJKL!!!!!!!!!
-nmap <C-j> <C-e>
-nmap <C-k> <C-y>
-
+" set my status line to be all fancy :o
 " filename
 set statusline =%#identifier#
 set statusline+=[%t]
@@ -91,44 +91,105 @@ set statusline+=%m
 " git branch
 set statusline+=%{fugitive#statusline()}
 
+" column/line/size/percentage
 set statusline+=%=
 set statusline+=%c\
 set statusline+=%l/%L
 set statusline+=\ %P
 
+" always show statusline
 set laststatus=2
 hi StatusLine ctermfg=4
+" end stausline nonsense
 
-"load plugins
+" load plugins and set plugin options
 set runtimepath+=$HOME/.vim/
-"let g:miniBufExplForceSyntaxEnable = 1
+let g:miniBufExplForceSyntaxEnable = 1
+let g:EclimCompletionMethod = 'omnifunc'
+let g:EclimIvyClasspathUpdate = 0
 
-"lets C-s and C-q be capture by vim instead of the terminal
+" lets C-s and C-q be capture by vim instead of the terminal
 silent !stty -ixon > /dev/null 2>/dev/null
 
+" C-s is where I put most of my custom rare-use things.
+" b opens the ctags navigator
+" t/T open and close nerdtree TODO: bind both to t
+" g generates ctags and puts them in the git subdir
+" h toggles whether searches highlight things
+" b, r, c, and t are reserved for build, run, compile, and test
+" l is a prefix for language-specific things
+nmap <C-s>v :TagbarToggle<CR>
+nmap <C-s>n :NERDTree<CR>
+nmap <C-s>N :NERDTreeClose<CR>
+nmap <C-s>s :set number!<CR> 
+nmap <C-s>g :!ctags --tag-relative -Rf.git/tags<CR><CR>
+nmap <C-s>h :set hlsearch!<CR>
+nmap <C-s>wr :call AdjustWindowHeight(2,20)<CR>
 
-"F8 toggles tag browser
-"C-s n/c open/close file tree
-"C-s s toggle line numbers
-nmap <F8> :TagbarToggle<CR>
-nmap <C-s>t :NERDTree<CR>
-nmap <C-s>c :NERDTreeClose<CR>
-nmap <C-s>s :set number!<CR>
-
-nmap <C-c>n :CoqNext<CR>
-nmap <C-c>c :CoqToCursor<CR>
-nmap <C-c>u :CoqUndo<CR>
-nmap <C-c>l :CoqLaunch<CR>
-nmap <C-c>k :CoqKill<CR>
-
+" indentation = 4 spaces, no tabs
 set ts=4
 set sw=4
 
-autocmd FileType tex noremap <F5> <Esc>:!pdflatex %<Cr><Cr>
-autocmd FileType tex noremap <F6> <Esc>:silent !evince %<.pdf >/dev/null 2>&1 &<Cr><Cr>
-autocmd FileType tex set ts=1
-autocmd FileType tex set sw=1
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
-autocmd FileType go compiler go
+" filetype commands
+" TeX: commands for evince and pdflatex; indent 1 at a time
+" golang: not sure, should maybe remove it
+" text files: stop autoindenting
+function! AsyncCmd(cmd) 
+    " call our core function to run in the background and then load the 
+    " output file on completion 
+    call asynccommand#run(a:cmd, asynchandler#split()) 
+endfunction
+function! AdjustWindowHeight(minheight, maxheight)
+    let l = 1
+    let n_lines = 0
+    let w_width = winwidth(0)
+    while l <= line('$')
+        " number to float for division
+        let l_len = strlen(getline(l)) + 0.0
+        let line_width = l_len/w_width
+        let n_lines += float2nr(ceil(line_width))
+        let l += 1
+    endw
+    exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
 
+augroup ft_tex
+    autocmd! 
+    autocmd FileType tex noremap <C-s>c :!pdflatex %<CR><CR>
+    autocmd FileType tex noremap <C-s>r :silent !evince %<.pdf >/dev/null 2>&1 &<CR><CR>
+    autocmd FileType tex set ts=1
+    autocmd FileType tex set sw=1
+augroup END
 
+augroup ft_go
+    autocmd!
+    autocmd FileType go autocmd BufWritePre <buffer> Fmt
+    autocmd FileType go compiler go
+augroup END
+
+augroup ft_txt
+    autocmd!
+    autocmd BufRead *.txt set noautoindent nocindent
+augroup END
+
+augroup ft_java
+    autocmd!
+    autocmd FileType java noremap <C-s>lc :JavaCorrect<CR>
+    autocmd FileType java noremap <C-s>li :JavaImport<CR>
+    autocmd FileType java noremap <C-s>lr :JavaRename 
+    autocmd FileType java noremap <C-s>b :call AsyncCmd("ant build")<CR>
+    autocmd FileType java noremap <C-s>c :call AsyncCmd("ant clean")<CR>
+    autocmd FileType java noremap <C-s>t :call AsyncCmd("ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
+augroup END
+
+augroup ft_coq
+    autocmd FileType coq noremap <C-s>ln :CoqNext<CR>
+    autocmd FileType coq noremap <C-s>lc :CoqToCursor<CR>
+    autocmd FileType coq noremap <C-s>lu :CoqUndo<CR>
+    autocmd FileType coq noremap <C-s>ll :CoqLaunch<CR>
+    autocmd FileType coq noremap <C-s>lk :CoqKill<CR>
+augroup END
+
+" retain session info; have off to avoid stupid caching problems (for now)
+autocmd BufWrite * mkview
+autocmd BufRead * silent loadview

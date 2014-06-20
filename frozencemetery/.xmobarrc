@@ -4,7 +4,7 @@ Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
        , position = TopW L 100
        , lowerOnStart = True
        , commands = [ Run MultiCpu ["-t", "(<total0>, <total1>, <total2>, <total3>)", "-L", "25", "-H", "75", "--normal", "white", "--high", "orange", "-m", "3", "-w", "3", "-S", "true"] 10
-                    , Run Memory ["-t", "<used>MB", "-L", "1500", "-H", "2500", "--normal", "white", "--high", "orange", "-c", "0", "-m", "5", "-w", "5"] 10
+                    , Run Memory ["-t", "<used>MB", "-L", "2000", "-H", "8000", "--normal", "white", "--high", "orange", "-c", "0", "-m", "5", "-w", "5"] 10
                     , Run Date "%a %Y %b %d %R" "date" 10
                     , Run CommandReader "while true; do acpi -b | awk '{print $4, $3, $5}' | tr -d ',' | sed s/100/FF/ | sed s/Discharging/D/ | sed s/Charging/C/ | sed 's/Unknown /F UU:UU:UU/' | sed 's/Full /F FF:FF:FF/' | sed 's/until/UU:UU:UU/' ; sleep 10; done" "battery"
 --                    , Run BatteryP ["BAT0"] ["-t", "ACSTATUS: <acstatus>, WATTS: <watts>, TIMELEFT: <timeleft>, LEFTBAR: <leftbar>, LEFT: <left>"] 100
@@ -14,5 +14,5 @@ Config { font = "-*-Fixed-Normal-R-Normal-*-12-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%date% │ %memory% │ %battery% │ %multicpu% │ %StdinReader% │ (%ALSA%) %MPD%}{"
+       , template = "%date% │ %memory% │ %battery% │ %multicpu% │ %StdinReader% %MPD% (%ALSA%) }{"
        }

@@ -18,6 +18,7 @@ Bundle 'fholgado/minibufexpl.vim'
 Bundle 'tComment'
 Bundle 'koron/minimap-vim'
 Bundle 'pydave/AsyncCommand'
+Bundle 'altercation/vim-colors-solarized'
 call dirsettings#Install()
 filetype plugin on
 filetype indent on
@@ -33,6 +34,8 @@ set hidden        "hide buffers instead of closing when you open a new one
 set backspace=2   "fix some backspace nonsense
 set wildmode=longest,list,full
 set wildmenu      "this + previous gives more bash-like completion
+set background=dark
+colorscheme solarized
 
 "remap jk to escape for 3xtr4 l33t h4xx|ng
 inoremap jk <Esc>
@@ -142,9 +145,9 @@ autocmd BufRead *.txt set noautoindent nocindent
 autocmd FileType java noremap <C-s>lc :JavaCorrect<CR>
 autocmd FileType java noremap <C-s>li :JavaImport<CR>
 autocmd FileType java noremap <C-s>lr :JavaRename 
-autocmd FileType java noremap <C-s>b :call AsyncCmd("ant build")<CR>
+autocmd FileType java noremap <C-s>b :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant build")<CR>
 autocmd FileType java noremap <C-s>c :call AsyncCmd("ant clean")<CR>
-autocmd FileType java noremap <C-s>t :call AsyncCmd("ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
+autocmd FileType java noremap <C-s>t :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
 
 " retain session info; have off to avoid stupid caching problems (for now)
 " autocmd BufWrite * mkview

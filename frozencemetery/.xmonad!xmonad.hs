@@ -19,29 +19,28 @@ import qualified XMonad.StackSet as W
 import qualified XMonad.Util.Loggers as L
 
 spawnterm :: String -> X ()
-spawnterm x = spawn("urxvtcd -e " ++ x)
+spawnterm x = spawn $ "urxvtcd -e " ++ x
 
 suckterm :: String -> X()
-suckterm x = spawn("urxvt -e sh -c 'sleep .07; exec " ++ x ++ "'")
+suckterm x = spawn $ "urxvt -e sh -c 'sleep .07; exec " ++ x ++ "'"
 
 mpc :: String -> X ()
-mpc x = spawn("MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x)
+mpc x = spawn $ "MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x
 
 asroot :: String -> X ()
-asroot x = spawnterm("su -c '" ++ x ++ "'")
+asroot x = spawnterm $ "su -c '" ++ x ++ "'"
 
 dmenu :: String -> String
-dmenu prompt = 
-  "dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++ prompt
+dmenu = ("dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++)
 
 -- some layout stuff
 widthdelta = 3/100 :: Rational
 eightychars = 1/4 :: Rational
 tentwentyfour = 1/3 :: Rational
-special = multiCol [1, 1] 0 widthdelta tentwentyfour
-regular = multiCol [1, 1, 1] 0 widthdelta eightychars
-regularLayout = regular ||| special
-offLayout = special ||| regular
+special = multiCol [1, 1] 0 widthdelta tentwentyfour :: MultiCol a
+regular = multiCol [1, 1, 1] 0 widthdelta eightychars :: MultiCol a
+regularLayout = regular ||| special :: Choose MultiCol MultiCol a
+offLayout = special ||| regular :: Choose MultiCol MultiCol a
 myLayouts = avoidStruts $ smartBorders $
             mkToggle (single FULL) . mkToggle (single MIRROR) $
             onWorkspace "1" offLayout $
@@ -49,6 +48,7 @@ myLayouts = avoidStruts $ smartBorders $
             onWorkspace "3" offLayout $
             regularLayout
 
+main :: IO ()
 main = do
   xmproc <- spawnPipe "xmobar"
   xmonad $ withUrgencyHook NoUrgencyHook defaultConfig 
@@ -69,8 +69,11 @@ main = do
                 , ("M-m", windows W.focusMaster)
                 , ("M-t", withFocused $ windows . W.sink)
                 , ("M-q", spawn $
-                          "killall -g .mpdmonitor.sh ; killall -g .alsamonitor.sh;"
-                          ++ "xmonad --restart"
+                          "killall -g .mpdmonitor.sh" 
+                          ++ " ; " ++ 
+                          "killall -g .alsamonitor.sh"
+                          ++ " ; " ++
+                          "xmonad --restart"
                   )
                 , ("M-h", sendMessage Shrink)
                 , ("M-l", sendMessage Expand)
@@ -83,11 +86,22 @@ main = do
                 , ("M-S-p", windows W.swapUp)
 
                 , ("M-S-x", spawn "gmrun")
-                , ("M-x", spawn $ 
-                                "exec \"$(dmenu_path | " 
-                                ++ dmenu "cmd:" ++ ")\"")
+                , ("M-x", spawn $
+                          "exec \"$(dmenu_path | " ++ dmenu "cmd:" ++ ")\""
+                  )
 
                 , ("M-u", spawn "dmenu-haskey")
+
+                , ("M-y", spawn $ 
+                          "youtube-dl --prefer-free-formats -o - $(xsel -o)" 
+                          ++ " | " ++ 
+                          "mplayer -nolirc -cache-min 0.01 - >/dev/null"
+                  )
+                , ("M-S-y", spawn $ 
+                            "youtube-dl --prefer-free-formats -o - $(xsel -o)" 
+                            ++ " | " ++ 
+                            "mplayer -novideo -nolirc -cache-min 0.01 -"
+                  )
 
                 , ("M-<Space>", sendMessage NextLayout)
                 , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)
@@ -140,24 +154,23 @@ main = do
                           ]
               ]
              )
-           , mouseBindings =
-             \XConfig {XMonad.modMask = modm} ->
-               M.fromList $
-                  [ ((modm, button1), (\w -> focus w
-                                       >> mouseMoveWindow w
-                                       >> windows W.shiftMaster
-                                      )
+           , mouseBindings = -- X assumes a 3+ button mouse
+             \XConfig {XMonad.modMask = modm} -> M.fromList $
+               [ ((modm, button1), (\w -> focus w
+                                          >> mouseMoveWindow w
+                                          >> windows W.shiftMaster
+                                   )
                     )
-                  , ((modm, button2), (\w -> focus w
-                                       >> mouseResizeWindow w
-                                       >> windows W.shiftMaster
-                                      )
-                    )
-                  , ((modm, button3), (\w -> focus w
-                                       >> windows W.shiftMaster
-                                      )
-                    )
-                  ]
+               , ((modm, button2), (\w -> focus w
+                                          >> mouseResizeWindow w
+                                          >> windows W.shiftMaster
+                                   )
+                 )
+               , ((modm, button3), (\w -> focus w
+                                          >> windows W.shiftMaster
+                                   )
+                 )
+               ]
            , layoutHook = myLayouts
            , logHook = dynamicLogWithPP $ xmobarPP 
                        { ppCurrent = xmobarColor "" "orange" . xmobarStrip
@@ -167,41 +180,41 @@ main = do
                        , ppHiddenNoWindows = id
                        , ppUrgent = xmobarColor "orange" "black" . xmobarStrip
                        , ppSep = " "
-                       , ppTitle = const ""
-                       , ppLayout = \a -> case a of
-                                            "MultiCol" -> "m"
-                                            "Full" -> "ƒ"
-                                            "ResizableTall" -> "t"
-                                            "Mirror MultiCol" -> "M"
-                                            "Mirror ResizableTall" -> "T"
-                                            _ -> a
+                       , ppTitle = xmobarColor "purple" "black" . xmobarStrip
+                       , ppLayout = 
+                         \a -> case a of
+                           "MultiCol" -> "m"
+                           "Full" -> "ƒ"
+                           "ResizableTall" -> "t"
+                           "Mirror MultiCol" -> "M"
+                           "Mirror ResizableTall" -> "T"
+                           _ -> a
                        , ppExtras = [L.logCmd $
                                      "echo \"│ `" ++ "notmuch count tag:inbox"
                                      ++ "`:`" ++ "notmuch count tag:unread" 
-                                     ++ "`\""
+                                     ++ "` │\""
                                     ]
                        , ppOrder = \([workspaces, layout, title, mail]) 
-                                 -> [workspaces, layout, title, mail]
+                                 -> [workspaces, layout, mail]
                        , ppOutput = hPutStrLn xmproc
                        }
            , manageHook = manageDocks <+> 
                           (composeAll $
                            [ title =? "MPlayer" --> doFloat
                            , resource =? "Dialog" --> doFloat
-                           , title =? "Pidgin" --> doFloat
-                           , title =? "Accounts" --> doFloat
-                           , title =? "Dwarf Fortress" --> doFloat
                            , title =? "QEMU" --> doFloat -- above doesn't work
                            , className =? "Gimp" --> doFloat
-                           , className =? "Pidgin" --> doShift "1"
-                           -- , className =? "Iceweasel" --> doShift "2"
-                           , className =? "Icedove" --> doShift "3"
                            , className =? "Qjackctl" --> doFloat
                            , className =? "Qjackctl.real" --> doFloat
+                           , className =? "Icedove" --> doShift "3"
                            ]
                           )
            , handleEventHook = mempty
-           , startupHook = suckterm $ 
-                           "fortune -a | cowsay -n; linuxlogo -F \"This is #H :: Debian\n#O version #V\n#N #X #T #P\nwith #R#S RAM\n#B BogoMIPS\""
-                           ++ " && " ++ "bash"
+           , startupHook = 
+             suckterm $ 
+             "fortune -a | cowsay -n"
+             ++ " ; " ++ 
+             "linuxlogo -F \"This is #H :: Debian\n#O version #V\n#N #X #T #P\nwith #R#S RAM\n#B BogoMIPS\""
+             ++ " && " ++
+             "bash"
            }

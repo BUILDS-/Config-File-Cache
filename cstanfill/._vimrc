@@ -22,6 +22,7 @@ Bundle 'def-lkb/vimbufsync'
 Bundle 'jceb/vim-orgmode'
 " only uncomment if +clientserver
 " Bundle 'pydave/AsyncCommand'
+Bundle 'altercation/vim-colors-solarized'
 call dirsettings#Install()
 filetype plugin on
 filetype indent on
@@ -37,6 +38,8 @@ set hidden        "hide buffers instead of closing when you open a new one
 set backspace=2   "fix some backspace nonsense
 set wildmode=longest,list,full
 set wildmenu      "this + previous gives more bash-like completion
+set background=dark
+" colorscheme solarized
 
 "remap jk to escape for 3xtr4 l33t h4xx|ng
 inoremap jk <Esc>
@@ -113,18 +116,24 @@ silent !stty -ixon > /dev/null 2>/dev/null
 
 " C-s is where I put most of my custom rare-use things.
 " b opens the ctags navigator
-" t/T open and close nerdtree TODO: bind both to t
-" g generates ctags and puts them in the git subdir
+" n/N open and close nerdtree TODO: bind both to n
+" c generates ctags and puts them in the git subdir
 " h toggles whether searches highlight things
 " b, r, c, and t are reserved for build, run, compile, and test
 " l is a prefix for language-specific things
+" g is a prefix for git
+" k kills the current buffer / window
 nmap <C-s>v :TagbarToggle<CR>
-nmap <C-s>n :NERDTree<CR>
-nmap <C-s>N :NERDTreeClose<CR>
+nmap <C-s>n :NERDTreeToggle<CR>
 nmap <C-s>s :set number!<CR> 
-nmap <C-s>g :!ctags --tag-relative -Rf.git/tags<CR><CR>
+nmap <C-s>t :!ctags --tag-relative -Rf.git/tags<CR><CR>
 nmap <C-s>h :set hlsearch!<CR>
-nmap <C-s>wr :call AdjustWindowHeight(2,20)<CR>
+nmap <C-s>gc :Gcommit<CR>
+nmap <C-s>ga :Git add -p<CR>
+nmap <C-s>gb :Gblame<CR>
+nmap <C-s>gs :Gstatus<CR>
+nmap <C-s>k :bd<CR>
+
 
 " indentation = 4 spaces, no tabs
 set ts=4
@@ -139,6 +148,7 @@ function! AsyncCmd(cmd)
     " output file on completion 
     call asynccommand#run(a:cmd, asynchandler#split()) 
 endfunction
+" leaving this here ... it might be useful later
 function! AdjustWindowHeight(minheight, maxheight)
     let l = 1
     let n_lines = 0
@@ -177,9 +187,9 @@ augroup ft_java
     autocmd FileType java noremap <C-s>lc :JavaCorrect<CR>
     autocmd FileType java noremap <C-s>li :JavaImport<CR>
     autocmd FileType java noremap <C-s>lr :JavaRename 
-    autocmd FileType java noremap <C-s>b :call AsyncCmd("ant build")<CR>
+    autocmd FileType java noremap <C-s>b :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant build")<CR>
     autocmd FileType java noremap <C-s>c :call AsyncCmd("ant clean")<CR>
-    autocmd FileType java noremap <C-s>t :call AsyncCmd("ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
+    autocmd FileType java noremap <C-s>t :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
 augroup END
 
 augroup ft_coq

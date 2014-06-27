@@ -4,7 +4,7 @@ dbus-launch
 export `grep ^DBUS_SESSION_BUS ~/.dbus/session-bus/-0`
 gnome-keyring-daemon --start
 nm-applet &
-trayer --edge top --align right --expand true --widthtype request --heighttype pixel --height 14 --alpha 0 &
+trayer --edge bottom --align right --expand true --widthtype request --heighttype pixel --height 14 --alpha 0 &
 
 iceweasel &
 ~/.bash_profile

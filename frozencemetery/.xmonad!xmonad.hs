@@ -31,7 +31,7 @@ asroot :: String -> X ()
 asroot x = spawnterm $ "su -c '" ++ x ++ "'"
 
 dmenu :: String -> String
-dmenu = ("dmenu -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++)
+dmenu = ("dmenu -b -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++)
 
 -- some layout stuff
 widthdelta = 3/100 :: Rational

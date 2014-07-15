@@ -30,8 +30,9 @@ mpc x = spawn $ "MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x
 asroot :: String -> X ()
 asroot x = spawnterm $ "su -c '" ++ x ++ "'"
 
-dmenu :: String -> String
-dmenu = ("dmenu -b -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++)
+dmenu :: String -> String -> String
+dmenu c p =
+  c ++ " -b -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++ p
 
 -- some layout stuff
 widthdelta = 3/100 :: Rational
@@ -86,9 +87,7 @@ main = do
                 , ("M-S-p", windows W.swapUp)
 
                 , ("M-S-x", spawn "gmrun")
-                , ("M-x", spawn $
-                          "exec \"$(dmenu_path | " ++ dmenu "cmd:" ++ ")\""
-                  )
+                , ("M-x", spawn $ dmenu "dmenu_run" "cmd: ")
 
                 , ("M-u", spawn "dmenu-haskey")
 
@@ -195,12 +194,12 @@ main = do
                                      ++ "` │\""
                                     ]
                        , ppOrder = \([workspaces, layout, title, mail]) 
-                                 -> [workspaces, layout, mail]
+                                 -> [workspaces, layout, mail, title]
                        , ppOutput = hPutStrLn xmproc
                        }
            , manageHook = manageDocks <+> 
                           (composeAll $
-                           [ title =? "MPlayer" --> doFloat
+                           [ title =? "mplayer2" --> doFloat
                            , resource =? "Dialog" --> doFloat
                            , title =? "QEMU" --> doFloat -- above doesn't work
                            , className =? "Gimp" --> doFloat

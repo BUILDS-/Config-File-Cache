@@ -1,0 +1,3 @@
+SUBSYSTEM=="usb", ATTR{product}=="Lenovo Ultraslim Plus Wireless Keyboard & Mouse", ATTR{power/control}="on", ATTR{power/autosuspend}="0"
+
+

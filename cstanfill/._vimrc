@@ -9,6 +9,7 @@ Bundle 'gmarik/vundle'
 Bundle 'majutsushi/tagbar'
 Bundle 'mantiz/vim-plugin-dirsettings'
 Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'Valloric/YouCompleteMe'
@@ -21,8 +22,12 @@ Bundle 'def-lkb/vimbufsync'
 " Bundle 'the-lambda-church/coquille'
 Bundle 'jceb/vim-orgmode'
 " only uncomment if +clientserver
-" Bundle 'pydave/AsyncCommand'
+Bundle 'pydave/AsyncCommand'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'dahu/Nexus'
+Bundle 'dahu/vim-KWEasy'
+Bundle 'bitc/vim-hdevtools'
+Bundle 'lukerandall/haskellmode-vim'
 call dirsettings#Install()
 filetype plugin on
 filetype indent on
@@ -39,7 +44,9 @@ set backspace=2   "fix some backspace nonsense
 set wildmode=longest,list,full
 set wildmenu      "this + previous gives more bash-like completion
 set background=dark
+" let g:solarized_termcolors=256
 " colorscheme solarized
+let g:haddock_browser="/usr/local/bin/elinks"
 
 "remap jk to escape for 3xtr4 l33t h4xx|ng
 inoremap jk <Esc>
@@ -126,14 +133,16 @@ silent !stty -ixon > /dev/null 2>/dev/null
 nmap <C-s>v :TagbarToggle<CR>
 nmap <C-s>n :NERDTreeToggle<CR>
 nmap <C-s>s :set number!<CR> 
-nmap <C-s>t :!ctags --tag-relative -Rf.git/tags<CR><CR>
+nmap <C-s>o :!ctags --tag-relative -Rf.git/tags<CR><CR>
 nmap <C-s>h :set hlsearch!<CR>
 nmap <C-s>gc :Gcommit<CR>
 nmap <C-s>ga :Git add -p<CR>
 nmap <C-s>gb :Gblame<CR>
 nmap <C-s>gs :Gstatus<CR>
 nmap <C-s>k :bd<CR>
-
+nmap <C-s>vs :so $MYVIMRC<CR>
+nmap <C-s>q <Plug>KweasyJump
+nmap <C-s>ve :e $MYVIMRC<CR>
 
 " indentation = 4 spaces, no tabs
 set ts=4
@@ -187,9 +196,12 @@ augroup ft_java
     autocmd FileType java noremap <C-s>lc :JavaCorrect<CR>
     autocmd FileType java noremap <C-s>li :JavaImport<CR>
     autocmd FileType java noremap <C-s>lr :JavaRename 
+    autocmd FileType java noremap <C-s>lo :JavaImpl<CR>
     autocmd FileType java noremap <C-s>b :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant build")<CR>
     autocmd FileType java noremap <C-s>c :call AsyncCmd("ant clean")<CR>
     autocmd FileType java noremap <C-s>t :call AsyncCmd("ANT_OPTS='-Ddefault.resolver=local-resolver -Doffline=true' ant test " . "<bar>" ." grep \"\\\[junit\\\]\"")<CR>
+    autocmd FileType java setlocal foldmethod=syntax
+    autocmd FileType java setlocal foldlevel=100
 augroup END
 
 augroup ft_coq
@@ -200,6 +212,16 @@ augroup ft_coq
     autocmd FileType coq noremap <C-s>lk :CoqKill<CR>
 augroup END
 
+augroup ft_hask
+    autocmd!
+    autocmd BufRead,BufNewFile *.hs setfiletype haskell
+    " autocmd FileType haskell noremap <C-s>b :call AsyncCmd("cabal build")<CR>
+    autocmd FileType haskell noremap <C-s>b :!cabal build<CR>
+    autocmd FileType haskell nnoremap <buffer> <C-s>lt :HdevtoolsType<CR>
+    autocmd FileType haskell nnoremap <buffer> <silent> <C-s>lc :HdevtoolsClear<CR>
+    autocmd FileType haskell nnoremap <buffer> <silent> <C-s>li :HdevtoolsInfo<CR>
+    autocmd FileType haskell compiler ghc
+augroup END
 " retain session info; have off to avoid stupid caching problems (for now)
-autocmd BufWrite * mkview
-autocmd BufRead * silent loadview
+" autocmd BufWrite * mkview
+" autocmd BufRead * silent loadview

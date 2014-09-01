@@ -92,7 +92,7 @@ main = do
                 , ("M-u", spawn "dmenu-haskey")
 
                 , ("M-y", spawn $ 
-                          "youtube-dl --prefer-free-formats -o - $(xsel -o)" 
+                          "youtube-dl --prefer-free-formats -o - -- $(xsel -o)" 
                           ++ " | " ++ 
                           "mplayer -nolirc -cache-min 0.01 - >/dev/null"
                   )

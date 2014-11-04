@@ -1,0 +1,35 @@
+Package: *
+Pin: release a=wheezy
+Pin-Priority: 800
+
+Package: *
+Pin: release a=wheezy/updates
+Pin-Priority: 800
+
+Package: *
+Pin: release a=wheezy-updates
+Pin-Priority: 800
+
+Package: *
+Pin: release a=wheezy-backports
+Pin-Priority: 700
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 600
+
+Package: *
+Pin: release a=unstable
+Pin-Priority: 400
+
+Package: *
+Pin: release a=experimental
+Pin-Priority: 200
+
+Package: systemd-sysv
+Pin: origin ""
+Pin-Priority: -1
+
+Package: systemd-sysv:i386
+Pin: origin ""
+Pin-Priority: -1

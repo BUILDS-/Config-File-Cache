@@ -8,6 +8,10 @@ export HISTSIZE=10000000
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+if [[ "$TERM" == "xterm" ]]; then
+    TERM=xterm-256color;
+fi
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 # export HISTCONTROL=$HISTCONTROL:ignoredups:ignoreboth
@@ -22,6 +26,9 @@ shopt -s histappend
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+# don't clobber on single >
+set -o noclobber
 
 # set variable identifying the chroot you work in (used in the prompt below)
 # if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -45,24 +52,23 @@ PS1="\$(R=\$? ; if [[ \$R != 0 ]]; then echo \"\[\033[01;31m\]{\$R} \"; fi)\$(if
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-# if [ -f ~/.bash_aliases ]; then
+if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
-#fi
+fi
 
 # enable bash completion in interactive shells
-# if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
    . /etc/bash_completion
-# fi
+fi
 
 
-export EDITOR="emacsclient -nw"
+export EDITOR="emacsclient -nw -a emacs"
 
 export PATH="/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
-export MPD_HOST=/var/run/mpd/socket
-
-export ATSHOME="/usr/local/lib/ats-anairiats-0.2.9"
-export ATSHOMERELOC="ATS-0.2.9"
-export PATSHOME="/usr/local/lib/ats2-postiats-0.0.1"
+export PATH="/usr/lib/ccache:${PATH}"
 
 export ANDREW="/afs/andrew.cmu.edu/usr/rharwood"
-export CCLUB="/afs/club.cc.cmu.edu/usr/rharwood"
+export CMUCC="/afs/club.cc.cmu.edu/usr/rharwood"
+
+export DEBEMAIL="rharwood@club.cc.cmu.edu"
+export DEBFULLNAME="Robbie Harwood"

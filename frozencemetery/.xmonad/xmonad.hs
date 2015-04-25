@@ -51,7 +51,8 @@ myLayouts = avoidStruts $ smartBorders $
 
 main :: IO ()
 main = do
-  xmproc <- spawnPipe "xmobar"
+  xmproc0 <- spawnPipe "xmobar -x 0"
+  xmproc1 <- spawnPipe "xmobar -x 1"
   xmonad $ withUrgencyHook NoUrgencyHook defaultConfig 
            { terminal = "urxvtcd"
            , focusFollowsMouse = False
@@ -195,7 +196,8 @@ main = do
                                     ]
                        , ppOrder = \([workspaces, layout, title, mail]) 
                                  -> [workspaces, layout, mail, title]
-                       , ppOutput = hPutStrLn xmproc
+                       , ppOutput = \s ->
+                                    hPutStrLn xmproc0s  >> hPutStrLn xmproc1 s
                        }
            , manageHook = manageDocks <+> 
                           (composeAll $

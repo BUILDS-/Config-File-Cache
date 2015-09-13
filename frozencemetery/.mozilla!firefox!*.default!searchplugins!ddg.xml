@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <!-- Created on Wed, 29 Jul 2015 20:35:53 GMT -->
+  <ShortName>ddg</ShortName>
+  <Description>ddg my config</Description>
+  <Url type="text/html" method="get" template="https://duckduckgo.com/?kp=-1&amp;t=debian&amp;k7=222&amp;kj=222&amp;k9=50f148&amp;k8=ccc&amp;kaa=ad4ad2&amp;kx=A1AC25&amp;kae=t&amp;kf=fw&amp;k5=2&amp;ks=s&amp;ka=Terminus&amp;kt=Terminus&amp;q={searchTerms}"/>
+  <!-- <Image width="16" height="16">GENERATEDLATER</Image> -->
+  <Developer>Anon</Developer>
+  <InputEncoding>UTF-8</InputEncoding>
+  <moz:SearchForm>https://duckduckgo.com/html/</moz:SearchForm>
+  <!-- <Url type="application/opensearchdescription+xml" rel="self" template="GENERATEDLATER"/> -->
+</OpenSearchDescription>

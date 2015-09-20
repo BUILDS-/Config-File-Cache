@@ -1,4 +1,10 @@
+import Data.List
 import Data.Monoid
+
+import GHC.IO.Handle
+
+import Network
+
 import System.Exit
 import System.IO
 
@@ -33,6 +39,25 @@ asroot x = spawnterm $ "su -c '" ++ x ++ "'"
 dmenu :: String -> String -> String
 dmenu c p =
   c ++ " -b -fn Terminus -nb black -nf grey -sb orange -sf black -p " ++ p
+
+boinc_toggle :: X ()
+boinc_toggle = liftIO $
+  let
+    magic :: String
+    magic = "   <task_mode>"
+    f :: Handle -> IO Char
+    f h = do
+      l <- hGetLine h
+      if magic `isPrefixOf` l
+      then return $ (drop (length magic) l) !! 0
+      else f h
+  in do
+    s <- connectTo "localhost" (PortNumber 31416)
+    hPutStr s "<boinc_gui_rpc_request>\n<get_cc_status/>\n</boinc_gui_rpc_request>\n\x03"
+    l <- f s
+    hPutStr s $ if l == '1'
+      then "<boinc_gui_rpc_request>\n<set_run_mode><never/><duration>0</duration></set_run_mode>\n</boinc_gui_rpc_request>\n\x03"
+      else "<boinc_gui_rpc_request>\n<set_run_mode><always/><duration>0</duration></set_run_mode>\n</boinc_gui_rpc_request>\n\x03"
 
 -- some layout stuff
 widthdelta = 3/100 :: Rational
@@ -134,7 +159,7 @@ main = do
 
                 , ("<XF86ScreenSaver>", spawn "xscreensaver-command --lock")
                 , ("<XF86WebCam>", spawn "mplayer -vf mirror tv://")
-                , ("<XF86Launch1>", spawn "qemu-launcher")
+                , ("<XF86Launch1>", boinc_toggle)
                 ]
                )
              `M.union`

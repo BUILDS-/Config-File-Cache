@@ -25,7 +25,7 @@ suckterm :: String -> X()
 suckterm x = spawn $ "urxvt -e sh -c 'sleep .07; exec " ++ x ++ "'"
 
 mpc :: String -> X ()
-mpc x = spawn $ "MPD_HOST=/home/frozencemetery/.mpd/socket mpc " ++ x
+mpc x = spawn $ "MPD_HOST=/run/mpd/socket mpc " ++ x
 
 asroot :: String -> X ()
 asroot x = spawnterm $ "su -c '" ++ x ++ "'"
@@ -93,14 +93,14 @@ main = do
                 , ("M-u", spawn "dmenu-haskey")
 
                 , ("M-y", spawn $ 
-                          "youtube-dl --prefer-free-formats -o - -- $(xsel -o)" 
+                          "youtube-dl -f best -o - -- $(xsel -o)" 
                           ++ " | " ++ 
-                          "mplayer -nolirc -cache-min 0.01 - >/dev/null"
+                          "mplayer -softvol -softvol-max 1000 -nolirc -cache-min 0.01 - >/dev/null"
                   )
                 , ("M-S-y", spawn $ 
-                            "youtube-dl --prefer-free-formats -o - $(xsel -o)" 
-                            ++ " | " ++ 
-                            "mplayer -novideo -nolirc -cache-min 0.01 -"
+                            "youtube-dl -f best -o - $(xsel -o)" 
+                            ++ " | " ++
+                            "mplayer -softvol -softvol-max 1000 -nolirc -novideo -cache-min 0.01 - >/dev/null"
                   )
 
                 , ("M-<Space>", sendMessage NextLayout)
@@ -148,7 +148,7 @@ main = do
               ++
               [ ( (m .|. modm .|. mod1Mask, key)
                 , screenWorkspace sc >>= flip whenJust (windows . f)) 
-                | (key, sc) <- zip (xK_2:xK_1:[xK_3..xK_9] ++ [xK_0]) [0..]
+                | (key, sc) <- zip ([xK_1..xK_9] ++ [xK_0]) [0..]
               , (f, m) <- [ (W.view, 0)
                           , (W.shift, shiftMask)
                           ]
@@ -197,11 +197,11 @@ main = do
                        , ppOrder = \([workspaces, layout, title, mail]) 
                                  -> [workspaces, layout, mail, title]
                        , ppOutput = \s ->
-                                    hPutStrLn xmproc0s  >> hPutStrLn xmproc1 s
+                                    hPutStrLn xmproc0 s >> hPutStrLn xmproc1 s
                        }
            , manageHook = manageDocks <+> 
                           (composeAll $
-                           [ title =? "mplayer2" --> doFloat
+                           [ title =? "MPlayer" --> doFloat
                            , resource =? "Dialog" --> doFloat
                            , title =? "QEMU" --> doFloat -- above doesn't work
                            , className =? "Gimp" --> doFloat

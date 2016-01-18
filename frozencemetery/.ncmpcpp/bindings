@@ -10,16 +10,16 @@ def_key "J"
 def_key "K"
   move_selected_items_up
 
-def_key "ctrl_b"
+def_key "ctrl-b"
   previous_column
 
-def_key "ctrl_p"
+def_key "ctrl-p"
   scroll_up
 
-def_key "ctrl_n"
+def_key "ctrl-n"
   scroll_down
 
-def_key "ctrl_f"
+def_key "ctrl-f"
   next_column
 
 def_key "n"
@@ -166,16 +166,16 @@ def_key "?"
 def_key "?"
   find_item_backward
 
-def_key "ctrl_s"
+def_key "ctrl-s"
   find
 
-def_key "ctrl_s"
+def_key "ctrl-s"
   find_item_forward
 
-def_key "ctrl_r"
+def_key "ctrl-r"
   find
 
-def_key "ctrl_r"
+def_key "ctrl-r"
   find_item_backward
 
 def_key "."

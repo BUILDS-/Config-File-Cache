@@ -1,17 +1,21 @@
 Package: *
-Pin: release a=wheezy
+Pin: release a=stable
 Pin-Priority: 800
 
 Package: *
-Pin: release a=wheezy/updates
+Pin: release a=stable/updates
 Pin-Priority: 800
 
 Package: *
-Pin: release a=wheezy-updates
+Pin: release a=stable-updates
 Pin-Priority: 800
 
 Package: *
-Pin: release a=wheezy-backports
+Pin: release a=stable-debug
+Pin-Priority: 800
+
+Package: *
+Pin: release a=jessie-backports
 Pin-Priority: 700
 
 Package: *
@@ -19,11 +23,23 @@ Pin: release a=testing
 Pin-Priority: 600
 
 Package: *
+Pin: release a=testing-debug
+Pin-Priority: 600
+
+Package: *
 Pin: release a=unstable
 Pin-Priority: 400
 
 Package: *
+Pin: release a=unstable-debug
+Pin-Priority: 400
+
+Package: *
 Pin: release a=experimental
+Pin-Priority: 200
+
+Package: *
+Pin: release a=experimental-debug
 Pin-Priority: 200
 
 Package: systemd-sysv

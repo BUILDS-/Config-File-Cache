@@ -66,6 +66,10 @@ function f {
     fi
 }
 
+function y {
+    youtube-dl -f 137+bestaudio "$@" || youtube-dl -f 136+bestaudio "$@"
+}
+
 alias grep="grep --color=auto"
 alias igrep="grep -i --color=auto"
 alias egrep="grep -E --color=auto"

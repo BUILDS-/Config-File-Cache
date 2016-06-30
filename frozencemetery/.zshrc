@@ -2,7 +2,7 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000000000
 SAVEHIST=10000000000
-setopt appendhistory autocd beep nomatch notify
+setopt appendhistory autocd beep hist_ignore_space nomatch notify
 unsetopt extendedglob
 bindkey -e
 
@@ -15,6 +15,9 @@ promptinit
 
 # on single tab, fill as much as possible and show completion
 unsetopt LIST_AMBIGUOUS
+
+# disable this prompt as best I can
+LISTMAX=9999
 
 function am_git {
     git log HEAD.. >/dev/null 2>/dev/null

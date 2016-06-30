@@ -15,7 +15,7 @@ function g {
 }
 function f {
   if [ -d .git ]; then
-    git grep --full-name -l '' -- \*${@}\*
+    git grep -l '' -- \*"${@}"\*        
   else
     find . -name \*${@}\*
   fi

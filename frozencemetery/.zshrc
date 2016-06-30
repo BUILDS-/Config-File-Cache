@@ -63,7 +63,7 @@ function g {
 }
 function f {
     if (am_git); then
-        git grep --full-name -l '' -- \*"${@}"\*
+        git grep -l '' -- \*"${@}"\*
     else
         find . -name \*"${@}"\*
     fi

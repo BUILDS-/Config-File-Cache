@@ -16,6 +16,9 @@ promptinit
 # on single tab, fill as much as possible and show completion
 unsetopt LIST_AMBIGUOUS
 
+# when completing, include files that start with a .
+setopt GLOB_DOTS
+
 # disable this prompt as best I can
 LISTMAX=9999
 

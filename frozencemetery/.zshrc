@@ -2,8 +2,8 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000000000
 SAVEHIST=10000000000
-setopt appendhistory autocd beep hist_ignore_space nomatch notify
-unsetopt extendedglob
+setopt appendhistory autocd beep hist_ignore_space notify
+unsetopt extendedglob nomatch
 bindkey -e
 
 zstyle :compinstall filename '/home/bos/rharwood/.zshrc'
@@ -112,7 +112,10 @@ funtion chpwd() {
 autoload select-word-style
 select-word-style bash
 
+eval "$(thefuck --alias)"
+
 # must be last otherwise problems
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export EDITOR="emacsclient -nw -a emacs"

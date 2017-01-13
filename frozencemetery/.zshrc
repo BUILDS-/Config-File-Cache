@@ -6,7 +6,7 @@ setopt appendhistory autocd beep hist_ignore_space notify
 unsetopt extendedglob nomatch
 bindkey -e
 
-zstyle :compinstall filename '/home/bos/rharwood/.zshrc'
+zstyle :compinstall filename "~/.zshrc"
 
 autoload -Uz compinit colors promptinit
 compinit
@@ -90,7 +90,7 @@ alias t=torify
 alias e="emacsclient -nw -a emacs" # because it hates you that's why
 alias a="aptitude"
 alias u="urxvtcd"
-alias i="iceweasel --new-window"
+alias i="firefox --new-window"
 alias mv="mv -iv"
 alias cp="cp -iv"
 alias rm="rm -iv --one-file-system"
@@ -101,16 +101,26 @@ alias into="ssh"
 alias dquilt="quilt --quiltrc=${HOME}/.quiltrc-dpkg"
 alias man="man --nj"
 
+alias vpn="sudo openvpn --config /etc/openvpn/client/rdu2 --daemon"
+
 setopt COMPLETE_ALIASES
 
 # hook directory change to list files
-funtion chpwd() {
+function chpwd {
     la
 }
 
 # pretend to be a real shell
 autoload select-word-style
 select-word-style bash
+
+# the hell is wrong with zsh developers?
+autoload -Uz run-help
+autoload -Uz run-help-git
+autoload -Uz run-help-svn
+autoload -Uz run-help-svk
+#unalias run-help
+alias help=run-help
 
 eval "$(thefuck --alias)"
 
@@ -123,12 +133,6 @@ export EDITOR="emacsclient -nw -a emacs"
 export PATH="/usr/lib/ccache:/usr/local/sbin:/usr/sbin:/sbin:${PATH}"
 export MPD_HOST=/run/mpd/socket
 
-export ATSHOME="/usr/local/lib/ats-anairiats-0.2.9"
-export ATSHOMERELOC="ATS-0.2.9"
-export PATSHOME="/usr/local/lib/ats2-postiats-0.0.1"
-
-export DEBEMAIL="Robbie Harwood (work) <rharwood@redhat.com>"
+export DEBEMAIL="Robbie Harwood (frozencemetery) <rharwood@club.cc.cmu.edu>"
 
 export GTK_OVERLAY_SCROLLING=0
-
-fortune -a

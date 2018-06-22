@@ -44,6 +44,9 @@ precmd() {
 
         cmd_timestamp='invalid'
     fi
+
+    # trigger an alert
+    printf "\a"
 }
 
 # welcome to my nightmare
@@ -54,43 +57,36 @@ PROMPT+="%(1j.%{$fg_bold[cyan]%}[%j]%{$reset_color%} .)" # jobs
 PROMPT+="(\${cmd_exec_time}) " # timing commands
 PROMPT+="%{$fg_bold[green]%}%n@%m%{$reset_color%}:" # user@host:
 PROMPT+="%{$fg_bold[blue]%}%~%{$reset_color%}" # path
-PROMPT+="\$(am_git && echo ' <'\$(git status | head -n1 | awk '{print \$NF}')'>')"
+#PROMPT+="\$(am_git && echo ' <'\$(git status | head -n1 | awk '{print \$NF}')'>')"
 PROMPT+="%(!.#.%\\\\$) " # this is just for the dollar sign
 
-function g {
-    if (am_git); then
-        git grep -iI "$@"
-    else
-        grep -ir --binary-files=without-match "$@"
-    fi
+function y {
+    youtube-dl -f 'bestvideo[height<=1080][width<=1920]+bestaudio/best' "$@"
 }
-function f {
-    if (am_git); then
-        git grep -l '' -- \*"${@}"\*
-    else
-        find . -name \*"${@}"\*
-    fi
+function ya {
+    youtube-dl -x -f 'vorbis/best[asr=44100]/best' "$@"
 }
 
-function y {
-    youtube-dl -f 137+bestaudio "$@" || youtube-dl -f 136+bestaudio "$@"
+function u {
+    urxvtcd
+    fg 2>/dev/null || true
 }
 
 alias grep="grep --color=auto"
 alias igrep="grep -i --color=auto"
 alias egrep="grep -E --color=auto"
-alias ls="ls -h --color=auto"
-alias ll="ls -alFh"
-alias la="ls -Ah"
-alias l="ls -CFh"
-alias l1="ls -1"
+alias ls="ls -hN --color=auto"
+alias ll="ls -alFhN"
+alias la="ls -AhN"
+alias l="ls -CFhN"
+alias l1="ls -1N"
+alias lr="ls -R"
 alias al="sl -a"
 alias p=proxychains
 alias t=torify
 alias e="emacsclient -nw -a emacs" # because it hates you that's why
 alias a="aptitude"
-alias u="urxvtcd"
-alias i="firefox --new-window"
+alias i="firefox-esr --new-window"
 alias mv="mv -iv"
 alias cp="cp -iv"
 alias rm="rm -iv --one-file-system"
@@ -101,7 +97,34 @@ alias into="ssh"
 alias dquilt="quilt --quiltrc=${HOME}/.quiltrc-dpkg"
 alias man="man --nj"
 
-alias vpn="sudo openvpn --config /etc/openvpn/client/rdu2 --daemon"
+alias vpn="tmux new-session sudo openvpn --config /etc/openvpn/client/rdu2"
+alias weechat="mosh -a ihatethat"
+alias w="mosh -a ihatethat"
+
+alias n="emacsclient -nw -e '(notmuch)'"
+
+function c {
+    chromium --enable-remote-extensions $@ &
+    disown
+}
+
+function g {
+    if (am_git); then
+        git grep -I "$@"
+    else
+        grep -r --binary-files=without-match "$@"
+    fi
+}
+function f {
+    if (am_git); then
+        git grep -l '' -- \*"${@}"\*
+    else
+        find . -name \*"${@}"\*
+    fi
+}
+function ef {
+    e $(f $@)
+}
 
 setopt COMPLETE_ALIASES
 
@@ -136,3 +159,5 @@ export MPD_HOST=/run/mpd/socket
 export DEBEMAIL="Robbie Harwood (frozencemetery) <rharwood@club.cc.cmu.edu>"
 
 export GTK_OVERLAY_SCROLLING=0
+
+export QT_STYLE_OVERRIDE=gtk2
